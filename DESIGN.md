@@ -7,6 +7,10 @@ explains *why*, so you can extend it without breaking the system.
 **Design goal:** a recruiter lands, and inside 30 seconds knows *what you do*,
 *how good you are at it*, and *how to reach you*. Every decision below serves that.
 
+**Audience:** ML / data-science recruiters and hiring managers screening for
+internships. That means credentials must be visible (GPA, school, grad year) but
+subordinate to evidence — the projects carry the argument.
+
 ---
 
 ## 1. Wireframe, section by section
@@ -17,7 +21,7 @@ Mobile is the source of truth; desktop is the same order in wider columns.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│ [YK] Yong Kang        Projects Case study About Skills … ☾ ☰ │
+│ [YL] YongKang Lu      Projects Case study About Skills … ☾ ☰ │
 └──────────────────────────────────────────────────────────────┘
 ```
 Transparent until you scroll, then a 1px hairline appears. Nav collapses to a
@@ -26,27 +30,32 @@ drawer below 820px. Current section is underlined in accent as you scroll.
 ### 1. Hero — the 5-second read
 
 ```
-  ● Open to ML / data science roles · available now      ← status pill
+  ● Seeking Summer 2027 internships · ML, RL & research  ← status pill
 
-  I build machine learning systems that
-  SURVIVE CONTACT WITH REAL DATA.                        ← h1, 18ch max, accent
-                                                            highlight on 2nd half
-  Machine Learning Engineer / Boston, MA / ET (UTC−5)    ← role + location + tz
+  I build learning systems
+  FROM FIRST PRINCIPLES.                                 ← h1, 18ch max, accent
+                                                            highlight on line 2
+  ECE undergraduate, Olin College / Needham, MA / ET     ← role + location + tz
 
-  Forecasting pipelines, RL agents and geospatial data
-  products — built end to end, measured against honest
-  baselines…                                             ← 2-line value prop
+  Reinforcement-learning agents, forecasting pipelines,
+  and the evaluation harnesses that say whether any of
+  it worked…                                             ← value prop
 
   [ View projects → ]  [ Contact me ]   ⌗ GitHub         ← primary / secondary / quiet
 
   ───────────────────────────────────────────────────
-  Top 500          68.4%          3.03M × 93        8   ← proof before the fold
-  of 950,000+…     error cut…     row pipeline…     …
+  4.0 GPA          Top 500         68.4%            8   ← proof before the fold
+  Olin ECE '29     of 950,000+…    error cut…       …
 ```
 
 Four numbers sit above the fold on purpose. They are the whole pitch: someone who
-reads nothing else has still seen a Kaggle rank and an error reduction.
+reads nothing else has seen a 4.0, a Kaggle rank and an error reduction.
 2-up on mobile, 4-up from 760px.
+
+**Why "first principles" is the headline.** It is the one claim every project
+supports — Naive Bayes with no ML libraries, a Monopoly engine in pure stdlib, a
+hand-written physics environment. For a student with no industry title yet, a
+demonstrated *habit* outranks a job description.
 
 ### 2. Featured projects — the scan layer
 
@@ -68,10 +77,15 @@ reads nothing else has still seen a Kaggle rank and an error reduction.
 
 ALSO ON GITHUB
 ┌──────────────────────────┐ ┌──────────────────────────┐
-│ SMS Spam Classifier      │ │ Deep-Q Cart-Pole         │  ← 2 minor projects,
-│ one line · 97.01%        │ │ one line · live physics  │    one line each
+│ SMS Spam Classifier      │ │ Clickbait Classifier     │  ← 2 minor projects,
+│ one line · 97.01%        │ │ one line · 32k headlines │    one line each
 └──────────────────────────┘ └──────────────────────────┘
 ```
+
+Order: the two RL agents first (the distinctive work, and what the résumé leads
+on), then the two forecasting results with hard metrics, then Kaggle rank, then
+the hackathon build. Clickbait sits in the minor row **only** because its repo
+publishes no accuracy figure — give it one and it earns a card.
 
 1 column → 2 at 700px → 3 at 1040px. Every card carries the same five slots in the
 same order, so the eye can compare cards vertically without re-reading labels.
@@ -104,29 +118,47 @@ narrative is visible before a word is read. Stacks vertically below 900px.
 ```
 ┌────────────────────────────┐  ┌──────────────────┐
 │ ABOUT                      │  │ QUICK FACTS      │
-│ Hi, I'm Yong Kang.         │  │ Focus       …    │
+│ Hi, I'm YongKang.          │  │ Focus       …    │
 │ lede (larger, display font)│  │ Core stack  …    │
 │ 2 short paragraphs         │  │ Based in    …    │
-│ ┌ What I'm looking for ──┐ │  │ Open to     …    │
+│ ┌ What I'm looking for ──┐ │  │ Seeking     …    │
 │ └────────────────────────┘ │  │ Reply time  …    │
 └────────────────────────────┘  └──────────────────┘
+
+BACKGROUND
+┌──────────────┬──────────────────────────────────────┐
+│ 2025 – 2029  │ B.S. Electrical & Computer Eng.      │
+│              │ Olin College · GPA 4.0               │
+│              │ coursework line                      │
+├──────────────┼──────────────────────────────────────┤
+│ Jul 24–Aug 25│ Engineering Aide · Con Edison        │
+├──────────────┼──────────────────────────────────────┤
+│ 2021 – 2025  │ Brooklyn Technical HS · Stahl Scholar│
+└──────────────┴──────────────────────────────────────┘
 ```
 
 Prose on the left for humans, a scannable `<dl>` on the right for people in a
 hurry. Body text is capped at 64ch — past that, reading speed drops.
 
+Education and experience live *inside* About rather than as their own section —
+they are credibility support for the projects, not the headline. The date column
+is fixed-width mono at ≥700px so the three rows align into a spine.
+
 ### 5. Skills — 6 groups, 2×3 / 3×2
 
-Grouped by *use*, not alphabetically: Machine learning · Data & pipelines ·
-Evaluation & rigour · Domains · Engineering · Interfaces & visualisation.
+Grouped by *use*, not alphabetically: Machine learning · Languages & tools ·
+Evaluation & rigour · Data & pipelines · Interests · Interfaces & visualisation.
 "Evaluation & rigour" is a deliberate group — it's the differentiator most
-portfolios don't claim.
+student portfolios don't claim. "Interests" carries the forward-looking items
+(LLMs, world modeling, signal processing) so they don't get mistaken for
+shipped experience.
 
 ### 6. Proof — "what I'm known for"
 
 Three cards: icon, claim, the evidence with a number, and the project it came from.
-Habits, not adjectives. A commented-out testimonial block sits below, ready for a
-real quote.
+Habits, not adjectives: *building from first principles* · *validation you can
+trust* · *debugging with numbers*. A commented-out testimonial block sits below,
+ready for a real quote.
 
 ### 7. Contact — narrow, centred, terminal
 
@@ -139,6 +171,7 @@ in LinkedIn    ⌗ GitHub
 ```
 
 Two ways to take the email (click through, or copy) because recruiters do both.
+Phone is deliberately absent — it's on the résumé, and a public page collects spam.
 
 ---
 
@@ -272,6 +305,7 @@ because a specific layout broke there, not on a device-name grid.
 | Results table | `.results-table` | Wrapped in `.table-scroll` — scrolls itself, page never does. |
 | Pull-quote | `.pullquote` | Accent left rule. |
 | Facts list | `.facts` | `<dl>` — real semantics, not a fake table. |
+| Background timeline | `.timeline`, `.tl-item` | `<ol>` — date column + body. Stacks below 700px. |
 | Skill group | `.skill-group` | Heading + chip cloud. |
 | Proof card | `.proof-card` | Icon, claim, evidence, source. |
 | Testimonial | `.testimonial` | Commented out until a real quote exists. |
