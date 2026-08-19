@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Runs before paint: drops the no-js fallback and restores the saved
+     theme, so the page never flashes the wrong colours. -->
+<script>
+(function () {
+  var d = document.documentElement;
+  d.classList.remove("no-js");
+  try {
+    var t = localStorage.getItem("portfolio-theme");
+    if (t === "dark" || t === "light") d.setAttribute("data-theme", t);
+  } catch (e) {}
+})();
+</script>
+
+<title>YongKang Lu — ML &amp; Reinforcement Learning</title>
+<meta name="description" content="ECE undergraduate at Olin College building machine learning and reinforcement-learning systems from first principles. Selected projects, measured results and code.">
+<meta name="author" content="YongKang Lu">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="YongKang Lu — ML &amp; Reinforcement Learning">
+<meta property="og:description" content="ECE undergraduate at Olin College. RL agents, forecasting pipelines, and the evaluation harnesses that prove they work.">
+<!-- EDIT ME #1 — set this to your final site URL once it is published -->
+<meta property="og:url" content="https://yyongg.github.io/">
+<!-- OPTIONAL: add a 1200x630 PNG at assets/img/og.png, then uncomment the two lines below
+<meta property="og:image" content="https://yyongg.github.io/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+-->
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ─────────────────────────────  HEADER  ───────────────────────────── -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">YL</span>
+      <span class="brand-name">YongKang Lu</span>
+    </a>
+
+    <nav class="nav" id="primaryNav" aria-label="Primary">
+      <a href="#projects">Projects</a>
+      <a href="#case-study">Case study</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle" type="button"
+              aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
+      </button>
+      <button class="icon-btn menu-btn" id="menuToggle" type="button"
+              aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ─────────────────────────────  1. HERO  ──────────────────────────── -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-inner">
+
+    <!-- EDIT ME #2 — which internship cycle you are recruiting for -->
+    <p class="status" role="status">
+      <span class="dot" aria-hidden="true"></span>
+      Seeking Summer 2027 internships &middot; ML, RL &amp; research
+    </p>
+
+    <h1 id="hero-title" class="hero-title">
+      I build learning systems
+      <span class="hl">from first principles</span>.
+    </h1>
+
+    <p class="hero-sub">
+      <!-- EDIT ME #3 — check the location line -->
+      <strong>ECE undergraduate, Olin College</strong>
+      <span class="sep" aria-hidden="true">/</span>
+      Needham, MA
+      <span class="sep" aria-hidden="true">/</span>
+      ET (UTC&minus;5)
+    </p>
+
+    <p class="hero-lede">
+      Reinforcement-learning agents, forecasting pipelines, and the evaluation harnesses that say
+      whether any of it worked &mdash; usually written from the ground up rather than imported.
+      Applying statistics and computational mathematics to complex real-world systems.
+    </p>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#projects">
+        View projects
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M12 5.5 18.5 12 12 18.5"/></svg>
+      </a>
+      <!-- EDIT ME #4 — your email (also appears in the Contact section) -->
+      <a class="btn btn-ghost" href="mailto:ylu2@olin.edu">Contact me</a>
+      <a class="btn btn-quiet" href="https://github.com/yyongg" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="fill"><path d="M12 1.8a10.2 10.2 0 0 0-3.2 19.9c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 3 .8.1-.7.4-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .4.3.7 1 .7 2v2.9c0 .3.2.6.7.5A10.2 10.2 0 0 0 12 1.8z"/></svg>
+        GitHub
+      </a>
+    </div>
+
+    <ul class="stat-strip" aria-label="Highlights">
+      <li><b>4.0 GPA</b><span>Olin College ECE, class of 2029</span></li>
+      <li><b>Top 500</b><span>of 950,000+ Kaggle entrants</span></li>
+      <li><b>68.4%</b><span>error cut vs. baseline (grid load)</span></li>
+      <li><b>8</b><span>shipped, documented projects</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ──────────────────────  2. FEATURED PROJECTS  ─────────────────────── -->
+<section class="section" id="projects" aria-labelledby="projects-title">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">Selected work</p>
+      <h2 id="projects-title">Featured projects</h2>
+      <p class="section-lede">Six builds, each with the problem it solves and the number that says whether it worked.</p>
+    </header>
+
+    <ul class="grid cards" role="list">
+
+      <!-- CARD 1 ─────────────────────────────────────────────────────── -->
+      <li class="card reveal">
+        <a class="card-media" href="https://yyongg.github.io/Monopoly-Agent/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/cover-monopoly.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
+        </a>
+        <div class="card-body">
+          <p class="card-kicker">Reinforcement learning &middot; Systems</p>
+          <h3 class="card-title">
+            <a href="https://yyongg.github.io/Monopoly-Agent/" target="_blank" rel="noopener">
+              Strategy-Finding Monopoly RL Agent
+            </a>
+          </h3>
+          <p class="card-problem"><b>Problem:</b> learn a four-player, high-variance board game from scratch &mdash; with no hand-written strategy in the policy.</p>
+          <p class="metric"><span class="metric-num">90%+ win rate</span>
+            <span class="metric-label">against naive always-buy bots &mdash; and 31.5% against the strong heuristic trio, where chance is 25%</span></p>
+          <p class="card-note">A Monopoly engine written in pure standard library, wrapped as a Gymnasium environment and trained with MaskablePPO by self-play. Custom property-valuation equations drive auctions and trades. 94 tests, 0% timeouts.</p>
+          <ul class="chips" role="list">
+            <li>PyTorch</li><li>MaskablePPO</li><li>Gymnasium</li><li>pygame</li><li>pytest</li>
+          </ul>
+          <p class="card-links">
+            <a class="link-arrow" href="https://yyongg.github.io/Monopoly-Agent/" target="_blank" rel="noopener">
+              Write-up<span class="sr-only"> for Monopoly RL Agent</span> <span aria-hidden="true">&rarr;</span></a>
+            <a class="link-arrow" href="https://github.com/yyongg/Monopoly-Agent" target="_blank" rel="noopener">
+              Code<span class="sr-only"> for Monopoly RL Agent</span> <span aria-hidden="true">&rarr;</span></a>
+          </p>
+        </div>
+      </li>
+
+      <!-- CARD 2 ─────────────────────────────────────────────────────── -->
+      <li class="card reveal">
+        <a class="card-media" href="https://github.com/yyongg/Deep-Q-Cart-Pole" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/cover-cartpole.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
+        </a>
+        <div class="card-body">
+          <p class="card-kicker">Reinforcement learning &middot; Control</p>
+          <h3 class="card-title">
+            <a href="https://github.com/yyongg/Deep-Q-Cart-Pole" target="_blank" rel="noopener">
+              Cart-Pole Swing-Up Agent
+            </a>
+          </h3>
+          <p class="card-problem"><b>Problem:</b> swing a hanging pole upright and hold it there &mdash; learned, not scripted.</p>
+          <p class="metric"><span class="metric-num">Swing-up solved</span>
+            <span class="metric-label">stays balanced through live user nudges and reconfigured pole mass and length</span></p>
+          <p class="card-note">A custom dense reward penalising pole tilt, cart displacement and angular velocity guides the full swing-up. DQN with a 150k replay buffer, soft target updates (&tau;&nbsp;=&nbsp;0.5) and &epsilon;-greedy scheduling; model persistence keyed to the physical parameters.</p>
+          <ul class="chips" role="list">
+            <li>Stable-Baselines3</li><li>DQN</li><li>Gymnasium</li><li>pygame</li><li>pytest</li>
+          </ul>
+          <p class="card-links">
+            <a class="link-arrow" href="https://github.com/yyongg/Deep-Q-Cart-Pole" target="_blank" rel="noopener">
+              Code<span class="sr-only"> for Cart-Pole Swing-Up Agent</span> <span aria-hidden="true">&rarr;</span></a>
+          </p>
+        </div>
+      </li>
+
+      <!-- CARD 3 ─────────────────────────────────────────────────────── -->
+      <li class="card reveal">
+        <a class="card-media" href="https://github.com/yyongg/Energy-Consumption-Forecasting" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/cover-energy.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
+        </a>
+        <div class="card-body">
+          <p class="card-kicker">Time series &middot; Energy</p>
+          <h3 class="card-title">
+            <a href="https://github.com/yyongg/Energy-Consumption-Forecasting" target="_blank" rel="noopener">
+              Grid Load Forecasting &mdash; Spain
+            </a>
+          </h3>
+          <p class="card-problem"><b>Problem:</b> predict hourly national electricity demand so grid operators can plan generation.</p>
+          <p class="metric"><span class="metric-num">68.4% lower error</span>
+            <span class="metric-label">1,422 MW &rarr; 449 MW test RMSE against a persistence baseline</span></p>
+          <p class="card-note">Five years of ENTSO-E load joined to weather from five cities and day-ahead prices; lag and rolling features, a chronological split to block leakage, two-stage Optuna search. Written up as a computational essay.</p>
+          <ul class="chips" role="list">
+            <li>XGBoost</li><li>Optuna</li><li>pandas</li><li>seaborn</li><li>Jupyter</li>
+          </ul>
+          <p class="card-links">
+            <a class="link-arrow" href="https://github.com/yyongg/Energy-Consumption-Forecasting" target="_blank" rel="noopener">
+              Code &amp; essay<span class="sr-only"> for Grid Load Forecasting</span> <span aria-hidden="true">&rarr;</span></a>
+          </p>
+        </div>
+      </li>
+
+      <!-- CARD 4 ─────────────────────────────────────────────────────── -->
+      <li class="card reveal">
+        <a class="card-media" href="https://github.com/yyongg/Store-Sales-Forecasting-Kaggle" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/cover-sales.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
+        </a>
+        <div class="card-body">
+          <p class="card-kicker">Time series &middot; Kaggle</p>
+          <h3 class="card-title">
+            <a href="https://github.com/yyongg/Store-Sales-Forecasting-Kaggle" target="_blank" rel="noopener">
+              Store Sales Forecasting &mdash; Favorita
+            </a>
+          </h3>
+          <p class="card-problem"><b>Problem:</b> forecast 16 days of daily sales for 1,782 store &times; product-family series at once.</p>
+          <p class="metric"><span class="metric-num">0.402 RMSLE</span>
+            <span class="metric-label">best public leaderboard score, from a single global XGBoost</span></p>
+          <p class="card-note">A 3.03M &times; 93 feature table (lags, calendar, holidays, oil price, payday cycles), Optuna tuning over walk-forward folds, and a multi-window harness that gates every change.</p>
+          <ul class="chips" role="list">
+            <li>XGBoost</li><li>Optuna</li><li>pandas</li><li>Parquet</li><li>Walk-forward CV</li>
+          </ul>
+          <p class="card-links">
+            <a class="link-arrow" href="https://github.com/yyongg/Store-Sales-Forecasting-Kaggle" target="_blank" rel="noopener">
+              Code<span class="sr-only"> for Store Sales Forecasting</span> <span aria-hidden="true">&rarr;</span></a>
+          </p>
+        </div>
+      </li>
+
+      <!-- CARD 5 ─────────────────────────────────────────────────────── -->
+      <li class="card reveal">
+        <a class="card-media" href="https://github.com/yyongg/Kaggle-Housing-Prices-Competition" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/cover-housing.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
+        </a>
+        <div class="card-body">
+          <p class="card-kicker">Regression &middot; Kaggle</p>
+          <h3 class="card-title">
+            <a href="https://github.com/yyongg/Kaggle-Housing-Prices-Competition" target="_blank" rel="noopener">
+              House Price Prediction
+            </a>
+          </h3>
+          <p class="card-problem"><b>Problem:</b> predict sale price from 79 mixed-type property features.</p>
+          <p class="metric"><span class="metric-num">Top 500</span>
+            <span class="metric-label">of 950,000+ entrants &mdash; House Prices: Advanced Regression Techniques</span></p>
+          <p class="card-note">An ensemble of gradient-boosting and regularised linear models, over a hand-built feature-engineering and validation module.</p>
+          <ul class="chips" role="list">
+            <li>scikit-learn</li><li>Gradient boosting</li><li>pandas</li><li>Jupyter</li>
+          </ul>
+          <p class="card-links">
+            <a class="link-arrow" href="https://github.com/yyongg/Kaggle-Housing-Prices-Competition" target="_blank" rel="noopener">
+              Code<span class="sr-only"> for House Price Prediction</span> <span aria-hidden="true">&rarr;</span></a>
+          </p>
+        </div>
+      </li>
+
+      <!-- CARD 6 ─────────────────────────────────────────────────────── -->
+      <li class="card reveal">
+        <a class="card-media" href="https://github.com/yyongg/Cyvl-Hackathon-Delivery-Robots" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/cover-robots.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
+        </a>
+        <div class="card-body">
+          <p class="card-kicker">Geospatial &middot; Hackathon</p>
+          <h3 class="card-title">
+            <a href="https://github.com/yyongg/Cyvl-Hackathon-Delivery-Robots" target="_blank" rel="noopener">
+              Delivery-Robot Feasibility Map
+            </a>
+          </h3>
+          <p class="card-problem"><b>Problem:</b> which streets in Somerville can a sidewalk delivery robot actually drive?</p>
+          <p class="metric"><span class="metric-num">6 signals &rarr; 1 score</span>
+            <span class="metric-label">every street segment rated 0&ndash;100, tiered green / yellow / red</span></p>
+          <p class="card-note">Fused Cyvl infrastructure layers, raw LiDAR point clouds and city 311 data into one scored GeoJSON, then shipped it as an interactive MapLibre app. Built at the Cyvl Hackathon.</p>
+          <ul class="chips" role="list">
+            <li>Python</li><li>GeoPandas</li><li>LiDAR / laspy</li><li>React</li><li>MapLibre GL</li><li>AWS S3</li>
+          </ul>
+          <p class="card-links">
+            <a class="link-arrow" href="https://github.com/yyongg/Cyvl-Hackathon-Delivery-Robots" target="_blank" rel="noopener">
+              Code<span class="sr-only"> for Delivery-Robot Feasibility Map</span> <span aria-hidden="true">&rarr;</span></a>
+          </p>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Secondary projects, compact -->
+    <div class="more-projects reveal">
+      <h3 class="more-title">Also on GitHub</h3>
+      <ul class="mini-list" role="list">
+        <li>
+          <a href="https://github.com/yyongg/Naiive-Bayes-Spam-Classifier" target="_blank" rel="noopener">
+            <span class="mini-name">SMS Spam Classifier</span>
+            <span class="mini-desc">Multinomial Naive Bayes written from scratch &mdash; no ML libraries, just Bayes and Laplace smoothing.</span>
+            <span class="mini-metric">97.01% test accuracy</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/yyongg/clickbait-classifier" target="_blank" rel="noopener">
+            <span class="mini-name">Clickbait Headline Classifier</span>
+            <span class="mini-desc">Fine-tuned DistilBERT vs. a TF-IDF baseline, leakage stripped so it learns style, not publisher.</span>
+            <span class="mini-metric">32k headlines &middot; locked test set</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────  3. CASE STUDY HIGHLIGHT  ──────────────────── -->
+<section class="section section-alt" id="case-study" aria-labelledby="case-title">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">Case study</p>
+      <h2 id="case-title">Teaching an agent Monopoly &mdash; and learning to measure it</h2>
+      <p class="section-lede">
+        The deep-dive project: a full RL system built solo, debugged with numbers rather than
+        intuition, and reported honestly &mdash; limitations included.
+      </p>
+    </header>
+
+    <div class="case-grid">
+      <article class="case-step reveal">
+        <p class="step-no" aria-hidden="true">01</p>
+        <h3>Problem</h3>
+        <p>
+          Monopoly looks like a toy and isn&rsquo;t. Four players means no minimax. Dice and two card
+          decks make almost every strategic metric noise-dominated. Games run ~119 turns and several
+          hundred decision points for a single bit of ground truth at the end.
+        </p>
+        <p>
+          Goal: learn buying, auctions, building, jail and cash management purely from the reward
+          signal of winning &mdash; and be able to <em>prove</em> whether it worked.
+        </p>
+      </article>
+
+      <article class="case-step reveal">
+        <p class="step-no" aria-hidden="true">02</p>
+        <h3>Approach</h3>
+        <ul class="tick-list" role="list">
+          <li>Wrote a rules-accurate engine in <b>pure standard library</b>, then wrapped it as a Gymnasium env that steps at decision points &mdash; a 261-dim observation and a fully masked 125-action space.</li>
+          <li>Made <b>one encoder the single source of truth</b> for the observation, the legal-action mask and every valuation &mdash; so the agent you train is the agent you play. A test pins the parity.</li>
+          <li>Engineered <b>property-valuation equations</b> from landing frequency, expected rent and development cost, so the agent can price a tile, a bid and a trade in context.</li>
+          <li>Trained <b>MaskablePPO</b> by self-play against a pool of frozen past selves plus a hand-written heuristic trio, keeping snapshots spread across training history so self-play improves instead of cycling.</li>
+        </ul>
+      </article>
+
+      <article class="case-step reveal">
+        <p class="step-no" aria-hidden="true">03</p>
+        <h3>Results</h3>
+        <p>Every fix below started as a measurement, not a hunch:</p>
+        <div class="table-scroll">
+          <table class="results-table">
+            <caption class="sr-only">Before and after moving trading out of the learned policy</caption>
+            <thead>
+              <tr><th scope="col">Signal</th><th scope="col">Before</th><th scope="col">After</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Trade cash per game</th><td>$58,747</td><td class="good">~$1.8k</td></tr>
+              <tr><th scope="row">Worst single-tile churn</th><td>424 trades</td><td class="good">&le; 5</td></tr>
+              <tr><th scope="row">Completed sets given away</th><td>routinely, for junk</td><td class="good">barred outright</td></tr>
+              <tr><th scope="row">Episode timeouts</th><td>&mdash;</td><td class="good">0.0% of 200</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="case-outcome">
+          The agent plays recognisable Monopoly &mdash; completing sets, building on them, blocking
+          opponents. It wins <b>90%+ against naive always-buy bots</b>, and <b>31.5% against the
+          strong heuristic trio where chance is 25%</b>, with 94 tests green. Against that stronger
+          benchmark it is <em>not yet</em> convincingly ahead, and the write-up says so, with the
+          measured reasons why.
+        </p>
+        <p class="card-links">
+          <a class="link-arrow" href="https://yyongg.github.io/Monopoly-Agent/" target="_blank" rel="noopener">
+            Read the full write-up <span aria-hidden="true">&rarr;</span></a>
+        </p>
+      </article>
+    </div>
+
+    <aside class="pullquote reveal">
+      <p>
+        Two bugs worth the whole project: a valuation cliff that priced a tile at
+        <b>$227 or $4,937</b> depending on one other card &mdash; a 21.7&times; gap a human opponent
+        would exploit &mdash; and a reward that paid out net worth at the buzzer, training the agent
+        to <b>end rich rather than win</b>. Both are now pinned by tests.
+      </p>
+    </aside>
+  </div>
+</section>
+
+<!-- ─────────────────────────────  4. ABOUT  ─────────────────────────── -->
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-copy">
+        <p class="eyebrow">About</p>
+        <h2 id="about-title">Hi, I&rsquo;m YongKang.</h2>
+        <!-- EDIT ME #5 — rewrite these sentences in your own voice. Keep it short. -->
+        <p class="about-lede">
+          I&rsquo;m an electrical and computer engineering student at Olin College, using statistics
+          and computational mathematics to understand and optimise complex real-world systems.
+        </p>
+        <p>
+          I learn things by rebuilding them. My Naive Bayes classifier uses no ML libraries; my
+          Monopoly agent trains inside an engine I wrote in the standard library; my cart-pole agent
+          learns in physics I implemented myself. Reaching for the library comes after &mdash; once
+          I know what it is doing for me.
+        </p>
+        <p>
+          The other half of that habit is measurement. Most of what I know about modelling I learned
+          from something that turned out to be wrong: a leaky split, a reward that optimised the
+          wrong thing, a &ldquo;+2%&rdquo; that was noise. So I write up what didn&rsquo;t work as
+          carefully as what did &mdash; every repo here has a README a stranger can run.
+        </p>
+        <p class="about-ask">
+          <b>What I&rsquo;m looking for:</b> a Summer 2027 internship in machine learning,
+          reinforcement learning or applied research &mdash; somewhere models reach production and
+          evaluation is taken seriously.
+        </p>
+      </div>
+
+      <aside class="about-facts reveal">
+        <h3 class="facts-title">Quick facts</h3>
+        <dl class="facts">
+          <div><dt>Focus</dt><dd>Reinforcement learning, forecasting, applied NLP</dd></div>
+          <div><dt>Core stack</dt><dd>Python, PyTorch, MATLAB</dd></div>
+          <!-- EDIT ME #6 — location and availability -->
+          <div><dt>Based in</dt><dd>Needham, MA &middot; ET (UTC&minus;5)</dd></div>
+          <div><dt>Seeking</dt><dd>Summer 2027 internship</dd></div>
+          <div><dt>Reply time</dt><dd>Within 24 hours</dd></div>
+        </dl>
+      </aside>
+    </div>
+
+    <!-- Education & experience -->
+    <div class="timeline-wrap reveal">
+      <h3 class="more-title">Background</h3>
+      <ol class="timeline" role="list">
+        <li class="tl-item">
+          <p class="tl-when">2025 &ndash; 2029</p>
+          <div class="tl-body">
+            <h4 class="tl-what">B.S. Electrical &amp; Computer Engineering</h4>
+            <p class="tl-where">Olin College of Engineering &middot; <b>GPA 4.0</b></p>
+            <p class="tl-detail">Linear Algebra &middot; Differential Equations &middot; Machine Learning &middot; Modeling &amp; Simulation &middot; Quantum Mechanics</p>
+          </div>
+        </li>
+        <li class="tl-item">
+          <p class="tl-when">Jul 2024 &ndash; Aug 2025</p>
+          <div class="tl-body">
+            <h4 class="tl-what">Engineering Aide</h4>
+            <p class="tl-where">Consolidated Edison</p>
+            <p class="tl-detail">
+              Designed a delivery schedule that pulls open-order data from company databases and
+              populates it automatically in Excel; supported data analysis across the energy
+              distribution equipment lifecycle.
+            </p>
+          </div>
+        </li>
+        <li class="tl-item">
+          <p class="tl-when">2021 &ndash; 2025</p>
+          <div class="tl-body">
+            <h4 class="tl-what">Brooklyn Technical High School</h4>
+            <p class="tl-where">GPA 101.6/100 &middot; <b>Ralph H. Stahl Scholar for Physics</b></p>
+            <p class="tl-detail">AP Physics C (Mechanics, E&amp;M) &middot; AP Physics 1 &amp; 2 &middot; AP Calculus BC &middot; AP Statistics</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────  5. SKILLS / TOOLS  ─────────────────────── -->
+<section class="section section-alt" id="skills" aria-labelledby="skills-title">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">Toolkit</p>
+      <h2 id="skills-title">Skills &amp; tools</h2>
+      <p class="section-lede">Grouped by what I actually use them for. Everything listed appears in a shipped project above.</p>
+    </header>
+
+    <div class="grid skills-grid">
+      <section class="skill-group reveal" aria-labelledby="sg-1">
+        <h3 id="sg-1">Machine learning</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>PyTorch</li><li>Stable-Baselines3</li><li>MaskablePPO</li><li>DQN</li>
+          <li>Gymnasium</li><li>XGBoost</li><li>scikit-learn</li><li>Transformers</li><li>Optuna</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-2">
+        <h3 id="sg-2">Languages &amp; tools</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>Python</li><li>MATLAB</li><li>SQL</li><li>Excel</li><li>VBA</li>
+          <li>Git &amp; GitHub</li><li>pytest</li><li>CLI tooling</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-3">
+        <h3 id="sg-3">Evaluation &amp; rigour</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>Walk-forward CV</li><li>Leakage auditing</li><li>Ablations</li>
+          <li>Error analysis</li><li>Confidence intervals</li><li>Seeded reproducibility</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-4">
+        <h3 id="sg-4">Data &amp; pipelines</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>pandas</li><li>NumPy</li><li>GeoPandas</li><li>Parquet</li>
+          <li>Feature engineering</li><li>LiDAR / laspy</li><li>AWS S3</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-5">
+        <h3 id="sg-5">Interests</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>Reinforcement learning</li><li>World modeling</li><li>NLP</li><li>LLMs</li>
+          <li>Signal processing</li><li>Time-series forecasting</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-6">
+        <h3 id="sg-6">Interfaces &amp; visualisation</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>pygame</li><li>React</li><li>Vite</li><li>MapLibre GL</li>
+          <li>Gradio</li><li>matplotlib</li><li>seaborn</li><li>TensorBoard</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────  6. PROOF  ─────────────────────────── -->
+<section class="section" id="proof" aria-labelledby="proof-title">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">Proof</p>
+      <h2 id="proof-title">What I&rsquo;m known for</h2>
+      <p class="section-lede">Three habits, and the project where each one is on the record.</p>
+    </header>
+
+    <ul class="grid proof-grid" role="list">
+      <li class="proof-card reveal">
+        <span class="proof-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3.2 20 7.6v8.8L12 20.8 4 16.4V7.6z"/><path d="M12 12.2 20 7.6M12 12.2v8.6M12 12.2 4 7.6"/></svg>
+        </span>
+        <h3>Building from first principles</h3>
+        <p>
+          A Naive Bayes classifier with <b>no ML libraries</b>, a Monopoly engine in <b>pure standard
+          library</b>, a cart-pole physics environment and reward function written by hand. I reach
+          for the framework after I understand what it would have done.
+        </p>
+        <p class="proof-src">Spam Classifier &middot; Monopoly &middot; Cart-Pole</p>
+      </li>
+
+      <li class="proof-card reveal">
+        <span class="proof-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 17.5 9 11l4 4 8-8.5"/><path d="M21 6.5h-5M21 6.5v5"/></svg>
+        </span>
+        <h3>Validation you can trust</h3>
+        <p>
+          Built a multi-window walk-forward harness that ranks candidates in leaderboard order &mdash;
+          then used it to kill four changes that looked great on a single split, including one that
+          scored <b>CV 0.40 against LB 1.01</b>.
+        </p>
+        <p class="proof-src">Store Sales Forecasting</p>
+      </li>
+
+      <li class="proof-card reveal">
+        <span class="proof-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M15.8 15.8 21 21"/><path d="M11 8.2v5.6M8.2 11h5.6"/></svg>
+        </span>
+        <h3>Debugging with numbers</h3>
+        <p>
+          Found a <b>21.7&times;</b> valuation cliff and a reward bug that trained an agent to end rich
+          instead of win &mdash; both diagnosed from measurements, both now pinned by tests so they
+          cannot silently return.
+        </p>
+        <p class="proof-src">Monopoly RL Agent</p>
+      </li>
+    </ul>
+
+    <!-- OPTIONAL: when you have a quote from a professor, manager or teammate,
+         delete the comment markers around the block below and fill it in.
+    <figure class="testimonial reveal">
+      <blockquote><p>Their quote goes here, two or three sentences at most.</p></blockquote>
+      <figcaption><b>Name</b>, Role, Organisation</figcaption>
+    </figure>
+    -->
+  </div>
+</section>
+
+<!-- ────────────────────────────  7. CONTACT  ────────────────────────── -->
+<section class="section section-contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap contact-inner">
+    <p class="eyebrow">Contact</p>
+    <h2 id="contact-title">Let&rsquo;s talk about your data problem.</h2>
+    <p class="contact-lede">
+      Internships, research, or just want to argue about validation splits &mdash; my inbox is open
+      and I reply within a day.
+    </p>
+
+    <div class="contact-actions">
+      <!-- EDIT ME #7 — email address (also used by the Copy button) -->
+      <a class="btn btn-primary" href="mailto:ylu2@olin.edu">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.8 6.6 8.2 6 8.2-6"/></svg>
+        ylu2@olin.edu
+      </a>
+      <button class="btn btn-ghost" id="copyEmail" type="button" data-email="ylu2@olin.edu">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 6.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h.5"/></svg>
+        <span id="copyLabel">Copy email</span>
+      </button>
+    </div>
+
+    <ul class="social" role="list">
+      <!-- EDIT ME #8 — replace with your real LinkedIn URL before publishing -->
+      <li><a href="https://www.linkedin.com/in/YOUR-LINKEDIN-HANDLE" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="fill"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM3 9.5h4v11H3zm7 0h3.8v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75v5.7h-4v-5.05c0-1.2-.02-2.75-1.7-2.75-1.7 0-1.96 1.31-1.96 2.66v5.14h-4z"/></svg>
+        LinkedIn</a></li>
+      <li><a href="https://github.com/yyongg" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="fill"><path d="M12 1.8a10.2 10.2 0 0 0-3.2 19.9c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 3 .8.1-.7.4-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .4.3.7 1 .7 2v2.9c0 .3.2.6.7.5A10.2 10.2 0 0 0 12 1.8z"/></svg>
+        GitHub</a></li>
+      <!-- OPTIONAL: add a résumé PDF at assets/resume.pdf and uncomment
+      <li><a href="assets/resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a></li>
+      -->
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>&copy; <span id="year">2026</span> YongKang Lu &middot; Built as a static site, hosted on GitHub Pages.</p>
+    <p><a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a></p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>

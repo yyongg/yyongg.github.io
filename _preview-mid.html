@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Runs before paint: drops the no-js fallback and restores the saved
+     theme, so the page never flashes the wrong colours. -->
+<script>
+(function () {
+  var d = document.documentElement;
+  d.classList.remove("no-js");
+  try {
+    var t = localStorage.getItem("portfolio-theme");
+    if (t === "dark" || t === "light") d.setAttribute("data-theme", t);
+  } catch (e) {}
+})();
+</script>
+
+<title>YongKang Lu — ML &amp; Reinforcement Learning</title>
+<meta name="description" content="ECE undergraduate at Olin College building machine learning and reinforcement-learning systems from first principles. Selected projects, measured results and code.">
+<meta name="author" content="YongKang Lu">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="YongKang Lu — ML &amp; Reinforcement Learning">
+<meta property="og:description" content="ECE undergraduate at Olin College. RL agents, forecasting pipelines, and the evaluation harnesses that prove they work.">
+<!-- EDIT ME #1 — set this to your final site URL once it is published -->
+<meta property="og:url" content="https://yyongg.github.io/">
+<!-- OPTIONAL: add a 1200x630 PNG at assets/img/og.png, then uncomment the two lines below
+<meta property="og:image" content="https://yyongg.github.io/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+-->
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ─────────────────────────────  HEADER  ───────────────────────────── -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">YL</span>
+      <span class="brand-name">YongKang Lu</span>
+    </a>
+
+    <nav class="nav" id="primaryNav" aria-label="Primary">
+      <a href="#projects">Projects</a>
+      <a href="#case-study">Case study</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle" type="button"
+              aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
+      </button>
+      <button class="icon-btn menu-btn" id="menuToggle" type="button"
+              aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ─────────────────────────────  4. ABOUT  ─────────────────────────── -->
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-copy">
+        <p class="eyebrow">About</p>
+        <h2 id="about-title">Hi, I&rsquo;m YongKang.</h2>
+        <!-- EDIT ME #5 — rewrite these sentences in your own voice. Keep it short. -->
+        <p class="about-lede">
+          I&rsquo;m an electrical and computer engineering student at Olin College, using statistics
+          and computational mathematics to understand and optimise complex real-world systems.
+        </p>
+        <p>
+          I learn things by rebuilding them. My Naive Bayes classifier uses no ML libraries; my
+          Monopoly agent trains inside an engine I wrote in the standard library; my cart-pole agent
+          learns in physics I implemented myself. Reaching for the library comes after &mdash; once
+          I know what it is doing for me.
+        </p>
+        <p>
+          The other half of that habit is measurement. Most of what I know about modelling I learned
+          from something that turned out to be wrong: a leaky split, a reward that optimised the
+          wrong thing, a &ldquo;+2%&rdquo; that was noise. So I write up what didn&rsquo;t work as
+          carefully as what did &mdash; every repo here has a README a stranger can run.
+        </p>
+        <p class="about-ask">
+          <b>What I&rsquo;m looking for:</b> a Summer 2027 internship in machine learning,
+          reinforcement learning or applied research &mdash; somewhere models reach production and
+          evaluation is taken seriously.
+        </p>
+      </div>
+
+      <aside class="about-facts reveal">
+        <h3 class="facts-title">Quick facts</h3>
+        <dl class="facts">
+          <div><dt>Focus</dt><dd>Reinforcement learning, forecasting, applied NLP</dd></div>
+          <div><dt>Core stack</dt><dd>Python, PyTorch, MATLAB</dd></div>
+          <!-- EDIT ME #6 — location and availability -->
+          <div><dt>Based in</dt><dd>Needham, MA &middot; ET (UTC&minus;5)</dd></div>
+          <div><dt>Seeking</dt><dd>Summer 2027 internship</dd></div>
+          <div><dt>Reply time</dt><dd>Within 24 hours</dd></div>
+        </dl>
+      </aside>
+    </div>
+
+    <!-- Education & experience -->
+    <div class="timeline-wrap reveal">
+      <h3 class="more-title">Background</h3>
+      <ol class="timeline" role="list">
+        <li class="tl-item">
+          <p class="tl-when">2025 &ndash; 2029</p>
+          <div class="tl-body">
+            <h4 class="tl-what">B.S. Electrical &amp; Computer Engineering</h4>
+            <p class="tl-where">Olin College of Engineering &middot; <b>GPA 4.0</b></p>
+            <p class="tl-detail">Linear Algebra &middot; Differential Equations &middot; Machine Learning &middot; Modeling &amp; Simulation &middot; Quantum Mechanics</p>
+          </div>
+        </li>
+        <li class="tl-item">
+          <p class="tl-when">Jul 2024 &ndash; Aug 2025</p>
+          <div class="tl-body">
+            <h4 class="tl-what">Engineering Aide</h4>
+            <p class="tl-where">Consolidated Edison</p>
+            <p class="tl-detail">
+              Designed a delivery schedule that pulls open-order data from company databases and
+              populates it automatically in Excel; supported data analysis across the energy
+              distribution equipment lifecycle.
+            </p>
+          </div>
+        </li>
+        <li class="tl-item">
+          <p class="tl-when">2021 &ndash; 2025</p>
+          <div class="tl-body">
+            <h4 class="tl-what">Brooklyn Technical High School</h4>
+            <p class="tl-where">GPA 101.6/100 &middot; <b>Ralph H. Stahl Scholar for Physics</b></p>
+            <p class="tl-detail">AP Physics C (Mechanics, E&amp;M) &middot; AP Physics 1 &amp; 2 &middot; AP Calculus BC &middot; AP Statistics</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────  5. SKILLS / TOOLS  ─────────────────────── -->
+<section class="section section-alt" id="skills" aria-labelledby="skills-title">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">Toolkit</p>
+      <h2 id="skills-title">Skills &amp; tools</h2>
+      <p class="section-lede">Grouped by what I actually use them for. Everything listed appears in a shipped project above.</p>
+    </header>
+
+    <div class="grid skills-grid">
+      <section class="skill-group reveal" aria-labelledby="sg-1">
+        <h3 id="sg-1">Machine learning</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>PyTorch</li><li>Stable-Baselines3</li><li>MaskablePPO</li><li>DQN</li>
+          <li>Gymnasium</li><li>XGBoost</li><li>scikit-learn</li><li>Transformers</li><li>Optuna</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-2">
+        <h3 id="sg-2">Languages &amp; tools</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>Python</li><li>MATLAB</li><li>SQL</li><li>Excel</li><li>VBA</li>
+          <li>Git &amp; GitHub</li><li>pytest</li><li>CLI tooling</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-3">
+        <h3 id="sg-3">Evaluation &amp; rigour</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>Walk-forward CV</li><li>Leakage auditing</li><li>Ablations</li>
+          <li>Error analysis</li><li>Confidence intervals</li><li>Seeded reproducibility</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-4">
+        <h3 id="sg-4">Data &amp; pipelines</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>pandas</li><li>NumPy</li><li>GeoPandas</li><li>Parquet</li>
+          <li>Feature engineering</li><li>LiDAR / laspy</li><li>AWS S3</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-5">
+        <h3 id="sg-5">Interests</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>Reinforcement learning</li><li>World modeling</li><li>NLP</li><li>LLMs</li>
+          <li>Signal processing</li><li>Time-series forecasting</li>
+        </ul>
+      </section>
+
+      <section class="skill-group reveal" aria-labelledby="sg-6">
+        <h3 id="sg-6">Interfaces &amp; visualisation</h3>
+        <ul class="chips chips-lg" role="list">
+          <li>pygame</li><li>React</li><li>Vite</li><li>MapLibre GL</li>
+          <li>Gradio</li><li>matplotlib</li><li>seaborn</li><li>TensorBoard</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</section>
+

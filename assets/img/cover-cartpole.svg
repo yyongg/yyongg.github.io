@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="A cart-pole swinging from hanging to upright in four stages, with a rising reward curve">
+  <defs>
+    <linearGradient id="bgP" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#16202c"/>
+      <stop offset="1" stop-color="#0b1016"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bgP)"/>
+
+  <!-- swing-up arc guide -->
+  <path d="M92 250 A 78 78 0 0 1 248 250" fill="none" stroke="#f0913f" stroke-width="1.5"
+        stroke-dasharray="4 6" opacity=".45"/>
+
+  <!-- track -->
+  <path d="M48 262h544" stroke="#2c3b4d" stroke-width="2"/>
+
+  <!-- stage 1: hanging -->
+  <g opacity=".35">
+    <rect x="66" y="240" width="52" height="22" rx="5" fill="#7f8ea1"/>
+    <circle cx="80" cy="266" r="6" fill="#5a6a7d"/><circle cx="104" cy="266" r="6" fill="#5a6a7d"/>
+    <path d="M92 240v-2" stroke="#7f8ea1" stroke-width="3"/>
+    <path d="M92 240 108 300" stroke="#7f8ea1" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="108" cy="300" r="7" fill="#7f8ea1"/>
+  </g>
+
+  <!-- stage 2 -->
+  <g opacity=".5">
+    <rect x="150" y="240" width="52" height="22" rx="5" fill="#8fa3b8"/>
+    <circle cx="164" cy="266" r="6" fill="#63758a"/><circle cx="188" cy="266" r="6" fill="#63758a"/>
+    <path d="M176 240 232 274" stroke="#8fa3b8" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="232" cy="274" r="7" fill="#8fa3b8"/>
+  </g>
+
+  <!-- stage 3 -->
+  <g opacity=".7">
+    <rect x="236" y="240" width="52" height="22" rx="5" fill="#a8bed4"/>
+    <circle cx="250" cy="266" r="6" fill="#75899e"/><circle cx="274" cy="266" r="6" fill="#75899e"/>
+    <path d="M262 240 318 208" stroke="#a8bed4" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="318" cy="208" r="7" fill="#a8bed4"/>
+  </g>
+
+  <!-- stage 4: balanced, highlighted -->
+  <g>
+    <rect x="330" y="238" width="58" height="24" rx="6" fill="#f0913f"/>
+    <circle cx="346" cy="266" r="7" fill="#e0e6ee"/><circle cx="372" cy="266" r="7" fill="#e0e6ee"/>
+    <path d="M359 238 359 148" stroke="#f0913f" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="359" cy="146" r="9" fill="#ffd0a0"/>
+    <!-- nudge arrow -->
+    <path d="M404 190h34" stroke="#5eead4" stroke-width="3" stroke-linecap="round"/>
+    <path d="M430 182l9 8-9 8" fill="none" stroke="#5eead4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="404" y="176" font-family="ui-monospace, monospace" font-size="12" fill="#5eead4">nudge</text>
+  </g>
+
+  <!-- reward curve -->
+  <path d="M470 300 C500 296 512 258 536 238 C560 218 578 128 606 104"
+        fill="none" stroke="#f0913f" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+  <circle cx="606" cy="104" r="5.5" fill="#f0913f"/>
+  <text x="470" y="322" font-family="ui-monospace, monospace" font-size="12" fill="#7f93a8">reward</text>
+
+  <g font-family="ui-monospace, monospace" font-size="12" fill="#7f93a8">
+    <text x="48" y="330">swing-up</text>
+    <text x="330" y="330" fill="#f0913f">balanced</text>
+  </g>
+</svg>
