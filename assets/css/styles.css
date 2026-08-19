@@ -332,6 +332,24 @@ button { font: inherit; color: inherit; background: none; border: none; }
   text-transform: uppercase;
   color: var(--text-muted);
 }
+/* Award badge — sits inline in the card kicker. */
+.badge {
+  display: inline-flex; align-items: center;
+  margin-left: .35em;
+  padding: .2em .6em;
+  border-radius: var(--r-full);
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase;
+  vertical-align: middle;
+}
+:root[data-theme="dark"] .badge { color: #14100b; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .badge { color: #14100b; }
+}
+
 .card-title { font-size: var(--fs-lg); }
 .card-title a { color: var(--text); text-decoration: none; }
 .card-title a:hover { color: var(--accent); }
@@ -511,9 +529,13 @@ button { font: inherit; color: inherit; background: none; border: none; }
   font-family: var(--font-display); font-weight: 700;
   font-size: var(--fs-xl); line-height: 1.1; letter-spacing: -0.02em;
   color: var(--text);
+  /* Reserve two lines so every caption sits on the same baseline,
+     even when one headline wraps and its neighbours do not. */
+  min-height: 2.2em;
 }
 .stat-strip span { font-size: var(--fs-micro); color: var(--text-muted); line-height: 1.4; }
-@media (min-width: 760px) { .stat-strip { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 880px) { .stat-strip { grid-template-columns: repeat(4, 1fr); } }
+.stat-strip b { text-wrap: balance; }
 
 /* ── Projects ─────────────────────────────────────────────────────── */
 .cards { grid-template-columns: 1fr; }

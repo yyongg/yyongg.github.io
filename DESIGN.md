@@ -44,13 +44,26 @@ drawer below 820px. Current section is underlined in accent as you scroll.
   [ View projects → ]  [ Contact me ]   ⌗ GitHub         ← primary / secondary / quiet
 
   ───────────────────────────────────────────────────
-  4.0 GPA          Top 500         68.4%            8   ← proof before the fold
-  Olin ECE '29     of 950,000+…    error cut…       …
+  2× hackathon    4.0 GPA        8 projects  Stahl    ← proof before the fold
+  wins            Olin ECE '29   since Mar   Scholar
+  DataFest·Cyvl                  2026
 ```
 
-Four numbers sit above the fold on purpose. They are the whole pitch: someone who
-reads nothing else has seen a 4.0, a Kaggle rank and an error reduction.
-2-up on mobile, 4-up from 760px.
+Four claims above the fold, and **every one is about the person, not a project**.
+Someone who reads nothing else has seen two competition wins, a 4.0, a shipping
+habit and a physics award. 2-up on mobile, 4-up from 880px.
+
+**Why no project metrics up here.** A Kaggle rank or an RMSLE is about one
+repository; it belongs on that repository's card, six inches lower, attached to
+the work that earned it. The strip answers *who is this person* — the cards answer
+*what can they do*. Mixing the two costs the strip its meaning.
+
+**Why three credentials plus one output stat.** Wins, GPA and an award all
+measure the same thing (recognition), so a fourth would be repetitive. "8 projects
+since March 2026" adds the missing dimension: this person finishes and publishes
+things, fast. The headline `<b>` reserves two lines
+(`min-height: 2.2em`) so one wrapping item does not drop its caption below its
+neighbours'.
 
 **Why "first principles" is the headline.** It is the one claim every project
 supports — Naive Bayes with no ML libraries, a Monopoly engine in pure stdlib, a
@@ -299,6 +312,7 @@ because a specific layout broke there, not on a device-name grid.
 | Project card | `.card` | Media / kicker / title / problem / metric / note / chips / links. |
 | Metric box | `.metric` | Tinted panel. **One per card, never two.** |
 | Tech chip | `.chips li` | Mono, nowrap. |
+| Award badge | `.badge` | Accent pill, inline in a card kicker. Use only for a genuine win. |
 | Mini project row | `.mini-list` | Name + line + metric, one row. |
 | Case step | `.case-step` | Numbered `01`/`02`/`03`. |
 | Tick list | `.tick-list` | Square accent markers. |
@@ -324,3 +338,6 @@ These matter more than the CSS:
 4. **State a limitation somewhere.** The case study says the agent isn't beating its
    benchmark yet. That reads as seniority — it is the most credible sentence on the page.
 5. **Cut any paragraph over four lines.** If it needs more, it needs a write-up of its own.
+6. **A win needs a card.** An award named in the stat strip with no project behind
+   it reads as padding. Either show the work or drop the claim — which is why the
+   DataFest card stub is sitting commented-out in `index.html`, waiting on details.
