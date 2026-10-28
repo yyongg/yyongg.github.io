@@ -1,343 +1,154 @@
-# Design spec
+# Design notes
 
-The moodboard behind the build: wireframe, type, colour, spacing, components.
-Everything here is already implemented in `assets/css/styles.css` — this document
-explains *why*, so you can extend it without breaking the system.
+How the site is put together and why, so it can be extended without drifting.
+Everything described here is implemented in `index.html`, `assets/css/styles.css`
+and `assets/js/main.js`.
 
-**Design goal:** a recruiter lands, and inside 30 seconds knows *what you do*,
-*how good you are at it*, and *how to reach you*. Every decision below serves that.
-
-**Audience:** ML / data-science recruiters and hiring managers screening for
-internships. That means credentials must be visible (GPA, school, grad year) but
-subordinate to evidence — the projects carry the argument.
+**Goal:** a plain page that reads like a person wrote it. One column, one typeface,
+one link colour. The projects carry the page, and every picture on it comes out of
+the project it illustrates.
 
 ---
 
-## 1. Wireframe, section by section
-
-Mobile is the source of truth; desktop is the same order in wider columns.
-
-### Header — sticky, 68px
+## 1. Page structure
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│ [YL] YongKang Lu      Projects Case study About Skills … ☾ ☰ │
-└──────────────────────────────────────────────────────────────┘
-```
-Transparent until you scroll, then a 1px hairline appears. Nav collapses to a
-drawer below 820px. Current section is underlined in accent as you scroll.
+YongKang Lu                                  Projects  Background  Contact
+──────────────────────────────────────────────────────────────────────────
+I'm an electrical and computer engineering student at Olin College…   ← lead
+Two short paragraphs, then email / GitHub / LinkedIn
 
-### 1. Hero — the 5-second read
+Projects
+  Hardware and embedded
+  ────────────────────────────────────────────────────────────
+  Title                                            ┌─────────┐
+  One or two sentences, with the result.           │ photo,  │
+  Stack · date                                     │ figure  │
+  ────────────────────────────────────────────────  └─────────┘
+  Title                                            (no image if the
+  …                                                 project has none)
+  Machine learning and data
+  Algorithms and signal processing
 
-```
-  ● Seeking Summer 2027 internships · ML, RL & research  ← status pill
+Background        Education / Experience / Awards on the left
+  Skills          same two-column layout
 
-  I build learning systems
-  FROM FIRST PRINCIPLES.                                 ← h1, 18ch max, accent
-                                                            highlight on line 2
-  ECE undergraduate, Olin College / Needham, MA / ET     ← role + location + tz
-
-  Reinforcement-learning agents, forecasting pipelines,
-  and the evaluation harnesses that say whether any of
-  it worked…                                             ← value prop
-
-  [ View projects → ]  [ Contact me ]   ⌗ GitHub         ← primary / secondary / quiet
-
-  ───────────────────────────────────────────────────
-  2× hackathon    4.0 GPA        8 projects  Stahl    ← proof before the fold
-  wins            Olin ECE '29   since Mar   Scholar
-  DataFest·Cyvl                  2026
+Contact           one sentence
 ```
 
-Four claims above the fold, and **every one is about the person, not a project**.
-Someone who reads nothing else has seen two competition wins, a 4.0, a shipping
-habit and a physics award. 2-up on mobile, 4-up from 880px.
+- The header is not sticky and holds the only `<h1>`.
+- The intro's first sentence is set larger. It is a statement of fact, not a slogan.
+- The intro and the project order present hardware and software as equal interests:
+  hardware and embedded projects come first, machine learning second.
+- Projects are rows in a list, grouped by area, strongest first within a group.
+- Background and Skills are definition lists (`<dl>`), labels in grey.
 
-**Why no project metrics up here.** A Kaggle rank or an RMSLE is about one
-repository; it belongs on that repository's card, six inches lower, attached to
-the work that earned it. The strip answers *who is this person* — the cards answer
-*what can they do*. Mixing the two costs the strip its meaning.
+## 2. Project details panel
 
-**Why three credentials plus one output stat.** Wins, GPA and an award all
-measure the same thing (recognition), so a fourth would be repetitive. "8 projects
-since March 2026" adds the missing dimension: this person finishes and publishes
-things, fast. The headline `<b>` reserves two lines
-(`min-height: 2.2em`) so one wrapping item does not drop its caption below its
-neighbours'.
+Selecting a row opens that project in a panel that slides in from the right, over
+the page. Nothing navigates away; the GitHub link is inside the panel.
 
-**Why "first principles" is the headline.** It is the one claim every project
-supports — Naive Bayes with no ML libraries, a Monopoly engine in pure stdlib, a
-hand-written physics environment. For a student with no industry title yet, a
-demonstrated *habit* outranks a job description.
+- The panel is a native `<dialog>` opened with `showModal()`, which gives focus
+  trapping, Escape to close and an inert page behind it for free.
+- The URL gets the project's hash (`#monopoly`), so a project can be linked to
+  directly, and the browser's Back button closes the panel.
+- Close with the button, Escape, a click outside, or Back. Previous and Next step
+  through the projects without stacking up history entries.
+- Short silent clips play when their panel opens and pause when it closes. They do
+  not autoplay if the visitor has asked for reduced motion.
+- Demo videos on YouTube start as a poster frame with a "Play video" label and the
+  running time. Selecting it swaps in the player from `youtube-nocookie.com`, in place.
+  Moving to another project or closing the panel puts the poster back, which stops
+  the video. Nothing is requested from YouTube until someone presses play, and
+  without JavaScript the poster is a plain link to the video.
+- Without JavaScript the same `<article>` blocks are laid out at the bottom of the
+  page and the row links jump to them.
 
-### 2. Featured projects — the scan layer
+Each panel follows the same order: title, date and stack, links, a paragraph on
+what it is, results, figures, how it works, and what did not work.
 
-```
-┌───────────────┐  ┌───────────────┐  ┌───────────────┐
-│  cover  16:9  │  │               │  │               │
-├───────────────┤  │               │  │               │
-│ CATEGORY      │  │               │  │               │
-│ Project name  │  │               │  │               │
-│ Problem: …    │  │      ×6       │  │               │
-│ ┏━━━━━━━━━━━┓ │  │               │  │               │
-│ ┃ THE METRIC┃ │  │               │  │               │  ← accent-tinted box:
-│ ┃ what it is┃ │  │               │  │               │    the only thing that
-│ ┗━━━━━━━━━━━┛ │  │               │  │               │    must survive skimming
-│ context line  │  │               │  │               │
-│ [chip][chip]  │  │               │  │               │
-│ Code →        │  │               │  │               │
-└───────────────┘  └───────────────┘  └───────────────┘
+## 3. Visuals
 
-ALSO ON GITHUB
-┌──────────────────────────┐ ┌──────────────────────────┐
-│ SMS Spam Classifier      │ │ Clickbait Classifier     │  ← 2 minor projects,
-│ one line · 97.01%        │ │ one line · 32k headlines │    one line each
-└──────────────────────────┘ └──────────────────────────┘
-```
+**Every image, clip, table and code excerpt comes from the project itself:** its
+repository, its demo video, or photos and CAD of the build. Nothing is drawn for
+the site.
 
-Order: the two RL agents first (the distinctive work, and what the résumé leads
-on), then the two forecasting results with hard metrics, then Kaggle rank, then
-the hackathon build. Clickbait sits in the minor row **only** because its repo
-publishes no accuracy figure — give it one and it earns a card.
+| Project | Source of the visuals |
+|---------|-----------------------|
+| Conway's Game of Life | Poster and thumbnail from the repo's demo clip `IMG_7503.MOV` (the same clip is on YouTube); `test_results.png`, the GTKWave trace |
+| Archerfish | Build photos and CAD screenshots supplied by YongKang; poster from the YouTube demo |
+| IR scanner | Build photo, CAD and schematic supplied by YongKang; `python/calibration_fit.png` |
+| FPGA mini-projects | `demo_video.MOV` from Miniproject-1, re-encoded to MP4 without audio |
+| Monopoly | `docs/assets/*.png` in the repo |
+| Cart-pole | Poster and thumbnail from the YouTube project overview |
+| Grid load, House prices, Spam | Plot outputs saved inside each repo's `computational_essay.ipynb` |
+| FFT | `benchmark.png` and `a440_spectrum.png` in the DSA repo's FFT folder |
 
-1 column → 2 at 700px → 3 at 1040px. Every card carries the same five slots in the
-same order, so the eye can compare cards vertically without re-reading labels.
-The whole card is clickable (stretched link off the title).
+Each project has its own folder in `assets/img/projects/`. Photos are JPEG; plots,
+CAD and screenshots are PNG. Row thumbnails (`thumb.jpg` or `thumb.png`) are
+480 by 320 crops of the same material. A few supplied photos and CAD views are not
+on the page yet (other angles of the same parts); they stay in their project's
+folder.
 
-### 3. Case study — the depth layer
+A project with no visual gets no thumbnail and a text-only panel, usually with a
+table or a short code excerpt copied from the source. That is deliberate: an empty
+slot is better than an invented picture.
 
-```
-CASE STUDY
-Teaching an agent Monopoly — and learning to measure it
-lede…
+Figures in the panel link to the full-size file, because the dashboards are dense.
+Two photos of similar shape can sit side by side (`fig-pair`); they stack on phones.
+The GTKWave trace keeps its real size and scrolls sideways (`fig-scroll`), because
+shrinking it makes the signal values unreadable.
 
-┌── 01 Problem ──┐ ┌── 02 Approach ─┐ ┌── 03 Results ──┐
-│ why it is hard │ │ ▪ decision     │ │ before → after │
-│ what the goal  │ │ ▪ decision     │ │ ┌────────────┐ │
-│ was            │ │ ▪ decision     │ │ │ table      │ │
-│                │ │ ▪ decision     │ │ └────────────┘ │
-│                │ │                │ │ outcome + the  │
-│                │ │                │ │ honest caveat  │
-└────────────────┘ └────────────────┘ └────────────────┘
+## 4. Type
 
-┃ Pull-quote: the two bugs worth the whole project
-```
+One family: **IBM Plex Sans** (400, 500, 600), with **IBM Plex Mono** for code
+excerpts only. Both fall back to system fonts.
 
-Three literal columns for problem → approach → results, so the shape of the
-narrative is visible before a word is read. Stacks vertically below 900px.
+| Use | Size |
+|-----|------|
+| Body | 17px (16px on phones), line height 1.6 |
+| Lead sentence | 26px |
+| Name in header | 20px |
+| Section heading | 22px |
+| Project title | 18px |
+| Panel title | 28px |
+| Meta, captions, tables | 14 to 15px |
 
-### 4. About
+Text columns stop at about 40rem so lines stay readable.
 
-```
-┌────────────────────────────┐  ┌──────────────────┐
-│ ABOUT                      │  │ QUICK FACTS      │
-│ Hi, I'm YongKang.          │  │ Focus       …    │
-│ lede (larger, display font)│  │ Core stack  …    │
-│ 2 short paragraphs         │  │ Based in    …    │
-│ ┌ What I'm looking for ──┐ │  │ Seeking     …    │
-│ └────────────────────────┘ │  │ Reply time  …    │
-└────────────────────────────┘  └──────────────────┘
+## 5. Colour
 
-BACKGROUND
-┌──────────────┬──────────────────────────────────────┐
-│ 2025 – 2029  │ B.S. Electrical & Computer Eng.      │
-│              │ Olin College · GPA 4.0               │
-│              │ coursework line                      │
-├──────────────┼──────────────────────────────────────┤
-│ Jul 24–Aug 25│ Engineering Aide · Con Edison        │
-├──────────────┼──────────────────────────────────────┤
-│ 2021 – 2025  │ Brooklyn Technical HS · Stahl Scholar│
-└──────────────┴──────────────────────────────────────┘
-```
+Light only. The project figures are white-background charts, so a white page lets
+them sit in the layout without frames or cards.
 
-Prose on the left for humans, a scannable `<dl>` on the right for people in a
-hurry. Body text is capped at 64ch — past that, reading speed drops.
+| Token | Hex | Use |
+|-------|-----|-----|
+| `--page` | `#ffffff` | background |
+| `--ink` | `#15181c` | text |
+| `--muted` | `#5d6670` | dates, captions, secondary text (5.8:1 on white) |
+| `--rule` | `#e1e4e8` | hairlines, image borders |
+| `--tint` | `#f5f7f9` | row hover, code blocks |
+| `--link` | `#1b47c4` | links and project titles (7.9:1 on white) |
 
-Education and experience live *inside* About rather than as their own section —
-they are credibility support for the projects, not the headline. The date column
-is fixed-width mono at ≥700px so the three rows align into a spine.
+Blue appears only on things that can be clicked. If you change `--link`, keep at
+least 4.5:1 contrast against white.
 
-### 5. Skills — 6 groups, 2×3 / 3×2
+## 6. What was left out on purpose
 
-Grouped by *use*, not alphabetically: Machine learning · Languages & tools ·
-Evaluation & rigour · Data & pipelines · Interests · Interfaces & visualisation.
-"Evaluation & rigour" is a deliberate group — it's the differentiator most
-student portfolios don't claim. "Interests" carries the forward-looking items
-(LLMs, world modeling, signal processing) so they don't get mistaken for
-shipped experience.
+No hero banner, badges, stat strip, icon set, tag chips, card shadows, gradients,
+scroll animations or dark-mode toggle. The only motion is the panel sliding in, and
+the only overlay is the play label on a video poster. Corners are 3 to 4px. Rules
+are 1px.
 
-### 6. Proof — "what I'm known for"
+## 7. Content rules
 
-Three cards: icon, claim, the evidence with a number, and the project it came from.
-Habits, not adjectives: *building from first principles* · *validation you can
-trust* · *debugging with numbers*. A commented-out testimonial block sits below,
-ready for a real quote.
-
-### 7. Contact — narrow, centred, terminal
-
-```
-CONTACT
-Let's talk about your data problem.
-lede…
-[ ✉ you@email.com ]  [ ⧉ Copy email ]
-in LinkedIn    ⌗ GitHub
-```
-
-Two ways to take the email (click through, or copy) because recruiters do both.
-Phone is deliberately absent — it's on the résumé, and a public page collects spam.
-
----
-
-## 2. Typography
-
-| Role | Family | Weights | Why |
-|------|--------|---------|-----|
-| Display — headings, metrics, brand | **Space Grotesk** | 500 / 600 / 700 | Geometric with quirks in the `g` and `k`. Reads modern-technical without going sci-fi. |
-| Body — everything you read | **Inter** | 400 / 500 / 600 | Designed for screens; large x-height stays legible at 14px. |
-| Mono — chips, eyebrows, stats, labels | **JetBrains Mono** | 500 | Signals "engineer" and gives micro-labels a distinct texture at small sizes. |
-
-Each has a full system fallback stack, so a blocked font request degrades quietly.
-
-### Scale — fluid via `clamp()`, ~1.25 ratio
-
-| Token | Mobile → Desktop | Used for |
-|-------|------------------|----------|
-| `--fs-micro` | 12px | eyebrows, chips, stat captions |
-| `--fs-sm` | 14px | card body, table cells, buttons |
-| `--fs-base` | 16 → 17px | body copy |
-| `--fs-md` | 17 → 19px | ledes, section intros |
-| `--fs-lg` | 18.4 → 22px | h3, about lede |
-| `--fs-xl` | 23 → 32px | metric numbers, stat strip |
-| `--fs-2xl` | 28 → 40px | h2 |
-| `--fs-3xl` | 36 → 62px | h1 |
-
-Nothing below 12px, ever. Body never below 16px on mobile — smaller triggers
-iOS zoom-on-focus and fails readability guidance.
-
-### Rules of thumb
-
-- **Line height:** 1.08 display / 1.28 headings / 1.65 body. Big type needs less.
-- **Tracking:** negative on display (−0.032em at h1), `+0.14em` on uppercase micro
-  labels — uppercase without extra tracking is genuinely harder to read.
-- **Measure:** 64ch body, 56ch ledes, 18ch for the h1 so it breaks into a block.
-- `text-wrap: balance` on headings, `pretty` on paragraphs — kills orphans for free.
-
----
-
-## 3. Colour
-
-One accent, used sparingly. A warm burnt orange against warm neutrals: "modern
-tech" without the blue every other developer portfolio uses, and warm enough to
-read as human.
-
-### Light (default)
-
-| Token | Hex | Contrast | Use |
-|-------|-----|----------|-----|
-| `--bg` | `#faf9f7` | — | page. Warm off-white, not `#fff` — less glare |
-| `--bg-alt` | `#f2f0ec` | — | alternating section bands |
-| `--surface` | `#ffffff` | — | cards |
-| `--border` | `#e5e1d9` | — | hairlines |
-| `--text` | `#16181d` | **15.5:1** | body |
-| `--text-muted` | `#55595f` | **6.7:1** | secondary copy |
-| `--accent` | `#b3541e` | **5.0:1** on white | links, metrics, primary button |
-| `--accent-soft` | `#fbeee2` | — | metric-box fill, highlight |
-| `--teal` | `#1f6f63` | — | availability dot only |
-
-### Dark
-
-| Token | Hex | Contrast |
-|-------|-----|----------|
-| `--bg` | `#0e1013` | — |
-| `--surface` | `#16191e` | — |
-| `--text` | `#eceef1` | 16.6:1 |
-| `--text-muted` | `#a0a6ae` | **7.8:1** |
-| `--accent` | `#f0913f` | **8.0:1** |
-
-**If you change the accent, keep ≥4.5:1 against `--surface` in light and against
-`--bg` in dark.** Check at <https://webaim.org/resources/contrastchecker/>.
-The dark accent is deliberately lighter than the light one — the same hex cannot
-pass on both grounds.
-
-### Discipline
-
-- Accent appears on: links, metric numbers, primary button, eyebrows, active nav
-  underline, the h1 highlight. Nothing else.
-- Colour never carries meaning alone. The green/yellow/red map cover has a labelled
-  legend; the results table pairs colour with the words "before" and "after".
-- Theming: light tokens on bare `:root`; dark redefined twice — once under
-  `prefers-color-scheme` guarded by `:not([data-theme="light"])`, once under
-  `[data-theme="dark"]` — so the toggle wins in **both** directions.
-
----
-
-## 4. Spacing & shape
-
-A 4px base. Only these steps exist:
-
-```
---sp-1  4px   --sp-2  8px   --sp-3 12px   --sp-4 16px   --sp-5 24px
---sp-6 32px   --sp-7 48px   --sp-8 64px   --sp-9 96px   --sp-10 128px
-```
-
-| Token | Value | Use |
-|-------|-------|-----|
-| `--section-y` | `clamp(3.5rem, 8vw, 7rem)` | vertical section rhythm |
-| `--gutter` | `clamp(1.25rem, 5vw, 2.5rem)` | page side padding |
-| `--wrap-max` | `1180px` | content column |
-
-**Radii:** 6px chips · 10px small panels · 16px cards · pill buttons.
-**Shadows:** two only. `--shadow-1` at rest, `--shadow-2` on hover — no third tier.
-
-**Breakpoints:** 640 · 700 · 760 · 820 (nav) · 860 · 900 · 1040px. Each exists
-because a specific layout broke there, not on a device-name grid.
-
----
-
-## 5. Component list
-
-| Component | Class | Notes |
-|-----------|-------|-------|
-| Skip link | `.skip-link` | Hidden until focused. First tab stop. |
-| Sticky header | `.site-header` | Blurred scrim; `.is-stuck` adds the hairline. |
-| Brand mark | `.brand-mark` | Initials in an accent tile. |
-| Nav + drawer | `.nav`, `.nav.is-open` | `.is-active` tracks scroll position. |
-| Theme toggle | `#themeToggle` | 3 states: OS / forced light / forced dark. `aria-pressed`. |
-| Menu button | `#menuToggle` | `aria-expanded`, closes on Escape and on resize. |
-| Status pill | `.status` | Availability + pulse dot. |
-| Buttons | `.btn-primary` `.btn-ghost` `.btn-quiet` | 48px min height. |
-| Icon button | `.icon-btn` | 44×44. |
-| Arrow link | `.link-arrow` | Arrow slides 3px on hover. |
-| Stat strip | `.stat-strip` | 2-up → 4-up at 760px. |
-| Project card | `.card` | Media / kicker / title / problem / metric / note / chips / links. |
-| Metric box | `.metric` | Tinted panel. **One per card, never two.** |
-| Tech chip | `.chips li` | Mono, nowrap. |
-| Award badge | `.badge` | Accent pill, inline in a card kicker. Use only for a genuine win. |
-| Mini project row | `.mini-list` | Name + line + metric, one row. |
-| Case step | `.case-step` | Numbered `01`/`02`/`03`. |
-| Tick list | `.tick-list` | Square accent markers. |
-| Results table | `.results-table` | Wrapped in `.table-scroll` — scrolls itself, page never does. |
-| Pull-quote | `.pullquote` | Accent left rule. |
-| Facts list | `.facts` | `<dl>` — real semantics, not a fake table. |
-| Background timeline | `.timeline`, `.tl-item` | `<ol>` — date column + body. Stacks below 700px. |
-| Skill group | `.skill-group` | Heading + chip cloud. |
-| Proof card | `.proof-card` | Icon, claim, evidence, source. |
-| Testimonial | `.testimonial` | Commented out until a real quote exists. |
-| Contact block | `.contact-inner` | Mailto + copy button + socials. |
-| Reveal | `.reveal` | Fade-up on scroll. Disabled under reduced-motion; `.no-js` fallback keeps content visible. |
-
----
-
-## 6. Content rules
-
-These matter more than the CSS:
-
-1. **One number per card.** Two numbers is zero numbers.
-2. **Problem first, tools last.** Recruiters filter on the problem; engineers verify with the tools.
-3. **Only claim what a link can prove.** Every metric here traces to a repo README.
-4. **State a limitation somewhere.** The case study says the agent isn't beating its
-   benchmark yet. That reads as seniority — it is the most credible sentence on the page.
-5. **Cut any paragraph over four lines.** If it needs more, it needs a write-up of its own.
-6. **A win needs a card.** An award named in the stat strip with no project behind
-   it reads as padding. Either show the work or drop the claim — which is why the
-   DataFest card stub is sitting commented-out in `index.html`, waiting on details.
+1. **Only claim what the repository shows.** Every number on the site traces to a
+   README, a notebook output, a write-up or the code in the linked repo. Awards and
+   placements come from YongKang's resume.
+2. **Say what did not work.** The Monopoly and grid-load panels both end on
+   limitations.
+3. **Plain sentences.** What it is, what it does, what the result was.
+4. **Mark unfinished work.** A project still being built says "in progress" in the
+   list and in its panel.
+5. **School dates.** Education shows the expected graduation year (2028) only, with
+   no start year for college and no dates for high school.

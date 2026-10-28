@@ -1,693 +1,1191 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 
-<!-- Runs before paint: drops the no-js fallback and restores the saved
-     theme, so the page never flashes the wrong colours. -->
+<!-- Runs before paint. With the "js" class the project details live in a
+     slide-in panel; without it they are laid out at the bottom of the page. -->
 <script>
-(function () {
-  var d = document.documentElement;
-  d.classList.remove("no-js");
-  try {
-    var t = localStorage.getItem("portfolio-theme");
-    if (t === "dark" || t === "light") d.setAttribute("data-theme", t);
-  } catch (e) {}
-})();
+if ("HTMLDialogElement" in window) document.documentElement.className = "js";
 </script>
 
-<title>YongKang Lu — ML &amp; Reinforcement Learning</title>
-<meta name="description" content="ECE undergraduate at Olin College building machine learning and reinforcement-learning systems from first principles. Selected projects, measured results and code.">
+<title>YongKang Lu</title>
+<meta name="description" content="Electrical and computer engineering student at Olin College. Projects in digital design, embedded systems and machine learning.">
 <meta name="author" content="YongKang Lu">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="YongKang Lu — ML &amp; Reinforcement Learning">
-<meta property="og:description" content="ECE undergraduate at Olin College. RL agents, forecasting pipelines, and the evaluation harnesses that prove they work.">
-<!-- EDIT ME #1 — set this to your final site URL once it is published -->
+<meta property="og:title" content="YongKang Lu">
+<meta property="og:description" content="Electrical and computer engineering student at Olin College. Projects in digital design, embedded systems and machine learning.">
 <meta property="og:url" content="https://yyongg.github.io/">
-<!-- OPTIONAL: add a 1200x630 PNG at assets/img/og.png, then uncomment the two lines below
-<meta property="og:image" content="https://yyongg.github.io/assets/img/og.png">
-<meta name="twitter:card" content="summary_large_image">
--->
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 
-<!-- ─────────────────────────────  HEADER  ───────────────────────────── -->
-<header class="site-header" id="siteHeader">
-  <div class="wrap header-inner">
-    <a class="brand" href="#top">
-      <span class="brand-mark" aria-hidden="true">YL</span>
-      <span class="brand-name">YongKang Lu</span>
-    </a>
-
-    <nav class="nav" id="primaryNav" aria-label="Primary">
+<div class="wrap" id="top">
+  <header class="site-header">
+    <h1>YongKang Lu</h1>
+    <nav aria-label="Sections">
       <a href="#projects">Projects</a>
-      <a href="#case-study">Case study</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
+      <a href="#background">Background</a>
       <a href="#contact">Contact</a>
     </nav>
-
-    <div class="header-actions">
-      <button class="icon-btn" id="themeToggle" type="button"
-              aria-label="Switch to dark theme" aria-pressed="false">
-        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
-        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>
-      </button>
-      <button class="icon-btn menu-btn" id="menuToggle" type="button"
-              aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
+  </header>
+</div>
 
 <main id="main">
-<span id="top"></span>
 
-<!-- ─────────────────────────────  1. HERO  ──────────────────────────── -->
-<section class="hero" aria-labelledby="hero-title">
-  <div class="wrap hero-inner">
-
-    <!-- EDIT ME #2 — which internship cycle you are recruiting for -->
-    <p class="status" role="status">
-      <span class="dot" aria-hidden="true"></span>
-      Seeking Summer 2027 internships &middot; ML, RL &amp; research
-    </p>
-
-    <h1 id="hero-title" class="hero-title">
-      I build learning systems
-      <span class="hl">from first principles</span>.
-    </h1>
-
-    <p class="hero-sub">
-      <!-- EDIT ME #3 — check the location line -->
-      <strong>ECE undergraduate, Olin College</strong>
-      <span class="sep" aria-hidden="true">/</span>
-      Needham, MA
-      <span class="sep" aria-hidden="true">/</span>
-      ET (UTC&minus;5)
-    </p>
-
-    <p class="hero-lede">
-      Reinforcement-learning agents, forecasting pipelines, and the evaluation harnesses that say
-      whether any of it worked &mdash; usually written from the ground up rather than imported.
-      Applying statistics and computational mathematics to complex real-world systems.
-    </p>
-
-    <div class="cta-row">
-      <a class="btn btn-primary" href="#projects">
-        View projects
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M12 5.5 18.5 12 12 18.5"/></svg>
-      </a>
-      <!-- EDIT ME #4 — your email (also appears in the Contact section) -->
-      <a class="btn btn-ghost" href="mailto:ylu2@olin.edu">Contact me</a>
-      <a class="btn btn-quiet" href="https://github.com/yyongg" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="fill"><path d="M12 1.8a10.2 10.2 0 0 0-3.2 19.9c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 3 .8.1-.7.4-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .4.3.7 1 .7 2v2.9c0 .3.2.6.7.5A10.2 10.2 0 0 0 12 1.8z"/></svg>
-        GitHub
-      </a>
-    </div>
-
-    <ul class="stat-strip" aria-label="Highlights">
-      <li><b>2&times; hackathon wins</b><span>Babson&ndash;Olin&ndash;Wellesley DataFest &middot; Cyvl AI</span></li>
-      <li><b>4.0 GPA</b><span>Olin College ECE, class of 2029</span></li>
-      <li><b>8 projects</b><span>ML systems shipped since March 2026</span></li>
-      <li><b>Stahl Scholar</b><span>Ralph H. Stahl award for Physics</span></li>
-    </ul>
-  </div>
+<!-- ───────────────────────────── INTRO ───────────────────────────── -->
+<section class="intro wrap" aria-label="About">
+  <p class="lead">
+    I&rsquo;m an electrical and computer engineering student at Olin College of Engineering,
+    class of 2028.
+  </p>
+  <p>
+    I work on both hardware and software. My recent projects are in digital design and embedded
+    systems: SystemVerilog for an iCE40 FPGA, and Arduino firmware for sensors, servos and motors,
+    with Python tools to calibrate and test them. Earlier projects are mostly machine learning,
+    from reinforcement-learning agents to forecasting models.
+  </p>
+  <p>
+    I&rsquo;m looking for a Summer 2027 internship in electrical and computer engineering: digital
+    design, embedded systems or machine learning.
+  </p>
+  <p class="intro-links">
+    <a href="mailto:ylu2@olin.edu">ylu2@olin.edu</a>
+    <a href="https://github.com/yyongg" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/yong-lu-15b105320" target="_blank" rel="noopener">LinkedIn</a>
+  </p>
 </section>
 
-<!-- ──────────────────────  2. FEATURED PROJECTS  ─────────────────────── -->
-<section class="section" id="projects" aria-labelledby="projects-title">
-  <div class="wrap">
-    <header class="section-head">
-      <p class="eyebrow">Selected work</p>
-      <h2 id="projects-title">Featured projects</h2>
-      <p class="section-lede">Six builds, each with the problem it solves and the number that says whether it worked.</p>
-    </header>
+<!-- ──────────────────────────── PROJECTS ─────────────────────────── -->
+<!-- Each row links to a details block further down (id = the href). To add a
+     project: copy a row here, then copy an <article class="detail"> below and
+     give both the same id. Thumbnails are optional: leave the <img> out. -->
+<section class="section wrap" id="projects">
+  <h2>Projects</h2>
+  <p class="section-note">Select a project to open its details.</p>
 
-    <ul class="grid cards" role="list">
-
-      <!-- CARD 1 ─────────────────────────────────────────────────────── -->
-      <li class="card reveal">
-        <a class="card-media" href="https://yyongg.github.io/Monopoly-Agent/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-          <img src="assets/img/cover-monopoly.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
-        </a>
-        <div class="card-body">
-          <p class="card-kicker">Reinforcement learning &middot; Systems</p>
-          <h3 class="card-title">
-            <a href="https://yyongg.github.io/Monopoly-Agent/" target="_blank" rel="noopener">
-              Strategy-Finding Monopoly RL Agent
-            </a>
-          </h3>
-          <p class="card-problem"><b>Problem:</b> learn a four-player, high-variance board game from scratch &mdash; with no hand-written strategy in the policy.</p>
-          <p class="metric"><span class="metric-num">90%+ win rate</span>
-            <span class="metric-label">against naive always-buy bots &mdash; and 31.5% against the strong heuristic trio, where chance is 25%</span></p>
-          <p class="card-note">A Monopoly engine written in pure standard library, wrapped as a Gymnasium environment and trained with MaskablePPO by self-play. Custom property-valuation equations drive auctions and trades. 94 tests, 0% timeouts.</p>
-          <ul class="chips" role="list">
-            <li>PyTorch</li><li>MaskablePPO</li><li>Gymnasium</li><li>pygame</li><li>pytest</li>
-          </ul>
-          <p class="card-links">
-            <a class="link-arrow" href="https://yyongg.github.io/Monopoly-Agent/" target="_blank" rel="noopener">
-              Write-up<span class="sr-only"> for Monopoly RL Agent</span> <span aria-hidden="true">&rarr;</span></a>
-            <a class="link-arrow" href="https://github.com/yyongg/Monopoly-Agent" target="_blank" rel="noopener">
-              Code<span class="sr-only"> for Monopoly RL Agent</span> <span aria-hidden="true">&rarr;</span></a>
-          </p>
+  <h3 class="group">Hardware and embedded</h3>
+  <ul class="rows">
+    <li>
+      <a class="row" href="#conway">
+        <div class="row-text">
+          <h4>Conway&rsquo;s Game of Life on an FPGA</h4>
+          <p>A SystemVerilog design for an iCE40 FPGA that plays the Game of Life on an 8&times;8
+             LED matrix. All 64 cells update in a single clock cycle, and a hand-written driver
+             generates the LEDs&rsquo; serial protocol.</p>
+          <p class="row-meta">SystemVerilog, iCE40 UP5K, Icarus Verilog, GTKWave &middot; Oct 2026</p>
         </div>
-      </li>
-
-      <!-- CARD 2 ─────────────────────────────────────────────────────── -->
-      <li class="card reveal">
-        <a class="card-media" href="https://github.com/yyongg/Deep-Q-Cart-Pole" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-          <img src="assets/img/cover-cartpole.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
-        </a>
-        <div class="card-body">
-          <p class="card-kicker">Reinforcement learning &middot; Control</p>
-          <h3 class="card-title">
-            <a href="https://github.com/yyongg/Deep-Q-Cart-Pole" target="_blank" rel="noopener">
-              Cart-Pole Swing-Up Agent
-            </a>
-          </h3>
-          <p class="card-problem"><b>Problem:</b> swing a hanging pole upright and hold it there &mdash; learned, not scripted.</p>
-          <p class="metric"><span class="metric-num">Swing-up solved</span>
-            <span class="metric-label">stays balanced through live user nudges and reconfigured pole mass and length</span></p>
-          <p class="card-note">A custom dense reward penalising pole tilt, cart displacement and angular velocity guides the full swing-up. DQN with a 150k replay buffer, soft target updates (&tau;&nbsp;=&nbsp;0.5) and &epsilon;-greedy scheduling; model persistence keyed to the physical parameters.</p>
-          <ul class="chips" role="list">
-            <li>Stable-Baselines3</li><li>DQN</li><li>Gymnasium</li><li>pygame</li><li>pytest</li>
-          </ul>
-          <p class="card-links">
-            <a class="link-arrow" href="https://github.com/yyongg/Deep-Q-Cart-Pole" target="_blank" rel="noopener">
-              Code<span class="sr-only"> for Cart-Pole Swing-Up Agent</span> <span aria-hidden="true">&rarr;</span></a>
-          </p>
-        </div>
-      </li>
-
-      <!-- CARD 3 ─────────────────────────────────────────────────────── -->
-      <li class="card reveal">
-        <a class="card-media" href="https://github.com/yyongg/Energy-Consumption-Forecasting" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-          <img src="assets/img/cover-energy.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
-        </a>
-        <div class="card-body">
-          <p class="card-kicker">Time series &middot; Energy</p>
-          <h3 class="card-title">
-            <a href="https://github.com/yyongg/Energy-Consumption-Forecasting" target="_blank" rel="noopener">
-              Grid Load Forecasting &mdash; Spain
-            </a>
-          </h3>
-          <p class="card-problem"><b>Problem:</b> predict hourly national electricity demand so grid operators can plan generation.</p>
-          <p class="metric"><span class="metric-num">68.4% lower error</span>
-            <span class="metric-label">1,422 MW &rarr; 449 MW test RMSE against a persistence baseline</span></p>
-          <p class="card-note">Five years of ENTSO-E load joined to weather from five cities and day-ahead prices; lag and rolling features, a chronological split to block leakage, two-stage Optuna search. Written up as a computational essay.</p>
-          <ul class="chips" role="list">
-            <li>XGBoost</li><li>Optuna</li><li>pandas</li><li>seaborn</li><li>Jupyter</li>
-          </ul>
-          <p class="card-links">
-            <a class="link-arrow" href="https://github.com/yyongg/Energy-Consumption-Forecasting" target="_blank" rel="noopener">
-              Code &amp; essay<span class="sr-only"> for Grid Load Forecasting</span> <span aria-hidden="true">&rarr;</span></a>
-          </p>
-        </div>
-      </li>
-
-      <!-- CARD 4 ─────────────────────────────────────────────────────── -->
-      <li class="card reveal">
-        <a class="card-media" href="https://github.com/yyongg/Store-Sales-Forecasting-Kaggle" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-          <img src="assets/img/cover-sales.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
-        </a>
-        <div class="card-body">
-          <p class="card-kicker">Time series &middot; Kaggle</p>
-          <h3 class="card-title">
-            <a href="https://github.com/yyongg/Store-Sales-Forecasting-Kaggle" target="_blank" rel="noopener">
-              Store Sales Forecasting &mdash; Favorita
-            </a>
-          </h3>
-          <p class="card-problem"><b>Problem:</b> forecast 16 days of daily sales for 1,782 store &times; product-family series at once.</p>
-          <p class="metric"><span class="metric-num">0.402 RMSLE</span>
-            <span class="metric-label">best public leaderboard score, from a single global XGBoost</span></p>
-          <p class="card-note">A 3.03M &times; 93 feature table (lags, calendar, holidays, oil price, payday cycles), Optuna tuning over walk-forward folds, and a multi-window harness that gates every change.</p>
-          <ul class="chips" role="list">
-            <li>XGBoost</li><li>Optuna</li><li>pandas</li><li>Parquet</li><li>Walk-forward CV</li>
-          </ul>
-          <p class="card-links">
-            <a class="link-arrow" href="https://github.com/yyongg/Store-Sales-Forecasting-Kaggle" target="_blank" rel="noopener">
-              Code<span class="sr-only"> for Store Sales Forecasting</span> <span aria-hidden="true">&rarr;</span></a>
-          </p>
-        </div>
-      </li>
-
-      <!-- CARD 5 ─────────────────────────────────────────────────────── -->
-      <li class="card reveal">
-        <a class="card-media" href="https://github.com/yyongg/Kaggle-Housing-Prices-Competition" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-          <img src="assets/img/cover-housing.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
-        </a>
-        <div class="card-body">
-          <p class="card-kicker">Regression &middot; Kaggle</p>
-          <h3 class="card-title">
-            <a href="https://github.com/yyongg/Kaggle-Housing-Prices-Competition" target="_blank" rel="noopener">
-              House Price Prediction
-            </a>
-          </h3>
-          <p class="card-problem"><b>Problem:</b> predict sale price from 79 mixed-type property features.</p>
-          <p class="metric"><span class="metric-num">Top 500</span>
-            <span class="metric-label">of 950,000+ entrants &mdash; House Prices: Advanced Regression Techniques</span></p>
-          <p class="card-note">An ensemble of gradient-boosting and regularised linear models, over a hand-built feature-engineering and validation module.</p>
-          <ul class="chips" role="list">
-            <li>scikit-learn</li><li>Gradient boosting</li><li>pandas</li><li>Jupyter</li>
-          </ul>
-          <p class="card-links">
-            <a class="link-arrow" href="https://github.com/yyongg/Kaggle-Housing-Prices-Competition" target="_blank" rel="noopener">
-              Code<span class="sr-only"> for House Price Prediction</span> <span aria-hidden="true">&rarr;</span></a>
-          </p>
-        </div>
-      </li>
-
-      <!-- CARD 6 ─────────────────────────────────────────────────────── -->
-      <li class="card reveal">
-        <a class="card-media" href="https://github.com/yyongg/Cyvl-Hackathon-Delivery-Robots" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-          <img src="assets/img/cover-robots.svg" alt="" width="640" height="360" loading="lazy" decoding="async">
-        </a>
-        <div class="card-body">
-          <p class="card-kicker">Geospatial &middot; Hackathon <span class="badge">Winner</span></p>
-          <h3 class="card-title">
-            <a href="https://github.com/yyongg/Cyvl-Hackathon-Delivery-Robots" target="_blank" rel="noopener">
-              Delivery-Robot Feasibility Map
-            </a>
-          </h3>
-          <p class="card-problem"><b>Problem:</b> which streets in Somerville can a sidewalk delivery robot actually drive?</p>
-          <p class="metric"><span class="metric-num">6 signals &rarr; 1 score</span>
-            <span class="metric-label">every street segment rated 0&ndash;100, tiered green / yellow / red</span></p>
-          <p class="card-note">Fused Cyvl infrastructure layers, raw LiDAR point clouds and city 311 data into one scored GeoJSON, then shipped it as an interactive MapLibre app. Built over a weekend at the Cyvl AI Hackathon &mdash; winning entry.</p>
-          <ul class="chips" role="list">
-            <li>Python</li><li>GeoPandas</li><li>LiDAR / laspy</li><li>React</li><li>MapLibre GL</li><li>AWS S3</li>
-          </ul>
-          <p class="card-links">
-            <a class="link-arrow" href="https://github.com/yyongg/Cyvl-Hackathon-Delivery-Robots" target="_blank" rel="noopener">
-              Code<span class="sr-only"> for Delivery-Robot Feasibility Map</span> <span aria-hidden="true">&rarr;</span></a>
-          </p>
-        </div>
-      </li>
-    </ul>
-
-    <!-- ══════════════════════════════════════════════════════════════════
-         EDIT ME #5 — DataFest card.
-         You won Babson-Olin-Wellesley DataFest but there is no repo for it,
-         so I could not write this card without inventing details. Fill in the
-         five CAPS slots below, delete the two comment markers, and move the
-         block up into the list above (it will become CARD 7 - drop the
-         weakest card so you stay at six).
-         If there is no repo, link a Devpost page, slide deck or write-up.
-    <li class="card reveal">
-      <div class="card-body">
-        <p class="card-kicker">Data analysis &middot; Hackathon <span class="badge">Winner</span></p>
-        <h3 class="card-title"><a href="LINK-TO-DEVPOST-OR-REPO">PROJECT NAME</a></h3>
-        <p class="card-problem"><b>Problem:</b> ONE SENTENCE ON THE QUESTION YOU WERE GIVEN.</p>
-        <p class="metric"><span class="metric-num">THE RESULT</span>
-          <span class="metric-label">e.g. 1st of N teams, or the finding that won it</span></p>
-        <p class="card-note">WHAT YOU BUILT, THE DATASET, AND WHAT YOU FOUND.</p>
-        <ul class="chips" role="list"><li>TOOL</li><li>TOOL</li><li>TOOL</li></ul>
-        <p class="card-links">
-          <a class="link-arrow" href="LINK">Write-up <span aria-hidden="true">&rarr;</span></a>
-        </p>
-      </div>
+        <img src="assets/img/projects/conway/thumb.jpg" alt="An 8 by 8 LED matrix lit with a red glider" width="480" height="320" loading="lazy">
+      </a>
     </li>
-         ══════════════════════════════════════════════════════════════════ -->
-
-    <!-- Secondary projects, compact -->
-    <div class="more-projects reveal">
-      <h3 class="more-title">Also on GitHub</h3>
-      <ul class="mini-list" role="list">
-        <li>
-          <a href="https://github.com/yyongg/Naiive-Bayes-Spam-Classifier" target="_blank" rel="noopener">
-            <span class="mini-name">SMS Spam Classifier</span>
-            <span class="mini-desc">Multinomial Naive Bayes written from scratch &mdash; no ML libraries, just Bayes and Laplace smoothing.</span>
-            <span class="mini-metric">97.01% test accuracy</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/yyongg/clickbait-classifier" target="_blank" rel="noopener">
-            <span class="mini-name">Clickbait Headline Classifier</span>
-            <span class="mini-desc">Fine-tuned DistilBERT vs. a TF-IDF baseline, leakage stripped so it learns style, not publisher.</span>
-            <span class="mini-metric">32k headlines &middot; locked test set</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ──────────────────────  3. CASE STUDY HIGHLIGHT  ──────────────────── -->
-<section class="section section-alt" id="case-study" aria-labelledby="case-title">
-  <div class="wrap">
-    <header class="section-head">
-      <p class="eyebrow">Case study</p>
-      <h2 id="case-title">Teaching an agent Monopoly &mdash; and learning to measure it</h2>
-      <p class="section-lede">
-        The deep-dive project: a full RL system built solo, debugged with numbers rather than
-        intuition, and reported honestly &mdash; limitations included.
-      </p>
-    </header>
-
-    <div class="case-grid">
-      <article class="case-step reveal">
-        <p class="step-no" aria-hidden="true">01</p>
-        <h3>Problem</h3>
-        <p>
-          Monopoly looks like a toy and isn&rsquo;t. Four players means no minimax. Dice and two card
-          decks make almost every strategic metric noise-dominated. Games run ~119 turns and several
-          hundred decision points for a single bit of ground truth at the end.
-        </p>
-        <p>
-          Goal: learn buying, auctions, building, jail and cash management purely from the reward
-          signal of winning &mdash; and be able to <em>prove</em> whether it worked.
-        </p>
-      </article>
-
-      <article class="case-step reveal">
-        <p class="step-no" aria-hidden="true">02</p>
-        <h3>Approach</h3>
-        <ul class="tick-list" role="list">
-          <li>Wrote a rules-accurate engine in <b>pure standard library</b>, then wrapped it as a Gymnasium env that steps at decision points &mdash; a 261-dim observation and a fully masked 125-action space.</li>
-          <li>Made <b>one encoder the single source of truth</b> for the observation, the legal-action mask and every valuation &mdash; so the agent you train is the agent you play. A test pins the parity.</li>
-          <li>Engineered <b>property-valuation equations</b> from landing frequency, expected rent and development cost, so the agent can price a tile, a bid and a trade in context.</li>
-          <li>Trained <b>MaskablePPO</b> by self-play against a pool of frozen past selves plus a hand-written heuristic trio, keeping snapshots spread across training history so self-play improves instead of cycling.</li>
-        </ul>
-      </article>
-
-      <article class="case-step reveal">
-        <p class="step-no" aria-hidden="true">03</p>
-        <h3>Results</h3>
-        <p>Every fix below started as a measurement, not a hunch:</p>
-        <div class="table-scroll">
-          <table class="results-table">
-            <caption class="sr-only">Before and after moving trading out of the learned policy</caption>
-            <thead>
-              <tr><th scope="col">Signal</th><th scope="col">Before</th><th scope="col">After</th></tr>
-            </thead>
-            <tbody>
-              <tr><th scope="row">Trade cash per game</th><td>$58,747</td><td class="good">~$1.8k</td></tr>
-              <tr><th scope="row">Worst single-tile churn</th><td>424 trades</td><td class="good">&le; 5</td></tr>
-              <tr><th scope="row">Completed sets given away</th><td>routinely, for junk</td><td class="good">barred outright</td></tr>
-              <tr><th scope="row">Episode timeouts</th><td>&mdash;</td><td class="good">0.0% of 200</td></tr>
-            </tbody>
-          </table>
+    <li>
+      <a class="row" href="#archerfish">
+        <div class="row-text">
+          <h4>Archerfish LED tracker</h4>
+          <p>A 3D-printed archerfish on a pan/tilt mount. Four light sensors in its mouth steer it
+             toward an LED, and once it is lined up it fires a laser at the target.</p>
+          <p class="row-meta">Arduino (C++), Python, servos, phototransistors &middot; Oct 2026</p>
         </div>
-        <p class="case-outcome">
-          The agent plays recognisable Monopoly &mdash; completing sets, building on them, blocking
-          opponents. It wins <b>90%+ against naive always-buy bots</b>, and <b>31.5% against the
-          strong heuristic trio where chance is 25%</b>, with 94 tests green. Against that stronger
-          benchmark it is <em>not yet</em> convincingly ahead, and the write-up says so, with the
-          measured reasons why.
-        </p>
-        <p class="card-links">
-          <a class="link-arrow" href="https://yyongg.github.io/Monopoly-Agent/" target="_blank" rel="noopener">
-            Read the full write-up <span aria-hidden="true">&rarr;</span></a>
-        </p>
-      </article>
-    </div>
-
-    <aside class="pullquote reveal">
-      <p>
-        Two bugs worth the whole project: a valuation cliff that priced a tile at
-        <b>$227 or $4,937</b> depending on one other card &mdash; a 21.7&times; gap a human opponent
-        would exploit &mdash; and a reward that paid out net worth at the buzzer, training the agent
-        to <b>end rich rather than win</b>. Both are now pinned by tests.
-      </p>
-    </aside>
-  </div>
-</section>
-
-<!-- ─────────────────────────────  4. ABOUT  ─────────────────────────── -->
-<section class="section" id="about" aria-labelledby="about-title">
-  <div class="wrap">
-    <div class="about-grid">
-      <div class="about-copy">
-        <p class="eyebrow">About</p>
-        <h2 id="about-title">Hi, I&rsquo;m YongKang.</h2>
-        <!-- EDIT ME #6 — rewrite these sentences in your own voice. Keep it short. -->
-        <p class="about-lede">
-          I&rsquo;m an electrical and computer engineering student at Olin College, using statistics
-          and computational mathematics to understand and optimise complex real-world systems.
-        </p>
-        <p>
-          I learn things by rebuilding them. My Naive Bayes classifier uses no ML libraries; my
-          Monopoly agent trains inside an engine I wrote in the standard library; my cart-pole agent
-          learns in physics I implemented myself. Reaching for the library comes after &mdash; once
-          I know what it is doing for me.
-        </p>
-        <p>
-          The other half of that habit is measurement. Most of what I know about modelling I learned
-          from something that turned out to be wrong: a leaky split, a reward that optimised the
-          wrong thing, a &ldquo;+2%&rdquo; that was noise. So I write up what didn&rsquo;t work as
-          carefully as what did &mdash; every repo here has a README a stranger can run.
-        </p>
-        <p class="about-ask">
-          <b>What I&rsquo;m looking for:</b> a Summer 2027 internship in machine learning,
-          reinforcement learning or applied research &mdash; somewhere models reach production and
-          evaluation is taken seriously.
-        </p>
-      </div>
-
-      <aside class="about-facts reveal">
-        <h3 class="facts-title">Quick facts</h3>
-        <dl class="facts">
-          <div><dt>Focus</dt><dd>Reinforcement learning, forecasting, applied NLP</dd></div>
-          <div><dt>Core stack</dt><dd>Python, PyTorch, MATLAB</dd></div>
-          <!-- EDIT ME #7 — location and availability -->
-          <div><dt>Based in</dt><dd>Needham, MA &middot; ET (UTC&minus;5)</dd></div>
-          <div><dt>Seeking</dt><dd>Summer 2027 internship</dd></div>
-          <div><dt>Reply time</dt><dd>Within 24 hours</dd></div>
-        </dl>
-      </aside>
-    </div>
-
-    <!-- Education & experience -->
-    <div class="timeline-wrap reveal">
-      <h3 class="more-title">Background</h3>
-      <ol class="timeline" role="list">
-        <li class="tl-item">
-          <p class="tl-when">Jun 2026</p>
-          <div class="tl-body">
-            <h4 class="tl-what">Winner &mdash; Cyvl AI Hackathon</h4>
-            <p class="tl-where">Cyvl &middot; Somerville, MA</p>
-            <p class="tl-detail">
-              Fused Cyvl infrastructure layers, LiDAR point clouds and city 311 records into a
-              per-segment feasibility score for sidewalk delivery robots, shipped as an
-              interactive map.
-            </p>
-          </div>
-        </li>
-        <li class="tl-item">
-          <!-- EDIT ME #8 — add the month, and a one-line detail of what you built -->
-          <p class="tl-when">2026</p>
-          <div class="tl-body">
-            <h4 class="tl-what">Winner &mdash; Babson&ndash;Olin&ndash;Wellesley DataFest</h4>
-            <p class="tl-where">Babson, Olin &amp; Wellesley Colleges</p>
-          </div>
-        </li>
-        <li class="tl-item">
-          <p class="tl-when">2025 &ndash; 2029</p>
-          <div class="tl-body">
-            <h4 class="tl-what">B.S. Electrical &amp; Computer Engineering</h4>
-            <p class="tl-where">Olin College of Engineering &middot; <b>GPA 4.0</b></p>
-            <p class="tl-detail">Linear Algebra &middot; Differential Equations &middot; Machine Learning &middot; Modeling &amp; Simulation &middot; Quantum Mechanics</p>
-          </div>
-        </li>
-        <li class="tl-item">
-          <p class="tl-when">Jul 2024 &ndash; Aug 2025</p>
-          <div class="tl-body">
-            <h4 class="tl-what">Engineering Aide</h4>
-            <p class="tl-where">Consolidated Edison</p>
-            <p class="tl-detail">
-              Designed a delivery schedule that pulls open-order data from company databases and
-              populates it automatically in Excel; supported data analysis across the energy
-              distribution equipment lifecycle.
-            </p>
-          </div>
-        </li>
-        <li class="tl-item">
-          <p class="tl-when">2021 &ndash; 2025</p>
-          <div class="tl-body">
-            <h4 class="tl-what">Brooklyn Technical High School</h4>
-            <p class="tl-where">GPA 101.6/100 &middot; <b>Ralph H. Stahl Scholar for Physics</b></p>
-            <p class="tl-detail">AP Physics C (Mechanics, E&amp;M) &middot; AP Physics 1 &amp; 2 &middot; AP Calculus BC &middot; AP Statistics</p>
-          </div>
-        </li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-<!-- ────────────────────────  5. SKILLS / TOOLS  ─────────────────────── -->
-<section class="section section-alt" id="skills" aria-labelledby="skills-title">
-  <div class="wrap">
-    <header class="section-head">
-      <p class="eyebrow">Toolkit</p>
-      <h2 id="skills-title">Skills &amp; tools</h2>
-      <p class="section-lede">Grouped by what I actually use them for. Everything listed appears in a shipped project above.</p>
-    </header>
-
-    <div class="grid skills-grid">
-      <section class="skill-group reveal" aria-labelledby="sg-1">
-        <h3 id="sg-1">Machine learning</h3>
-        <ul class="chips chips-lg" role="list">
-          <li>PyTorch</li><li>Stable-Baselines3</li><li>MaskablePPO</li><li>DQN</li>
-          <li>Gymnasium</li><li>XGBoost</li><li>scikit-learn</li><li>Transformers</li><li>Optuna</li>
-        </ul>
-      </section>
-
-      <section class="skill-group reveal" aria-labelledby="sg-2">
-        <h3 id="sg-2">Languages &amp; tools</h3>
-        <ul class="chips chips-lg" role="list">
-          <li>Python</li><li>MATLAB</li><li>SQL</li><li>Excel</li><li>VBA</li>
-          <li>Git &amp; GitHub</li><li>pytest</li><li>CLI tooling</li>
-        </ul>
-      </section>
-
-      <section class="skill-group reveal" aria-labelledby="sg-3">
-        <h3 id="sg-3">Evaluation &amp; rigour</h3>
-        <ul class="chips chips-lg" role="list">
-          <li>Walk-forward CV</li><li>Leakage auditing</li><li>Ablations</li>
-          <li>Error analysis</li><li>Confidence intervals</li><li>Seeded reproducibility</li>
-        </ul>
-      </section>
-
-      <section class="skill-group reveal" aria-labelledby="sg-4">
-        <h3 id="sg-4">Data &amp; pipelines</h3>
-        <ul class="chips chips-lg" role="list">
-          <li>pandas</li><li>NumPy</li><li>GeoPandas</li><li>Parquet</li>
-          <li>Feature engineering</li><li>LiDAR / laspy</li><li>AWS S3</li>
-        </ul>
-      </section>
-
-      <section class="skill-group reveal" aria-labelledby="sg-5">
-        <h3 id="sg-5">Interests</h3>
-        <ul class="chips chips-lg" role="list">
-          <li>Reinforcement learning</li><li>World modeling</li><li>NLP</li><li>LLMs</li>
-          <li>Signal processing</li><li>Time-series forecasting</li>
-        </ul>
-      </section>
-
-      <section class="skill-group reveal" aria-labelledby="sg-6">
-        <h3 id="sg-6">Interfaces &amp; visualisation</h3>
-        <ul class="chips chips-lg" role="list">
-          <li>pygame</li><li>React</li><li>Vite</li><li>MapLibre GL</li>
-          <li>Gradio</li><li>matplotlib</li><li>seaborn</li><li>TensorBoard</li>
-        </ul>
-      </section>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────────────────────  6. PROOF  ─────────────────────────── -->
-<section class="section" id="proof" aria-labelledby="proof-title">
-  <div class="wrap">
-    <header class="section-head">
-      <p class="eyebrow">Proof</p>
-      <h2 id="proof-title">What I&rsquo;m known for</h2>
-      <p class="section-lede">Three habits, and the project where each one is on the record.</p>
-    </header>
-
-    <ul class="grid proof-grid" role="list">
-      <li class="proof-card reveal">
-        <span class="proof-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M12 3.2 20 7.6v8.8L12 20.8 4 16.4V7.6z"/><path d="M12 12.2 20 7.6M12 12.2v8.6M12 12.2 4 7.6"/></svg>
-        </span>
-        <h3>Building from first principles</h3>
-        <p>
-          A Naive Bayes classifier with <b>no ML libraries</b>, a Monopoly engine in <b>pure standard
-          library</b>, a cart-pole physics environment and reward function written by hand. I reach
-          for the framework after I understand what it would have done.
-        </p>
-        <p class="proof-src">Spam Classifier &middot; Monopoly &middot; Cart-Pole</p>
-      </li>
-
-      <li class="proof-card reveal">
-        <span class="proof-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M3 17.5 9 11l4 4 8-8.5"/><path d="M21 6.5h-5M21 6.5v5"/></svg>
-        </span>
-        <h3>Validation you can trust</h3>
-        <p>
-          Built a multi-window walk-forward harness that ranks candidates in leaderboard order &mdash;
-          then used it to kill four changes that looked great on a single split, including one that
-          scored <b>CV 0.40 against LB 1.01</b>.
-        </p>
-        <p class="proof-src">Store Sales Forecasting</p>
-      </li>
-
-      <li class="proof-card reveal">
-        <span class="proof-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M15.8 15.8 21 21"/><path d="M11 8.2v5.6M8.2 11h5.6"/></svg>
-        </span>
-        <h3>Debugging with numbers</h3>
-        <p>
-          Found a <b>21.7&times;</b> valuation cliff and a reward bug that trained an agent to end rich
-          instead of win &mdash; both diagnosed from measurements, both now pinned by tests so they
-          cannot silently return.
-        </p>
-        <p class="proof-src">Monopoly RL Agent</p>
-      </li>
-    </ul>
-
-    <!-- OPTIONAL: when you have a quote from a professor, manager or teammate,
-         delete the comment markers around the block below and fill it in.
-    <figure class="testimonial reveal">
-      <blockquote><p>Their quote goes here, two or three sentences at most.</p></blockquote>
-      <figcaption><b>Name</b>, Role, Organisation</figcaption>
-    </figure>
-    -->
-  </div>
-</section>
-
-<!-- ────────────────────────────  7. CONTACT  ────────────────────────── -->
-<section class="section section-contact" id="contact" aria-labelledby="contact-title">
-  <div class="wrap contact-inner">
-    <p class="eyebrow">Contact</p>
-    <h2 id="contact-title">Let&rsquo;s talk about your data problem.</h2>
-    <p class="contact-lede">
-      Internships, research, or just want to argue about validation splits &mdash; my inbox is open
-      and I reply within a day.
-    </p>
-
-    <div class="contact-actions">
-      <!-- EDIT ME #9 — email address (also used by the Copy button) -->
-      <a class="btn btn-primary" href="mailto:ylu2@olin.edu">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.8 6.6 8.2 6 8.2-6"/></svg>
-        ylu2@olin.edu
+        <img src="assets/img/projects/archerfish/thumb.jpg" alt="A blue 3D-printed fish on a servo mount facing a wooden disc with a red LED" width="480" height="320" loading="lazy">
       </a>
-      <button class="btn btn-ghost" id="copyEmail" type="button" data-email="ylu2@olin.edu">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 6.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h.5"/></svg>
-        <span id="copyLabel">Copy email</span>
-      </button>
-    </div>
+    </li>
+    <li>
+      <a class="row" href="#scanner">
+        <div class="row-text">
+          <h4>Pan/tilt infrared scanner</h4>
+          <p>An Arduino sweeps an infrared distance sensor on two servos and streams the readings
+             to a laptop, where Python calibrates the sensor and turns the scan into a depth map.</p>
+          <p class="row-meta">Arduino (C++), Python, NumPy &middot; Sep 2026</p>
+        </div>
+        <img src="assets/img/projects/scanner/thumb.jpg" alt="The scanner: an infrared sensor on two stacked servos, wired to a breadboard" width="480" height="320" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#fpga">
+        <div class="row-text">
+          <h4>FPGA LED mini-projects</h4>
+          <p>Two SystemVerilog designs for an iCE40 FPGA board: a six-colour cycle on the RGB
+             LED, and a PWM fade around the colour wheel.</p>
+          <p class="row-meta">SystemVerilog, yosys, nextpnr &middot; Sep&ndash;Oct 2026</p>
+        </div>
+        <img src="assets/img/projects/fpga/thumb.jpg" alt="FPGA board on a breadboard with its LEDs lit" width="480" height="320" loading="lazy">
+      </a>
+    </li>
+  </ul>
 
-    <ul class="social" role="list">
-      <li><a href="https://www.linkedin.com/in/yong-lu-15b105320" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="fill"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM3 9.5h4v11H3zm7 0h3.8v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75v5.7h-4v-5.05c0-1.2-.02-2.75-1.7-2.75-1.7 0-1.96 1.31-1.96 2.66v5.14h-4z"/></svg>
-        LinkedIn</a></li>
-      <li><a href="https://github.com/yyongg" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="fill"><path d="M12 1.8a10.2 10.2 0 0 0-3.2 19.9c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 3 .8.1-.7.4-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .4.3.7 1 .7 2v2.9c0 .3.2.6.7.5A10.2 10.2 0 0 0 12 1.8z"/></svg>
-        GitHub</a></li>
-      <!-- OPTIONAL: add a résumé PDF at assets/resume.pdf and uncomment
-      <li><a href="assets/resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a></li>
-      -->
-    </ul>
-  </div>
+  <h3 class="group">Machine learning and data</h3>
+  <ul class="rows">
+    <li>
+      <a class="row" href="#monopoly">
+        <div class="row-text">
+          <h4>Monopoly RL agent</h4>
+          <p>A Monopoly engine written from scratch and a PPO agent trained on it by self-play.
+             It wins 31.5% of four-player games against hand-written heuristic bots, where chance is 25%.</p>
+          <p class="row-meta">Python, PyTorch, MaskablePPO, Gymnasium &middot; Jun&ndash;Aug 2026</p>
+        </div>
+        <img src="assets/img/projects/monopoly/thumb.png" alt="Bar chart of how often each Monopoly tile is landed on" width="480" height="320" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#cartpole">
+        <div class="row-text">
+          <h4>Cart-pole swing-up</h4>
+          <p>A DQN agent that swings a hanging pole upright and keeps it balanced while you nudge it
+             or change the pole&rsquo;s mass and length.</p>
+          <p class="row-meta">Python, Stable-Baselines3, Gymnasium, pygame &middot; Apr 2026</p>
+        </div>
+        <img src="assets/img/projects/cartpole/thumb.jpg" alt="The cart-pole simulation with the pole balanced upright on the cart" width="480" height="320" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#robots">
+        <div class="row-text">
+          <h4>Delivery-robot feasibility map</h4>
+          <p>Scores every street segment in Somerville, MA for sidewalk delivery robots, using
+             pavement data, LiDAR and 311 complaints. Winning entry at the Cyvl AI Hackathon.</p>
+          <p class="row-meta">Python, GeoPandas, LiDAR, React, MapLibre &middot; Jun 2026</p>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#energy">
+        <div class="row-text">
+          <h4>Grid load forecasting, Spain</h4>
+          <p>Hourly national electricity demand predicted with XGBoost from load history, weather
+             and prices. Test RMSE of 449 MW, against 1,422 MW for a persistence baseline.</p>
+          <p class="row-meta">Python, XGBoost, Optuna, pandas &middot; Mar 2026</p>
+        </div>
+        <img src="assets/img/projects/energy/thumb.jpg" alt="Line chart of predicted and actual electricity load" width="480" height="320" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#housing">
+        <div class="row-text">
+          <h4>House price prediction (Kaggle)</h4>
+          <p>A blend of gradient-boosted trees and linear models for the House Prices
+             competition. Placed in the top 500 of more than 950,000 entrants.</p>
+          <p class="row-meta">Python, XGBoost, LightGBM, scikit-learn &middot; Mar 2026</p>
+        </div>
+        <img src="assets/img/projects/housing/thumb.png" alt="Bar chart of feature importances from the housing model" width="480" height="320" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#store-sales">
+        <div class="row-text">
+          <h4>Store sales forecasting (Kaggle)</h4>
+          <p>One global XGBoost model forecasting 16 days of sales for 1,782 store and
+             product-family series. Best public leaderboard score of 0.402 RMSLE.</p>
+          <p class="row-meta">Python, XGBoost, Optuna, pandas &middot; Jun 2026</p>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#spam">
+        <div class="row-text">
+          <h4>SMS spam classifier</h4>
+          <p>Multinomial Naive Bayes written without machine-learning libraries.
+             97.0% accuracy on held-out messages.</p>
+          <p class="row-meta">Python, NumPy, pandas &middot; Mar 2026</p>
+        </div>
+        <img src="assets/img/projects/spam/thumb.jpg" alt="Word cloud of the most common words in spam messages" width="480" height="320" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#clickbait">
+        <div class="row-text">
+          <h4>Clickbait headline classifier</h4>
+          <p>DistilBERT fine-tuned on 32,000 headlines and compared against a TF-IDF and
+             logistic regression baseline, with a Gradio demo.</p>
+          <p class="row-meta">Python, PyTorch, Hugging Face Transformers &middot; Jun 2026</p>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+  <h3 class="group">Algorithms and signal processing</h3>
+  <ul class="rows">
+    <li>
+      <a class="row" href="#fft">
+        <div class="row-text">
+          <h4>FFT from scratch</h4>
+          <p>The discrete Fourier transform written directly in O(N&sup2;) and as a recursive
+             Cooley&ndash;Tukey FFT. The FFT is 2,228 times faster at 32,768 samples, and picks
+             out the 440 Hz pitch of a recorded tone.</p>
+          <p class="row-meta">Python, matplotlib &middot; Oct 2026</p>
+        </div>
+        <img src="assets/img/projects/fft/thumb.jpg" alt="Log-scale chart of DFT and FFT runtime against input size" width="480" height="320" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#dsa">
+        <div class="row-text">
+          <h4>Data structures and algorithms</h4>
+          <p>Course assignments: linked lists, stacks and queues, Dijkstra on a maze, sorting
+             benchmarks, Strassen matrix multiplication and DNA sequence alignment.</p>
+          <p class="row-meta">Python, C++ &middot; Sep 2026 to present</p>
+        </div>
+      </a>
+    </li>
+  </ul>
+</section>
+
+<!-- ─────────────────────────── BACKGROUND ────────────────────────── -->
+<section class="section wrap" id="background">
+  <h2>Background</h2>
+  <dl class="cv">
+    <div>
+      <dt>Education</dt>
+      <dd>
+        <strong>Olin College of Engineering</strong>, B.S. in Electrical and Computer Engineering,
+        expected 2028. GPA 4.0.
+        <span class="sub">Coursework: Principles of Integrated Engineering, Modeling and Simulation, Differential
+        Equations, Linear Algebra, Quantum Mechanics, Machine Learning.</span>
+      </dd>
+    </div>
+    <div>
+      <dt>Experience</dt>
+      <dd>
+        <strong>Consolidated Edison</strong>, Engineering Aide, July 2024 to August 2025.
+        <span class="sub">Built a tool that pulls open-order data from company databases into the
+        team&rsquo;s Excel delivery schedules, replacing manual data entry. Analysed equipment and
+        order data to plan the delivery and deployment of energy distribution equipment.</span>
+      </dd>
+    </div>
+    <div>
+      <dt>Awards</dt>
+      <dd>
+        <ul>
+          <li><strong>Winner, Cyvl AI Hackathon</strong>, 2026, for the
+              <a href="#robots">delivery-robot feasibility map</a>.</li>
+          <li><strong>Winner, Babson&ndash;Olin&ndash;Wellesley DataFest</strong>, 2026.</li>
+          <li><strong>Top 500 of more than 950,000 entrants</strong> in Kaggle&rsquo;s
+              <a href="#housing">House Prices</a> competition.</li>
+          <li><strong>Ralph H. Stahl Scholar for Physics</strong>, Brooklyn Technical High School.</li>
+        </ul>
+      </dd>
+    </div>
+  </dl>
+
+  <h3 class="group">Skills</h3>
+  <dl class="tools">
+    <div><dt>Digital design</dt><dd>SystemVerilog, RTL design, finite state machines, iCE40 FPGAs with yosys and nextpnr, testbenches in Icarus Verilog, waveform debugging in GTKWave</dd></div>
+    <div><dt>Embedded</dt><dd>Arduino, embedded C/C++, serial communication (UART), WS2812B LEDs, servo and DC motor control, IR distance sensors, phototransistors, sensor calibration</dd></div>
+    <div><dt>Languages</dt><dd>SystemVerilog, C/C++, Python, MATLAB, SQL, VBA</dd></div>
+    <div><dt>Machine learning</dt><dd>PyTorch, Stable-Baselines3, Gymnasium, XGBoost, LightGBM, scikit-learn, Hugging Face Transformers, Optuna</dd></div>
+    <div><dt>Data and tools</dt><dd>NumPy, pandas, GeoPandas, LiDAR point clouds (laspy), matplotlib, Git, Make, pytest, Excel</dd></div>
+  </dl>
+</section>
+
+<!-- ───────────────────────────── CONTACT ─────────────────────────── -->
+<section class="section wrap" id="contact">
+  <h2>Contact</h2>
+  <p>
+    Email is the best way to reach me: <a href="mailto:ylu2@olin.edu">ylu2@olin.edu</a>.
+    I&rsquo;m also on <a href="https://github.com/yyongg" target="_blank" rel="noopener">GitHub</a>
+    and <a href="https://www.linkedin.com/in/yong-lu-15b105320" target="_blank" rel="noopener">LinkedIn</a>.
+  </p>
 </section>
 
 </main>
 
+<!-- ════════════════════════ PROJECT DETAILS ════════════════════════
+     One <article class="detail"> per project, in the same order as the rows.
+     main.js shows the one whose id matches the URL hash inside this panel.
+     Every image, clip, table and code excerpt here comes from the project
+     itself: its repository, its demo video, or photos of the build. -->
+<dialog class="panel" id="panel">
+  <div class="panel-inner">
+    <div class="panel-bar">
+      <span class="panel-count" id="panelCount"></span>
+      <button class="panel-close" id="panelClose" type="button">Close</button>
+    </div>
+
+    <div class="panel-scroll" id="panelScroll">
+
+      <!-- ── Conway ───────────────────────────────────────────────── -->
+      <article class="detail" id="conway">
+        <h2 id="conway-title">Conway&rsquo;s Game of Life on an FPGA</h2>
+        <p class="detail-meta">October 2026 &middot; SystemVerilog, iCE40 UP5K (iceBlinkPico), Icarus Verilog, GTKWave, yosys, nextpnr</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/FPGA-Conway-Game-of-Life" target="_blank" rel="noopener">Code on GitHub</a>
+          <a href="https://www.youtube.com/watch?v=mUqwJT8Zgys" target="_blank" rel="noopener">Demo on YouTube</a>
+        </p>
+
+        <p>
+          Conway&rsquo;s Game of Life on an 8&times;8 WS2812B LED matrix, driven by an iCE40 UP5K
+          FPGA at 12 MHz. The whole design is one SystemVerilog module, with a single output pin
+          feeding the LEDs&rsquo; data line. It differs from the original game in two ways: the
+          board wraps around at the edges, so patterns never fall off, and each generation is
+          drawn in the next of eight colours.
+        </p>
+
+        <figure class="fig-portrait">
+          <a class="video-link" href="https://www.youtube.com/watch?v=mUqwJT8Zgys" data-youtube="mUqwJT8Zgys" target="_blank" rel="noopener">
+            <img src="assets/img/projects/conway/demo-poster.jpg" alt="The FPGA board on a breadboard, wired to an 8 by 8 LED matrix showing a red glider" width="540" height="960" loading="lazy">
+            <span class="play">Play video <span class="duration">0:11</span></span>
+          </a>
+          <figcaption>A glider moving across the board, one colour per generation.</figcaption>
+        </figure>
+
+        <table>
+          <tbody>
+            <tr><th scope="row">Clock</th><td>12 MHz, so one tick is 83.3 ns</td></tr>
+            <tr><th scope="row">Board</th><td>A 64-bit register, 8 &times; 8, wrapping at the edges</td></tr>
+            <tr><th scope="row">Update</th><td>All 64 cells on a single clock edge</td></tr>
+            <tr><th scope="row">LED bit timing</th><td>1.25 &micro;s per bit, high for 0.75 &micro;s for a 1 and 0.33 &micro;s for a 0</td></tr>
+            <tr><th scope="row">Speed</th><td>One generation about every 177 ms, or 5.7 per second</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Board and update rule</h3>
+        <p>
+          Cell (x, y) is bit y&middot;8 + x of the board register. To count a cell&rsquo;s
+          neighbours, a function splits its index into a 3-bit x and y and forms x&plusmn;1 and
+          y&plusmn;1 in 3-bit arithmetic. That arithmetic overflows on its own (7 + 1 = 0,
+          0 &minus; 1 = 7), which is what makes the board wrap, with no extra logic.
+        </p>
+<pre><code>x = idx[2:0];  // x pos of LED index
+y = idx[5:3];  // y pos of LED index
+xm = x - 3'd1; xp = x + 3'd1;   // 3-bit math -&gt; wraps 0&lt;-&gt;7
+ym = y - 3'd1; yp = y + 3'd1;</code></pre>
+        <p class="code-note">From <code>count_neighbors</code> in <code>top.sv</code>. Each neighbour&rsquo;s index is then the concatenation <code>{row, col}</code>.</p>
+
+        <p>
+          A <code>for</code> loop over the 64 cells applies the rule. Synthesis unrolls it into
+          64 neighbour counters that work in parallel, and because every cell is written with a
+          nonblocking assignment on the same clock edge, each new cell is computed from the old
+          generation only.
+        </p>
+<pre><code>for (int i = 0; i &lt; 64; i++) begin
+    n = count_neighbors(i,alive);
+    alive[i] &lt;= (n==3) || (alive[i] &amp;&amp; n==2);
+end</code></pre>
+
+        <h3>LED driver</h3>
+        <p>
+          Four counters walk through a frame: ticks within a bit (0 to 14), bits within an LED
+          (0 to 23), ticks within an LED (0 to 359) and LEDs along the chain (0 to 63). The data
+          line is high for 9 of a bit&rsquo;s 15 ticks for a 1 and for 4 ticks for a 0, which fits
+          the WS2812B timing spec.
+        </p>
+<pre><code>// push the data to LED
+assign _31b = sending &amp; (bit_now ? (tick_bit &lt; 9) : (tick_bit &lt; 4));</code></pre>
+        <p>
+          Between frames the line stays low for 2,097,151 ticks, about 175 ms. That is far longer
+          than the LEDs&rsquo; 50 &micro;s latch time, and it also sets the speed of the animation.
+        </p>
+
+        <h3>Simulation</h3>
+        <p>
+          A testbench runs the design in Icarus Verilog with a 12 MHz clock for 0.5 s of simulated
+          time and dumps every signal for GTKWave. It cuts the wait between frames to 200 ticks so
+          that many generations fit in the run, without touching the Life logic.
+        </p>
+        <figure class="fig-scroll">
+          <a href="assets/img/projects/conway/gtkwave-trace.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/conway/gtkwave-trace.png" alt="GTKWave trace of the board register split into its eight rows, with cell values shifting from row to row over time" width="1657" height="189" loading="lazy">
+          </a>
+          <figcaption>The board register in GTKWave, one trace per row (scroll sideways to follow it).
+          The glider&rsquo;s cells move from row to row as generations advance, and wrap from the
+          top row back to row 0.</figcaption>
+        </figure>
+      </article>
+
+      <!-- ── Archerfish ───────────────────────────────────────────── -->
+      <article class="detail" id="archerfish">
+        <h2 id="archerfish-title">Archerfish LED tracker</h2>
+        <p class="detail-meta">October 2026 &middot; Arduino (C++), Python, pyserial, servos, phototransistors, laser diode, Adafruit Motor Shield</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/LED-Tracking-Archerfish-mp3" target="_blank" rel="noopener">Code on GitHub</a>
+          <a href="https://www.youtube.com/watch?v=U1OvieUQeXw" target="_blank" rel="noopener">Demo on YouTube</a>
+        </p>
+
+        <p>
+          A 3D-printed archerfish that hunts an LED the way the real fish shoots insects down with
+          a jet of water. Four phototransistors in its mouth sense where the light is, a pan servo
+          and a tilt servo turn the fish toward it, and once it is lined up a laser diode fires at
+          the target. A motor then turns the target wheel so the LED ends up somewhere new. The
+          third mini-project for Olin&rsquo;s Principles of Integrated Engineering course, after
+          the <a href="#scanner">infrared scanner</a>.
+        </p>
+
+        <figure>
+          <a class="video-link" href="https://www.youtube.com/watch?v=U1OvieUQeXw" data-youtube="U1OvieUQeXw" target="_blank" rel="noopener">
+            <img src="assets/img/projects/archerfish/demo-poster.jpg" alt="The archerfish on its servo mount, facing the round wooden target" width="854" height="480" loading="lazy">
+            <span class="play">Play video <span class="duration">0:44</span></span>
+          </a>
+          <figcaption>The demo: the setup, a close-up of the sensors, then tracking with the lights off.</figcaption>
+        </figure>
+
+        <figure class="fig-medium">
+          <a href="assets/img/projects/archerfish/build.jpg" target="_blank" rel="noopener">
+            <img src="assets/img/projects/archerfish/build.jpg" alt="Blue 3D-printed fish on a servo mount inside a wooden enclosure, facing a wooden disc with a red LED on it" width="563" height="434" loading="lazy">
+          </a>
+          <figcaption>The finished build. The LED is on the wooden wheel at the right.</figcaption>
+        </figure>
+
+        <h3>How it works</h3>
+        <ul>
+          <li>The four phototransistors sit in a 2&times;2 square. The pointing error on each axis
+              is the difference between the left and right columns, or the top and bottom rows,
+              divided by the total reading.</li>
+          <li>On every loop the servos step toward the LED in proportion to the error: at least
+              1 degree, so small errors don&rsquo;t round to zero, and at most 5. If the four
+              sensors together see too little light, the fish stays still instead of chasing noise.</li>
+          <li>When both errors are under 0.02, the fish tilts up 10 degrees, because the laser
+              otherwise hits below the LED, fires for one second and tilts back. If the servos reach
+              their limits before it lines up, it fires from there.</li>
+          <li>The motor then turns the target wheel for a random time of up to two seconds, and the
+              next round starts when you press Enter in the Serial Monitor.</li>
+        </ul>
+
+        <figure class="fig-pair">
+          <div class="pair">
+            <a href="assets/img/projects/archerfish/sensor-plate.jpg" target="_blank" rel="noopener">
+              <img src="assets/img/projects/archerfish/sensor-plate.jpg" alt="Close-up of the fish's open mouth with four light sensors on a cross-shaped plate" width="497" height="375" loading="lazy">
+            </a>
+            <a href="assets/img/projects/archerfish/head-servo.jpg" target="_blank" rel="noopener">
+              <img src="assets/img/projects/archerfish/head-servo.jpg" alt="The fish with its head tilted up, showing a servo inside" width="557" height="418" loading="lazy">
+            </a>
+          </div>
+          <figcaption>The sensor plate in the fish&rsquo;s mouth, and the servo that tilts the head.</figcaption>
+        </figure>
+
+<pre><code>int trackStep(float diff) {
+  if (fabs(diff) &lt; FOUND_THRESHOLD) return 0;
+  int step = round(diff * TRACK_GAIN);
+  if (step == 0) step = (diff &gt; 0) ? 1 : -1;
+  return constrain(step, -MAX_DEGREE_JUMP, MAX_DEGREE_JUMP);
+}</code></pre>
+        <p class="code-note">The servo step for one axis, from <code>tracking_mechanism/tracking_mechanism.ino</code>.
+        <code>TRACK_GAIN</code> is 30 degrees per unit of error, <code>FOUND_THRESHOLD</code> is 0.02
+        and <code>MAX_DEGREE_JUMP</code> is 5.</p>
+
+        <h3>Calibration and testing</h3>
+        <p>
+          No two phototransistors read quite the same, so a Python script records three runs over
+          serial: with the LED off, to find each sensor&rsquo;s offset; with the LED straight ahead,
+          to find gains that make all four agree; and with the LED at its farthest, to set the
+          minimum brightness worth tracking. It writes the results into a header file that the
+          firmware includes.
+        </p>
+        <p>
+          A separate test sketch checks each subsystem from the Serial Monitor: servo sweeps, live
+          sensor readings, tracking with the laser and motor off, a servo stress test that catches
+          brownouts, a motor speed ramp and the laser.
+        </p>
+
+        <h3>Mechanical design</h3>
+        <figure class="fig-pair">
+          <div class="pair">
+            <a href="assets/img/projects/archerfish/cad-enclosure.png" target="_blank" rel="noopener">
+              <img src="assets/img/projects/archerfish/cad-enclosure.png" alt="CAD model of the fish on its mount inside a three-sided wooden enclosure" width="546" height="491" loading="lazy">
+            </a>
+            <a href="assets/img/projects/archerfish/cad-cutaway.png" target="_blank" rel="noopener">
+              <img src="assets/img/projects/archerfish/cad-cutaway.png" alt="See-through CAD view of the fish showing the servos inside the body and the mount" width="588" height="570" loading="lazy">
+            </a>
+          </div>
+          <figcaption>The CAD model inside its enclosure, and a see-through view of the servos in the body and the mount.</figcaption>
+        </figure>
+
+        <figure class="fig-narrow">
+          <a href="assets/img/projects/archerfish/print-plate.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/archerfish/print-plate.png" alt="Slicer view of the fish's body, head and tail parts laid out on a print bed" width="536" height="372" loading="lazy">
+          </a>
+          <figcaption>The fish&rsquo;s parts laid out for printing.</figcaption>
+        </figure>
+      </article>
+
+      <!-- ── Scanner ──────────────────────────────────────────────── -->
+      <article class="detail" id="scanner">
+        <h2 id="scanner-title">Pan/tilt infrared scanner</h2>
+        <p class="detail-meta">September 2026 &middot; Arduino (C++), Python, pyserial, NumPy, matplotlib</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/2.5D-Scanner-Arduino-PIE" target="_blank" rel="noopener">Code on GitHub</a>
+        </p>
+
+        <p>
+          An Arduino Uno sweeps a Sharp GP2Y0A02YK0F infrared distance sensor on a pan servo and a
+          tilt servo, and streams the readings to a laptop over serial. Python calibrates the
+          sensor and turns each scan into a depth map of the object in front of it. A mini-project
+          for Olin&rsquo;s Principles of Integrated Engineering course.
+        </p>
+
+        <figure class="fig-medium">
+          <a href="assets/img/projects/scanner/build.jpg" target="_blank" rel="noopener">
+            <img src="assets/img/projects/scanner/build.jpg" alt="The scanner: a black 3D-printed pan/tilt mount holding the infrared sensor, on a plywood base next to a breadboard" width="560" height="421" loading="lazy">
+          </a>
+          <figcaption>The scanner. The sensor rides on two stacked servos, with the Arduino and breadboard behind.</figcaption>
+        </figure>
+
+        <h3>Hardware</h3>
+        <p>
+          Two 3D-printed holders stack the servos, so the pan servo turns the tilt servo and the
+          sensor together. The pan servo is on pin 9, the tilt servo on pin 10 and the
+          sensor&rsquo;s analog output on A0.
+        </p>
+        <figure class="fig-medium">
+          <a href="assets/img/projects/scanner/cad-labeled.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/scanner/cad-labeled.png" alt="Exploded CAD view of the scanner with labels: Sharp IR sensor, servos, top and bottom servo holders, plywood intermediary, Arduino PCB footprint and plywood baseplate" width="656" height="429" loading="lazy">
+          </a>
+          <figcaption>Exploded view of the mount.</figcaption>
+        </figure>
+        <figure class="fig-medium">
+          <a href="assets/img/projects/scanner/schematic.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/scanner/schematic.png" alt="Schematic of the Arduino wired to two servo motors and the Sharp IR sensor" width="566" height="440" loading="lazy">
+          </a>
+          <figcaption>The schematic: two servos and the sensor on the Arduino.</figcaption>
+        </figure>
+
+        <h3>How it works</h3>
+        <ul>
+          <li>The firmware answers short serial commands at 115,200 baud: ping, move, read, scan
+              and abort. Each scan point is the median of 5 readings, taken after the servo has
+              had time to settle, and every row is swept left to right so the rows line up.</li>
+          <li>The sensor&rsquo;s output falls off nonlinearly with distance. Calibration fits a
+              straight line in log-log space to readings at known distances, and a verify mode
+              checks the fit at distances that weren&rsquo;t used to make it.</li>
+          <li>The two servo angles and the distance are converted to x, y and z coordinates.</li>
+          <li>The plotting script separates the object from the wall behind it with an Otsu-style
+              threshold on depth, and draws the scan as a depth map.</li>
+        </ul>
+
+        <figure class="fig-medium">
+          <a href="assets/img/projects/scanner/calibration.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/scanner/calibration.png" alt="Scatter plot of distance against raw sensor reading with a fitted curve through the points" width="960" height="720" loading="lazy">
+          </a>
+          <figcaption>Sensor calibration: 20 measured distances from 20 to 115 cm, fitted with
+          distance = a &middot; raw<sup>b</sup>, where a = 18,595 and b = &minus;1.081.</figcaption>
+        </figure>
+
+<pre><code>def to_xyz(pan, tilt, dist):
+    """Servo angles + distance -&gt; x (right), y (up), z (straight ahead), in cm."""
+    p = np.radians(PAN_SIGN * (np.asarray(pan) - PAN_HOME))
+    t = np.radians(TILT_SIGN * (np.asarray(tilt) - TILT_HOME))
+    x = dist * np.cos(t) * np.sin(p)
+    y = dist * np.sin(t)
+    z = dist * np.cos(t) * np.cos(p)
+    return x, y, z</code></pre>
+        <p class="code-note">From <code>python/scanner_common.py</code>.</p>
+      </article>
+
+      <!-- ── FPGA ─────────────────────────────────────────────────── -->
+      <article class="detail" id="fpga">
+        <h2 id="fpga-title">FPGA LED mini-projects</h2>
+        <p class="detail-meta">September to October 2026 &middot; SystemVerilog, yosys, nextpnr, icepack, dfu-util</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/Miniproject-1" target="_blank" rel="noopener">Mini-project 1 on GitHub</a>
+          <a href="https://github.com/yyongg/Miniproject-2" target="_blank" rel="noopener">Mini-project 2 on GitHub</a>
+        </p>
+
+        <p>
+          Two small SystemVerilog designs for the iceBlinkPico, an iCE40 UP5K FPGA board, both
+          driving its RGB LED. They are synthesised with yosys, placed and routed with nextpnr,
+          and loaded onto the board over USB. The third mini-project in the series is
+          <a href="#conway">Conway&rsquo;s Game of Life</a>.
+        </p>
+
+        <figure>
+          <video controls muted loop playsinline preload="none" width="1280" height="720"
+                 poster="assets/img/projects/fpga/demo-poster.jpg">
+            <source src="assets/img/projects/fpga/demo.mp4" type="video/mp4">
+          </video>
+          <figcaption>The demo clip from the mini-project 1 repository: the design running on the board.</figcaption>
+        </figure>
+
+        <h3>Mini-project 1: colour cycle</h3>
+        <p>
+          A counter advances a colour index every 2,000,000 clock cycles, and a lookup turns the
+          index into one of six colours: red, yellow, green, cyan, blue and magenta. The LED
+          outputs are active-low.
+        </p>
+
+        <h3>Mini-project 2: PWM fade</h3>
+        <p>
+          The same six-stage walk around the colour wheel, but each channel is driven by pulse-width
+          modulation so the colours fade into each other. Each stage is split into 200 steps. On
+          every step one channel&rsquo;s duty value rises or falls by 6 out of a 1,200-cycle PWM
+          period, while the other two hold.
+        </p>
+<pre><code>always_ff @(posedge clk) begin
+    if (pwm_count == PWM_INTERVAL - 1)
+        pwm_count &lt;= 0;
+    else
+        pwm_count &lt;= pwm_count + 1;
+end
+
+// LED is on while count &lt; value
+assign RGB_R = ~(pwm_count &lt; red_pwm_value);
+assign RGB_G = ~(pwm_count &lt; green_pwm_value);
+assign RGB_B = ~(pwm_count &lt; blue_pwm_value);</code></pre>
+        <p class="code-note">From <code>rgb_fade.sv</code>.</p>
+      </article>
+
+      <!-- ── Monopoly ─────────────────────────────────────────────── -->
+      <article class="detail" id="monopoly">
+        <h2 id="monopoly-title">Monopoly RL agent</h2>
+        <p class="detail-meta">June to August 2026 &middot; Python, PyTorch, sb3-contrib (MaskablePPO), Gymnasium, pygame</p>
+        <p class="detail-links">
+          <a href="https://yyongg.github.io/Monopoly-Agent/" target="_blank" rel="noopener">Full write-up</a>
+          <a href="https://github.com/yyongg/Monopoly-Agent" target="_blank" rel="noopener">Code on GitHub</a>
+        </p>
+
+        <p>
+          A complete Monopoly rules engine written in the Python standard library, wrapped as a
+          Gymnasium environment, with a MaskablePPO agent trained on it by self-play and a pygame
+          GUI for playing against the result. Buying, auctions, building, jail and cash management
+          are learned from the reward of winning games. Trading is the exception: it runs on a
+          hand-written heuristic engine.
+        </p>
+
+        <table>
+          <tbody>
+            <tr><th scope="row">Win rate against the heuristic bots</th><td>31.5% (63 of 200 games), 95% CI 25.5% to 38.2%. Chance is 25%.</td></tr>
+            <tr><th scope="row">Timeouts</th><td>None in 200 evaluation games</td></tr>
+            <tr><th scope="row">Monopolies completed in self-play</th><td>2.77 for winners, 1.89 for losers</td></tr>
+            <tr><th scope="row">Observation and action space</th><td>261 features, 125 discrete actions, illegal actions masked</td></tr>
+            <tr><th scope="row">Tests</th><td>94 passing</td></tr>
+          </tbody>
+        </table>
+
+        <figure>
+          <a href="assets/img/projects/monopoly/eval.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/monopoly/eval.png" alt="Six-chart evaluation dashboard: outcomes, episode return, episode length, final net worth, net-worth margin and holdings" width="1920" height="1080" loading="lazy">
+          </a>
+          <figcaption>200 four-player games against the three heuristic bots. Outcomes are bimodal:
+          the agent either finishes well ahead or goes bankrupt.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/img/projects/monopoly/selfplay.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/monopoly/selfplay.png" alt="Six-chart self-play analysis: win rate by seat, win rate by completed set, sets held by the winner, monopolies completed, turn of first set, and properties held by the winner" width="2040" height="1080" loading="lazy">
+          </a>
+          <figcaption>100 self-play games with all four seats on the model. Winners complete more
+          sets than losers, and almost every winner holds at least one.</figcaption>
+        </figure>
+
+        <h3>How it works</h3>
+        <ul>
+          <li>The environment steps at decision points. Dice, rent, cards and the opponents&rsquo;
+              turns play out between steps on a background thread, so the agent sees the real
+              engine and not a re-implementation of it.</li>
+          <li>One encoder produces the observation, the legal-action mask and every valuation, for
+              training and for the GUI. A parity test fails if the two drift apart.</li>
+          <li>Exploits are fixed in the action mask, not the reward. Mortgage-flipping was first
+              penalised and came back as house-flipping. Those actions are now only legal during
+              forced liquidation.</li>
+          <li>Trading was moved out of the learned policy. The learned version accepted about 85%
+              of offers and passed one tile back and forth 424 times in a game. The heuristic
+              engine prices a trade per colour group and refuses to give away completed sets.</li>
+        </ul>
+
+        <figure class="fig-narrow">
+          <a href="assets/img/projects/monopoly/landing-frequency.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/monopoly/landing-frequency.png" alt="Bar chart of landing traffic for all 40 tiles, relative to an average tile" width="1300" height="1560" loading="lazy">
+          </a>
+          <figcaption>Landing frequency per tile, measured by simulation. It feeds the valuation
+          of each property set.</figcaption>
+        </figure>
+
+        <h3>What doesn&rsquo;t work yet</h3>
+        <p>
+          The agent plays recognisable Monopoly, but it is not clearly stronger than the bots it
+          trains against. Most of the write-up is about why.
+        </p>
+
+        <figure>
+          <a href="assets/img/projects/monopoly/reward-decomposition.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/monopoly/reward-decomposition.png" alt="Bar chart of mean reward contribution per episode: potential shaping -0.43, one-time bonuses +5.07, solvency penalty -0.53, terminal -0.15" width="1680" height="919" loading="lazy">
+          </a>
+          <figcaption>One-time bonuses for buying and building add 5.07 per episode, while the
+          win/loss signal is bounded to &plusmn;1. The agent is paid more for shopping than for winning.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/img/projects/monopoly/set-strength.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/monopoly/set-strength.png" alt="Scatter plot of the model's set strength against win probability given the set was completed, sloping downward" width="1680" height="1120" loading="lazy">
+          </a>
+          <figcaption>The hand-derived set valuation is negatively correlated with what actually
+          wins in self-play (Spearman &rho; = &minus;0.83).</figcaption>
+        </figure>
+
+        <p>
+          The deployed checkpoint was also trained for 2 million steps against a planned 15 million,
+          so &ldquo;heuristic trading hurt&rdquo; and &ldquo;the model is undertrained&rdquo; cannot
+          be separated from the data so far.
+        </p>
+      </article>
+
+      <!-- ── Cart-pole ────────────────────────────────────────────── -->
+      <article class="detail" id="cartpole">
+        <h2 id="cartpole-title">Cart-pole swing-up</h2>
+        <p class="detail-meta">April 2026 &middot; Python, Stable-Baselines3 (DQN), Gymnasium, pygame, pytest</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/Deep-Q-Cart-Pole" target="_blank" rel="noopener">Code on GitHub</a>
+          <a href="https://www.youtube.com/watch?v=2hOlHSw6jec" target="_blank" rel="noopener">Overview on YouTube</a>
+        </p>
+
+        <p>
+          A DQN agent for the swing-up version of cart-pole: the pole starts hanging down, and the
+          agent has to swing it up and keep it balanced. The environment subclasses Gymnasium&rsquo;s
+          CartPole with its own reset, an observation that encodes the angle as cosine and sine, and
+          a shaped reward. A pygame front end, organised as model, view and controller, lets you set
+          the pole&rsquo;s length and mass and nudge it with the arrow keys while the agent is running.
+        </p>
+
+        <figure>
+          <a class="video-link" href="https://www.youtube.com/watch?v=2hOlHSw6jec" data-youtube="2hOlHSw6jec" target="_blank" rel="noopener">
+            <img src="assets/img/projects/cartpole/demo-poster.jpg" alt="The pygame view with the trained agent holding the pole upright, and readouts for episode, step, reward, cart position and angle" width="960" height="600" loading="lazy">
+            <span class="play">Play video <span class="duration">4:26</span></span>
+          </a>
+          <figcaption>A walkthrough of the project: training, the trained agent swinging the pole
+          up, and changing the pole&rsquo;s weight while it runs.</figcaption>
+        </figure>
+
+        <h3>Reward</h3>
+<pre><code>normalized_angle = abs(((pole_angle + np.pi) % (2 * np.pi)) - np.pi)
+normalized_pos = abs(cart_pos) * np.pi / 2.4
+
+total = (
+    ((np.cos(normalized_angle) + 1) / 2)
+    * max(0.0, float(np.cos(normalized_pos)))
+    * np.cos(min(np.pi, abs(pole_vel) / 10.0))
+)
+
+reward = float(total - 0.1)</code></pre>
+        <p class="code-note">
+          From <code>model.py</code>. The reward is a product of three terms (pole upright, cart
+          centred, pole not spinning) minus a small cost per step. Leaving the track costs a further 5.
+        </p>
+
+        <h3>Training</h3>
+        <ul>
+          <li>200,000 steps of DQN with an MLP policy and a learning rate of 0.001.</li>
+          <li>Replay buffer of 150,000 transitions, batches of 128.</li>
+          <li>Target network updated every 500 steps with &tau; = 0.5.</li>
+          <li>Exploration decays to 5% over the first tenth of training.</li>
+        </ul>
+      </article>
+
+      <!-- ── Delivery robots ──────────────────────────────────────── -->
+      <article class="detail" id="robots">
+        <h2 id="robots-title">Delivery-robot feasibility map</h2>
+        <p class="detail-meta">June 2026 &middot; Python, GeoPandas, laspy, React, Vite, MapLibre GL</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/Cyvl-Hackathon-Delivery-Robots" target="_blank" rel="noopener">Code on GitHub</a>
+        </p>
+
+        <p>
+          Which streets in Somerville, Massachusetts can a sidewalk delivery robot actually drive?
+          This project combines Cyvl&rsquo;s infrastructure data, LiDAR point clouds and open city
+          data into a score from 0 to 100 for every street segment, then shows the result on an
+          interactive map. It was built for the Cyvl AI Hackathon and was the winning entry.
+        </p>
+
+        <h3>The score</h3>
+        <table>
+          <thead><tr><th scope="col">Metric</th><th scope="col">Weight</th><th scope="col">Source</th></tr></thead>
+          <tbody>
+            <tr><td>Pavement condition (PCI)</td><td>30%</td><td>Cyvl pavement layer</td></tr>
+            <tr><td>Sidewalk width</td><td>25%</td><td>LiDAR</td></tr>
+            <tr><td>Slope</td><td>15%</td><td>LiDAR</td></tr>
+            <tr><td>Curb ramps</td><td>15%</td><td>Cyvl above-ground assets</td></tr>
+            <tr><td>Obstructions</td><td>10%</td><td>Cyvl above-ground assets</td></tr>
+            <tr><td>311 complaints</td><td>5%</td><td>City of Somerville open data</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Segments scoring 70 or more are marked green (ready for robots), 40 to 70 yellow
+          (marginal) and under 40 red.
+        </p>
+
+        <h3>How it is built</h3>
+        <ul>
+          <li>A Python pipeline with one module per stage: load the Cyvl layers, build street
+              segments, measure width and slope from the point cloud, join curb ramps and
+              obstructions, count complaints, score, and export a single GeoJSON file.</li>
+          <li>A React and MapLibre app that colours each segment by its score. Hovering gives a
+              quick readout, clicking gives the full breakdown, and the sidebar filters by tier.</li>
+        </ul>
+      </article>
+
+      <!-- ── Energy ───────────────────────────────────────────────── -->
+      <article class="detail" id="energy">
+        <h2 id="energy-title">Grid load forecasting, Spain</h2>
+        <p class="detail-meta">March 2026 &middot; Python, XGBoost, Optuna, pandas, matplotlib, seaborn</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/Energy-Consumption-Forecasting" target="_blank" rel="noopener">Code and essay on GitHub</a>
+        </p>
+
+        <p>
+          Forecasts Spain&rsquo;s hourly electricity demand from four years of ENTSO-E load data
+          (2015 to 2018), weather observations from five cities and electricity prices. The whole
+          thing is written up as a computational essay in a Jupyter notebook.
+        </p>
+
+        <table>
+          <thead><tr><th scope="col">Model</th><th scope="col">Test RMSE</th></tr></thead>
+          <tbody>
+            <tr><td>Persistence baseline</td><td>1,422.40 MW</td></tr>
+            <tr><td>Initial XGBoost</td><td>536 MW</td></tr>
+            <tr><td>XGBoost tuned with Optuna</td><td>449.45 MW</td></tr>
+            <tr><td>Improvement over the baseline</td><td>68.4%</td></tr>
+          </tbody>
+        </table>
+
+        <figure>
+          <a href="assets/img/projects/energy/predictions-vs-actuals.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/energy/predictions-vs-actuals.png" alt="Line chart of predicted and actual total load from August to December 2018, nearly overlapping" width="1489" height="590" loading="lazy">
+          </a>
+          <figcaption>Predicted and actual load on the held-out final 10% of the data, shown as a
+          12-hour rolling mean.</figcaption>
+        </figure>
+
+        <h3>Method</h3>
+        <ul>
+          <li>Energy and weather tables merged, with weather pivoted by city and 36 missing load
+              values filled by linear interpolation.</li>
+          <li>Lag features at 1 to 12, 24, 48, 168 and 336 hours, plus 24-hour and 168-hour rolling
+              statistics, hour, month, day of week and a business-day flag.</li>
+          <li>A chronological 90/10 split with no shuffling, so the model never trains on the future.</li>
+          <li>Two rounds of Optuna: 50 broad trials, then 20 in a narrowed search space.</li>
+        </ul>
+
+        <figure>
+          <a href="assets/img/projects/energy/hourly-by-season.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/energy/hourly-by-season.png" alt="Four line charts of average hourly power consumption by month, one per season" width="1490" height="690" loading="lazy">
+          </a>
+          <figcaption>Average load by hour of day for each month. The daily shape changes with the
+          season, which is why hour and month are both features.</figcaption>
+        </figure>
+
+        <figure class="fig-medium">
+          <a href="assets/img/projects/energy/feature-importance.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/energy/feature-importance.png" alt="Bar chart of the top 15 features; load lag 1 and load lag 2 are the most important" width="989" height="790" loading="lazy">
+          </a>
+          <figcaption>Top 15 features by XGBoost importance. The most recent load values dominate.</figcaption>
+        </figure>
+
+        <h3>Limitations</h3>
+        <p>
+          Training RMSE is about 97 MW against 449 MW on the test set, so the model overfits.
+          Tree models also cannot extrapolate beyond load levels they have seen.
+        </p>
+      </article>
+
+      <!-- ── Housing ──────────────────────────────────────────────── -->
+      <article class="detail" id="housing">
+        <h2 id="housing-title">House price prediction (Kaggle)</h2>
+        <p class="detail-meta">March 2026 &middot; Python, XGBoost, LightGBM, scikit-learn, Optuna, pandas</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/Kaggle-Housing-Prices-Competition" target="_blank" rel="noopener">Code and essay on GitHub</a>
+        </p>
+
+        <p>
+          An entry for Kaggle&rsquo;s &ldquo;House Prices: Advanced Regression Techniques&rdquo;
+          competition, which asks for a sale price from 79 features of a house. The submission
+          blends gradient-boosted trees with regularised linear models and placed in the top 500
+          of more than 950,000 entrants. The work is written up as a computational essay.
+        </p>
+
+        <table>
+          <thead><tr><th scope="col">Model</th><th scope="col">Out-of-fold RMSE (log price, 5 folds)</th></tr></thead>
+          <tbody>
+            <tr><td>XGBoost</td><td>0.1152</td></tr>
+            <tr><td>LightGBM</td><td>0.1158</td></tr>
+            <tr><td>XGBoost and LightGBM blended</td><td>0.1139</td></tr>
+            <tr><td>Ridge</td><td>0.1063</td></tr>
+            <tr><td>Lasso</td><td>0.1065</td></tr>
+            <tr><td>ElasticNet</td><td>0.1065</td></tr>
+          </tbody>
+        </table>
+
+        <figure class="fig-medium">
+          <a href="assets/img/projects/housing/feature-importance.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/housing/feature-importance.png" alt="Bar chart of the top 15 features for the tuned XGBoost model, led by QualSF" width="990" height="790" loading="lazy">
+          </a>
+          <figcaption>Top 15 features for the tuned XGBoost model. The top of the list is
+          engineered features, such as overall quality multiplied by total square footage (QualSF).</figcaption>
+        </figure>
+
+        <h3>Method</h3>
+        <ul>
+          <li>A separate feature-engineering module that builds interaction features from quality,
+              size and neighbourhood.</li>
+          <li>Stratified five-fold cross-validation, with hyperparameters tuned by Optuna.</li>
+          <li>An error analysis of the houses the model gets most wrong, and of where XGBoost and
+              LightGBM disagree.</li>
+        </ul>
+      </article>
+
+      <!-- ── Store sales ──────────────────────────────────────────── -->
+      <article class="detail" id="store-sales">
+        <h2 id="store-sales-title">Store sales forecasting (Kaggle)</h2>
+        <p class="detail-meta">June 2026 &middot; Python, XGBoost, Optuna, pandas, Parquet</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/Store-Sales-Forecasting-Kaggle" target="_blank" rel="noopener">Code on GitHub</a>
+        </p>
+
+        <p>
+          Kaggle&rsquo;s Store Sales competition: forecast daily sales for 1,782 series (54 stores
+          by 33 product families) of the Ecuadorian grocery chain Favorita over a 16-day horizon.
+          The model is a single global XGBoost regressor trained on log sales. Its best public
+          leaderboard score is about 0.402 RMSLE.
+        </p>
+
+        <h3>Pipeline</h3>
+        <ul>
+          <li><strong>Features.</strong> A table of about 3.03 million rows by 93 columns: lags from
+              16 to 365 days, rolling statistics, calendar and payday cycles, holidays, oil price,
+              and target encodings computed without the last 16 days.</li>
+          <li><strong>Tuning.</strong> Optuna over walk-forward folds.</li>
+          <li><strong>Training.</strong> Early stopping on the last 15 training days to pick the
+              number of rounds, then a retrain on everything.</li>
+          <li><strong>Inference.</strong> Series that never sold, or sold nothing in the last 28
+              days, are forced to exactly zero.</li>
+          <li><strong>Validation.</strong> A harness that walks forward over four consecutive
+              16-day windows. Every change is tested there before it is submitted.</li>
+        </ul>
+
+        <h3>Changes that looked good and weren&rsquo;t</h3>
+        <table>
+          <thead><tr><th scope="col">Change</th><th scope="col">What happened</th></tr></thead>
+          <tbody>
+            <tr><td>Predicting on an unreferenced QuantileDMatrix</td><td>Cross-validation 0.40, leaderboard 1.01. The test rows were re-binned independently.</td></tr>
+            <tr><td>A promo feature with a forward-looking window</td><td>Leaderboard 0.43 to 0.49</td></tr>
+            <tr><td>Trimming the leading zeros before a product launched</td><td>Leaderboard 0.40236 to 0.42360</td></tr>
+            <tr><td>An ensemble with extra features, judged on one hold-out window</td><td>Better on that window, worse on the leaderboard</td></tr>
+            <tr><td>Blending in a per-series Fourier seasonal model</td><td>The harness set its weight to zero</td></tr>
+          </tbody>
+        </table>
+        <p>
+          The simple global model turned out to be hard to beat. The multi-window harness ranks
+          candidates in the same order as the leaderboard, so it decides what gets submitted.
+        </p>
+      </article>
+
+      <!-- ── Spam ─────────────────────────────────────────────────── -->
+      <article class="detail" id="spam">
+        <h2 id="spam-title">SMS spam classifier</h2>
+        <p class="detail-meta">March 2026 &middot; Python, NumPy, pandas, matplotlib</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/Naiive-Bayes-Spam-Classifier" target="_blank" rel="noopener">Code and notebook on GitHub</a>
+        </p>
+
+        <p>
+          A Naive Bayes classifier for SMS spam, written from scratch with a bag-of-words model
+          and no machine-learning libraries. It is trained on the SMS Spam Collection dataset,
+          which is left at its natural balance of about 87% ham and 13% spam.
+        </p>
+
+        <table>
+          <thead><tr><th scope="col">Data</th><th scope="col">Accuracy</th></tr></thead>
+          <tbody>
+            <tr><td>Training</td><td>98.82%</td></tr>
+            <tr><td>Testing</td><td>97.01%</td></tr>
+          </tbody>
+        </table>
+
+        <figure>
+          <a href="assets/img/projects/spam/words-spam.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/spam/words-spam.png" alt="Bar chart and word cloud of the most common words in spam messages: call, you, your, free, now" width="1189" height="490" loading="lazy">
+          </a>
+          <figcaption>The most common words in spam messages, from the notebook.</figcaption>
+        </figure>
+
+        <h3>How it works</h3>
+        <ul>
+          <li>Messages are lowercased and tokenised. URLs and email addresses are replaced with
+              <code>&lt;URL&gt;</code> and <code>&lt;EMAIL&gt;</code> tokens so they count as one signal.</li>
+          <li>Two word-frequency dictionaries are built from the training data, one for spam and
+              one for ham.</li>
+          <li>Each message gets a spam score and a ham score from Bayes&rsquo; theorem, with Laplace
+              smoothing for unseen words and log probabilities to avoid underflow.</li>
+        </ul>
+<pre><code>P(Word | Class) = (frequency_word + 1) / (total_words_in_class + unique_words_in_class)</code></pre>
+
+        <figure class="fig-small">
+          <a href="assets/img/projects/spam/message-lengths.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/spam/message-lengths.png" alt="Histogram of message lengths: ham peaks under 50 characters, spam peaks around 150 to 160" width="644" height="547" loading="lazy">
+          </a>
+          <figcaption>Message lengths. Spam clusters around 150 to 160 characters, while most ham is much shorter.</figcaption>
+        </figure>
+      </article>
+
+      <!-- ── Clickbait ────────────────────────────────────────────── -->
+      <article class="detail" id="clickbait">
+        <h2 id="clickbait-title">Clickbait headline classifier</h2>
+        <p class="detail-meta">June 2026 &middot; Python, PyTorch, Hugging Face Transformers, scikit-learn, Gradio, pytest</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/clickbait-classifier" target="_blank" rel="noopener">Code on GitHub</a>
+        </p>
+
+        <p>
+          Fine-tunes DistilBERT to label news headlines as clickbait or not, using a balanced
+          dataset of 32,000 headlines. A TF-IDF and logistic regression baseline is scored with the
+          same metrics for comparison, and a Gradio demo classifies a typed headline or the title
+          of a pasted URL.
+        </p>
+
+        <h3>Choices</h3>
+        <ul>
+          <li><strong>No lowercasing or punctuation stripping.</strong> Much of the clickbait
+              signal is in the casing and punctuation.</li>
+          <li><strong>Leakage stripping.</strong> URLs and publisher tags are removed so the model
+              learns writing style and not which outlet published a headline.</li>
+          <li><strong>De-duplication before splitting.</strong> Duplicates and near-duplicates are
+              removed first, so none end up on both sides of the train/test boundary.</li>
+          <li><strong>A locked test set.</strong> A 70/15/15 stratified split, with the test set
+              untouched until the final evaluation.</li>
+        </ul>
+
+        <h3>Stages</h3>
+        <p>
+          Each stage is its own command: prepare the splits, train, fit the baseline, evaluate on
+          the test set, and run an error analysis of false positives and false negatives. The
+          split and the trainer share one seed, so a run can be reproduced.
+        </p>
+      </article>
+
+      <!-- ── FFT ──────────────────────────────────────────────────── -->
+      <article class="detail" id="fft">
+        <h2 id="fft-title">FFT from scratch</h2>
+        <p class="detail-meta">October 2026 &middot; Python, matplotlib</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/DSA-work/tree/main/Fast-Fourier-Transform-Deep-Dive" target="_blank" rel="noopener">Code on GitHub</a>
+        </p>
+
+        <p>
+          The discrete Fourier transform implemented two ways in plain Python: directly, which takes
+          O(N&sup2;) operations, and as a recursive radix-2 Cooley&ndash;Tukey FFT, which takes
+          O(N log N). Unit tests check that the two agree, a benchmark times them from 16 to 32,768
+          samples, and the FFT is then used to find the pitch of a recorded tone. A deep dive for
+          the <a href="#dsa">data structures and algorithms</a> course.
+        </p>
+
+        <figure class="fig-medium">
+          <a href="assets/img/projects/fft/benchmark.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/fft/benchmark.png" alt="Log-scale line chart of runtime against input size from 2 to the 4th to 2 to the 15th; the DFT line climbs much faster than the FFT line" width="1200" height="750" loading="lazy">
+          </a>
+          <figcaption>Runtime on a log scale. Each time N doubles, the direct DFT takes about 4 times
+          as long and the FFT about 2.2 times as long.</figcaption>
+        </figure>
+
+        <table class="numeric">
+          <thead><tr><th scope="col">Samples</th><th scope="col">DFT</th><th scope="col">FFT</th><th scope="col">FFT speed-up</th></tr></thead>
+          <tbody>
+            <tr><td>16</td><td>32 &micro;s</td><td>12 &micro;s</td><td>2.7&times;</td></tr>
+            <tr><td>1,024</td><td>131 ms</td><td>1.2 ms</td><td>105&times;</td></tr>
+            <tr><td>32,768</td><td>238 s</td><td>107 ms</td><td>2,228&times;</td></tr>
+          </tbody>
+        </table>
+        <p>
+          The speed-up at 32,768 samples is close to the N / log<sub>2</sub> N &asymp; 2,185 that
+          the two complexities predict.
+        </p>
+
+        <h3>The algorithm</h3>
+        <p>
+          The FFT splits the samples into even- and odd-indexed halves and transforms each half
+          recursively. The two half-size results combine with one complex multiplication per pair
+          of outputs, because the second half of the twiddle factors are the negatives of the first.
+        </p>
+<pre><code>evens: list[complex] = _fft_recursive(x_vals[0::2])
+odds: list[complex] = _fft_recursive(x_vals[1::2])
+
+result: list[complex] = [0] * N
+for k in range(N // 2):
+    twiddle: complex = cmath.rect(1, -2*cmath.pi*k/N) * odds[k]
+    result[k] = evens[k] + twiddle
+    result[k + N//2] = evens[k] - twiddle
+return result</code></pre>
+        <p class="code-note">The butterfly step, from <code>fft.py</code>.</p>
+
+        <h3>Finding a pitch</h3>
+        <p>
+          The audio example runs the FFT on the first 65,536 samples of a recorded A440 tone, which
+          is 1.37 s at 48 kHz. The spectrum has one sharp peak at 440.2 Hz, the closest bin to
+          440 Hz when each bin is 48,000 / 65,536 &asymp; 0.73 Hz wide.
+        </p>
+        <figure>
+          <a href="assets/img/projects/fft/a440-spectrum.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/fft/a440-spectrum.png" alt="Frequency spectrum from 0 to 2000 Hz with a single sharp peak at 440.2 Hz" width="1500" height="600" loading="lazy">
+          </a>
+          <figcaption>The spectrum of the recording, with its peak at 440.2 Hz.</figcaption>
+        </figure>
+      </article>
+
+      <!-- ── DSA ──────────────────────────────────────────────────── -->
+      <article class="detail" id="dsa">
+        <h2 id="dsa-title">Data structures and algorithms</h2>
+        <p class="detail-meta">September 2026 to present &middot; Python, C++</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/DSA-work" target="_blank" rel="noopener">Code on GitHub</a>
+        </p>
+
+        <p>
+          Assignments from a data structures and algorithms course, each with its own tests. The
+          <a href="#fft">FFT deep dive</a> is in the same repository.
+        </p>
+        <ul>
+          <li><strong>Meeting conflicts.</strong> A conflict checker in C++, written as a naive
+              O(n&sup2;) comparison and again with sorting.</li>
+          <li><strong>Lists, stacks and queues.</strong> A doubly linked list, a stack and a queue,
+              plus stack exercises such as reversing and copying.</li>
+          <li><strong>Graphs.</strong> A graph class, a min-priority queue, Dijkstra&rsquo;s
+              algorithm, and a maze solver built on them.</li>
+          <li><strong>Sorting.</strong> Four sorting algorithms and a timing comparison, below.</li>
+          <li><strong>Matrix multiplication.</strong> A square-matrix class with a hybrid Strassen
+              multiply that recurses on matrices larger than 64 &times; 64 and uses the conventional
+              method below that. At n = 1,024 it ran about twice as fast as the conventional
+              algorithm.</li>
+          <li><strong>Sequence alignment.</strong> Smith&ndash;Waterman local alignment of DNA
+              sequences by dynamic programming.</li>
+        </ul>
+
+        <h3>Sorting runtimes</h3>
+        <table class="numeric">
+          <thead>
+            <tr><th scope="col">List size</th><th scope="col">Quick sort</th><th scope="col">Check all</th><th scope="col">Merge sort</th><th scope="col">Insertion sort</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>100</td><td>0.07</td><td>0.12</td><td>0.12</td><td>0.15</td></tr>
+            <tr><td>500</td><td>0.37</td><td>2.50</td><td>0.76</td><td>3.46</td></tr>
+            <tr><td>1,000</td><td>0.85</td><td>11.72</td><td>2.09</td><td>17.51</td></tr>
+            <tr><td>2,000</td><td>2.10</td><td>43.60</td><td>4.14</td><td>66.00</td></tr>
+            <tr><td>5,000</td><td>4.81</td><td>243.13</td><td>10.17</td><td>400.06</td></tr>
+          </tbody>
+        </table>
+        <p class="code-note">
+          Average milliseconds over five runs on random integers, from the sorting write-up.
+          The two O(n&sup2;) algorithms roughly quadruple each time the list doubles, and at 5,000
+          elements they are 50 to 80 times slower than quick sort.
+        </p>
+      </article>
+
+    </div>
+
+    <nav class="panel-nav" aria-label="Other projects">
+      <a id="panelPrev" href="#">Previous<span class="panel-nav-title"></span></a>
+      <a id="panelNext" href="#">Next<span class="panel-nav-title"></span></a>
+    </nav>
+  </div>
+</dialog>
+
 <footer class="site-footer">
-  <div class="wrap footer-inner">
-    <p>&copy; <span id="year">2026</span> YongKang Lu &middot; Built as a static site, hosted on GitHub Pages.</p>
-    <p><a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a></p>
+  <div class="wrap">
+    <p>&copy; <span id="year">2026</span> YongKang Lu</p>
+    <p><a href="#top">Back to top</a></p>
   </div>
 </footer>
 
