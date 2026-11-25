@@ -86,17 +86,6 @@ The player only loads when someone presses play.
 They are the custom properties at the top of `assets/css/styles.css`. `DESIGN.md`
 lists what each one is used for.
 
-## Publish a change
-
-```bash
-git add .
-git commit -m "Describe the change"
-git push
-```
-
-GitHub Pages rebuilds in about a minute. If the change does not show, hard-refresh
-with `Ctrl+Shift+R`.
-
 ## Where the numbers come from
 
 Every figure and number on the site comes from the matching repository (its

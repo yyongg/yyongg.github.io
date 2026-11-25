@@ -51,8 +51,8 @@ if ("HTMLDialogElement" in window) document.documentElement.className = "js";
   </p>
   <p>
     I work on both hardware and software. My recent projects are in digital design and embedded
-    systems: SystemVerilog for an iCE40 FPGA, and Arduino firmware for sensors, servos and motors,
-    with Python tools to calibrate and test them. Earlier projects are mostly machine learning,
+    systems: SystemVerilog for iCE40 and Xilinx FPGAs, from a RISC-V processor to Pong over HDMI,
+    and Arduino firmware for sensors, servos and motors, with Python tools to calibrate and test them. Earlier projects are mostly machine learning,
     from reinforcement-learning agents to forecasting models.
   </p>
   <p>
@@ -76,6 +76,30 @@ if ("HTMLDialogElement" in window) document.documentElement.className = "js";
 
   <h3 class="group">Hardware and embedded</h3>
   <ul class="rows">
+    <li>
+      <a class="row" href="#riscv">
+        <div class="row-text">
+          <h4>Multicycle RISC-V processor</h4>
+          <p>A 32-bit RISC-V processor in SystemVerilog that runs RV32I programs on an iCE40 FPGA.
+             It passes all 35 checks in its testbench, and on the board it runs an assembly
+             program that cycles the RGB LED.</p>
+          <p class="row-meta">SystemVerilog, RISC-V assembly, iCE40 UP5K, Icarus Verilog &middot; Nov 2026</p>
+        </div>
+        <img src="assets/img/projects/riscv/thumb.png" alt="Simulated waveform of a store and a load stepping through the processor's states" width="480" height="320" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a class="row" href="#pong">
+        <div class="row-text">
+          <h4>Pong on an FPGA with HDMI output</h4>
+          <p>Two-player Pong in SystemVerilog on a Xilinx Zynq-7020 board. It draws 640&times;480
+             video with no frame buffer and does its own HDMI encoding, and one of its six
+             testbenches decodes that signal the way a monitor would.</p>
+          <p class="row-meta">SystemVerilog, Vivado, Zynq-7020 (PYNQ-Z2), HDMI &middot; Nov 2026</p>
+        </div>
+        <img src="assets/img/projects/pong/thumb.jpg" alt="A monitor showing the Pong game, with the FPGA board connected in front of it" width="480" height="320" loading="lazy">
+      </a>
+    </li>
     <li>
       <a class="row" href="#conway">
         <div class="row-text">
@@ -278,9 +302,9 @@ if ("HTMLDialogElement" in window) document.documentElement.className = "js";
 
   <h3 class="group">Skills</h3>
   <dl class="tools">
-    <div><dt>Digital design</dt><dd>SystemVerilog, RTL design, finite state machines, iCE40 FPGAs with yosys and nextpnr, testbenches in Icarus Verilog, waveform debugging in GTKWave</dd></div>
+    <div><dt>Digital design</dt><dd>SystemVerilog, RTL design, finite state machines, RISC-V (RV32I) processor design, HDMI video (TMDS), timing closure, iCE40 FPGAs with yosys and nextpnr, Xilinx Zynq-7000 with Vivado, self-checking testbenches in Icarus Verilog and the Vivado simulator, waveform debugging in GTKWave</dd></div>
     <div><dt>Embedded</dt><dd>Arduino, embedded C/C++, serial communication (UART), WS2812B LEDs, servo and DC motor control, IR distance sensors, phototransistors, sensor calibration</dd></div>
-    <div><dt>Languages</dt><dd>SystemVerilog, C/C++, Python, MATLAB, SQL, VBA</dd></div>
+    <div><dt>Languages</dt><dd>SystemVerilog, C/C++, Python, RISC-V assembly, MATLAB, SQL, VBA</dd></div>
     <div><dt>Machine learning</dt><dd>PyTorch, Stable-Baselines3, Gymnasium, XGBoost, LightGBM, scikit-learn, Hugging Face Transformers, Optuna</dd></div>
     <div><dt>Data and tools</dt><dd>NumPy, pandas, GeoPandas, LiDAR point clouds (laspy), matplotlib, Git, Make, pytest, Excel</dd></div>
   </dl>
@@ -311,6 +335,294 @@ if ("HTMLDialogElement" in window) document.documentElement.className = "js";
     </div>
 
     <div class="panel-scroll" id="panelScroll">
+
+      <!-- ── RISC-V ───────────────────────────────────────────────── -->
+      <article class="detail" id="riscv">
+        <h2 id="riscv-title">Multicycle RISC-V processor</h2>
+        <p class="detail-meta">November 2026 &middot; SystemVerilog, RISC-V assembly, iCE40 UP5K (iceBlinkPico), Icarus Verilog, yosys, nextpnr</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/RISC-V-Multicycle-Processor-FPGA" target="_blank" rel="noopener">Code on GitHub</a>
+        </p>
+
+        <p>
+          A 32-bit RISC-V processor in SystemVerilog, running on the iceBlinkPico, an iCE40 UP5K
+          FPGA board with a 12 MHz clock. It implements the RV32I base integer instructions except
+          <code>ecall</code>, <code>ebreak</code> and the CSR instructions, which the project left
+          out. It is a multicycle design: it works on one instruction at a time, and each takes 4
+          clock cycles, or 5 for a load. A team project with Tan Vu and Lukas Littlejohn for
+          Olin&rsquo;s computer architecture course, after the <a href="#fpga">FPGA LED
+          mini-projects</a> and <a href="#conway">Conway&rsquo;s Game of Life</a>.
+        </p>
+
+        <figure class="fig-narrow">
+          <video controls muted loop playsinline preload="none" width="720" height="720"
+                 poster="assets/img/projects/riscv/demo-poster.jpg">
+            <source src="assets/img/projects/riscv/demo.mp4" type="video/mp4">
+          </video>
+          <figcaption>From the demo clip: the processor running its LED program on the board,
+          stepping the RGB LED from red to green to blue every half second.</figcaption>
+        </figure>
+
+        <table>
+          <tbody>
+            <tr><th scope="row">Clock</th><td>12 MHz on the board</td></tr>
+            <tr><th scope="row">Cycles per instruction</th><td>4, or 5 for a load</td></tr>
+            <tr><th scope="row">Memory</th><td>4 kB of instructions from 0x1000 and 4 kB of data from 0x0000, with LED and timer registers at the top of the address space</td></tr>
+            <tr><th scope="row">Simulation</th><td>35 checks across every instruction class, all passing</td></tr>
+            <tr><th scope="row">On the board</th><td>An assembly program that cycles the RGB LED, timed by a memory-mapped millisecond counter</td></tr>
+          </tbody>
+        </table>
+
+        <h3>State machine</h3>
+        <p>
+          Every instruction steps through the same states. Four registers carry values from one
+          cycle to the next: the program counter, the instruction, the ALU result and the branch
+          decision.
+        </p>
+        <table>
+          <thead><tr><th scope="col">State</th><th scope="col">What happens</th></tr></thead>
+          <tbody>
+            <tr><td>FETCH</td><td>The program counter addresses instruction memory, and the block RAM reads the word on the clock edge.</td></tr>
+            <tr><td>DECODE</td><td>The instruction word is captured.</td></tr>
+            <tr><td>EXECUTE</td><td>The control unit decodes the instruction, the register file is read and the ALU computes. The result and the branch decision are stored.</td></tr>
+            <tr><td>MEM</td><td>A store writes data memory. Every instruction except a load writes its destination register, if it has one, and updates the program counter. A load sends its address to data memory.</td></tr>
+            <tr><td>WB</td><td>Loads only: the loaded value is written to the register file and the program counter moves on by 4.</td></tr>
+          </tbody>
+        </table>
+
+        <figure>
+          <a href="assets/img/projects/riscv/store-load-waveform.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/riscv/store-load-waveform.png" alt="Simulated waveform with rows for clk, state, pc, instr, alu_out, dmem_wren, rf_we and rd_data. The store at 1060 takes four states, FETCH to MEM, with dmem_wren high in MEM. The load at 1064 takes five, adding WB, where rf_we goes high and 12345000 is written." width="1640" height="880" loading="lazy">
+          </a>
+          <figcaption>A store and then a load in simulation: <code>sb x4, 0x107(x0)</code>, then
+          <code>lw x22, 0x100(x0)</code>. The store writes data memory in MEM
+          (<code>dmem_wren</code>). The load computes its address (0x100) in EXECUTE, reads memory
+          in MEM and writes 0x12345000 to x22 in WB (<code>rf_we</code>).</figcaption>
+        </figure>
+
+        <h3>Datapath</h3>
+        <ul>
+          <li>The ALU&rsquo;s first operand is rs1, the program counter (for <code>auipc</code>) or
+              zero (for <code>lui</code>). The second is rs2 or the immediate. R-type and I-type
+              arithmetic use <code>{funct7[5], funct3}</code> directly as the ALU operation; loads,
+              stores, jumps and U-type instructions add.</li>
+          <li>The next program counter is PC + 4, PC + immediate for a taken branch or
+              <code>jal</code>, or rs1 + immediate with the low bit cleared for <code>jalr</code>.</li>
+          <li>The destination register gets the ALU result, the loaded data, or PC + 4 for a jump.
+              The memory module handles byte and half-word sizes and sign extension.</li>
+          <li>For a branch the ALU subtracts rs2 from rs1, and a small branch unit decides all six
+              branch types from the ALU&rsquo;s flags.</li>
+        </ul>
+<pre><code>// BEQ=zero, BNE=~zero, BLT=n^v, BGE=~(n^v), BLTU=carry, BGEU=~carry
+// funct3[2:1] picks the condition, funct3[0] inverts it
+always_comb begin
+    case (funct3[2:1])
+        2'b00:   cond = zero;                 // BEQ / BNE
+        2'b10:   cond = negative ^ overflow;  // BLT / BGE
+        2'b11:   cond = carry;                // BLTU / BGEU
+        default: cond = 1'b0;
+    endcase
+end
+assign take_branch = cond ^ funct3[0];</code></pre>
+        <p class="code-note">From <code>branch_unit.sv</code>. For the unsigned branches, <code>carry</code> is the borrow out of the subtraction.</p>
+
+        <h3>Testing</h3>
+        <p>
+          The testbench loads a 54-instruction program, runs it until it reaches its halt loop
+          (<code>jal x0, 0</code>) and compares the registers, data memory and LED register with
+          values worked out by hand. The test values 100 and &minus;7 make signed and unsigned
+          comparisons, and logical and arithmetic shifts, give different answers. Every taken
+          branch and jump should skip an instruction that adds 1 to x31, so x31 = 0 at the end
+          shows that each one landed on the right target.
+        </p>
+        <table>
+          <thead><tr><th scope="col">Class</th><th scope="col">Checks</th><th scope="col">Example</th></tr></thead>
+          <tbody>
+            <tr><td>U-type</td><td>2</td><td><code>lui x1, 0x12345</code> gives 0x12345000</td></tr>
+            <tr><td>I-type arithmetic</td><td>9</td><td><code>srai x11, x4, 1</code> with x4 = &minus;7 gives 0xFFFFFFFC</td></tr>
+            <tr><td>R-type</td><td>10</td><td><code>sltu x16, x4, x3</code> gives 0 where <code>slt</code> gives 1</td></tr>
+            <tr><td>Stores</td><td>3</td><td>A half-word and two bytes build 0xF964FFF9 in one word</td></tr>
+            <tr><td>Loads</td><td>5</td><td><code>lb</code> of 0xF9 gives 0xFFFFFFF9, and <code>lbu</code> gives 0x000000F9</td></tr>
+            <tr><td>Branches</td><td>3</td><td>x31 = 0, a not-taken <code>bne</code> falls through, and a backward loop counts down from 3</td></tr>
+            <tr><td>Jumps</td><td>3</td><td><code>jalr x30, 13(x29)</code> lands on 0x10D0, with the low bit cleared</td></tr>
+          </tbody>
+        </table>
+        <p>All 35 checks pass with <code>make test</code> in Icarus Verilog.</p>
+
+        <h3>From simulation to the board</h3>
+        <p>
+          On the board the processor runs a 13-instruction program. It writes full brightness to
+          the red byte of the LED register, waits 500 ms by polling the millisecond timer, then
+          shifts the value right by 8 bits to move on to green and then blue.
+        </p>
+<pre><code>1000:        li   s0, -4           # s0 = 0xFFFFFFFC (LED register)
+1004:        li   s1, -8           # s1 = 0xFFFFFFF8 (millisecond timer)
+1008:        li   s2, 500          # delay in ms
+100c:        li   t1, 0x00FF0000   # red at full brightness
+1010: loop:  sw   t1, 0(s0)        # update LEDs
+1014:        lw   t0, 0(s1)        # t2 = now + 500
+1018:        add  t2, t0, s2
+101c: wait:  lw   t0, 0(s1)
+1020:        blt  t0, t2, wait     # wait 500 ms
+1024:        srli t1, t1, 8        # red -&gt; green -&gt; blue -&gt; 0
+1028:        bnez t1, loop
+102c:        li   t1, 0x00FF0000   # back to red
+1030:        j    loop</code></pre>
+        <p class="code-note">The LED program (<code>program/prog.hex</code>), as listed in the project report.</p>
+
+        <p>
+          The processor passed simulation well before it ran this program. Three more problems
+          came up on the way to the board:
+        </p>
+        <ul>
+          <li><strong>The program was never loaded.</strong> The memory module fills instruction
+              memory from four files, one per byte lane, and they didn&rsquo;t exist yet. The
+              program was assembled and split into those files.</li>
+          <li><strong>The design missed timing.</strong> Place and route reported a maximum clock
+              of 11.73 MHz, under the board&rsquo;s 12 MHz. Removing two rotate operations from the
+              ALU and sharing one right shifter only reached 11.74 MHz, so the ALU was not the slow
+              path. That path ran from the register file through the ALU into the memory address
+              and next-PC logic, all in one cycle. Storing the ALU result and branch decision at the
+              end of EXECUTE, and acting on them in a new MEM state, met timing at the cost of one
+              cycle per instruction.</li>
+          <li><strong>The LED stayed dark</strong>, although simulation showed the processor
+              writing the LED register. Temporary debug logic in the top level narrowed it down,
+              with one rebuild per test.</li>
+        </ul>
+        <table>
+          <thead><tr><th scope="col">Debug test</th><th scope="col">Result</th><th scope="col">Conclusion</th></tr></thead>
+          <tbody>
+            <tr><td>User LED driven by a counter, no CPU involved</td><td>Blinked</td><td>The bitstream, clock and flashing all work</td></tr>
+            <tr><td>Blue LED driven by the counter</td><td>Blinked</td><td>The RGB pins work as ordinary outputs</td></tr>
+            <tr><td>User LED latched on when the CPU stores to the LED register</td><td>Stayed off</td><td>The processor never reaches that store on the board</td></tr>
+          </tbody>
+        </table>
+        <p>
+          The cause is a property of the iCE40: its block RAM doesn&rsquo;t return valid data for a
+          few microseconds after the chip is configured, and the processor started fetching at once.
+          Those first fetches read as zero, which it runs as a no-op, so it skipped the
+          instructions that load the LED and timer addresses. Its stores then went to data address
+          0, and the delay loop read address 0 instead of the timer. Simulation doesn&rsquo;t model
+          the start-up delay, which is why the testbench passed. A power-on reset fixed it:
+        </p>
+<pre><code>// Power-on reset: iCE40 block RAM reads are not valid for a few microseconds
+// after configuration, so hold the CPU in reset for ~2.7 ms (2^15 cycles at 12 MHz).
+logic [15:0] por_count = 0;
+logic        cpu_reset;
+always_ff @(posedge clk)
+    if (!por_count[15]) por_count &lt;= por_count + 1;
+assign cpu_reset = ~por_count[15];</code></pre>
+        <p class="code-note">From <code>top.sv</code>.</p>
+      </article>
+
+      <!-- ── Pong ─────────────────────────────────────────────────── -->
+      <article class="detail" id="pong">
+        <h2 id="pong-title">Pong on an FPGA with HDMI output</h2>
+        <p class="detail-meta">November 2026 &middot; SystemVerilog, Vivado, Vivado simulator, Xilinx Zynq-7020 (PYNQ-Z2)</p>
+        <p class="detail-links">
+          <a href="https://github.com/yyongg/pong-fpga" target="_blank" rel="noopener">Code on GitHub</a>
+          <a href="https://www.youtube.com/watch?v=p-BpYY052CU" target="_blank" rel="noopener">Demo on YouTube</a>
+        </p>
+
+        <p>
+          Two-player Pong in SystemVerilog for the PYNQ-Z2, a board built around a Xilinx
+          Zynq-7020. The FPGA produces 640&times;480 video at 60 Hz and drives the board&rsquo;s
+          HDMI port itself: it makes its own pixel clock, encodes each colour channel as TMDS
+          symbols and shifts them out at ten times the pixel rate. Each player has two of the
+          board&rsquo;s four buttons, and the first to 9 points wins.
+        </p>
+
+        <figure>
+          <a class="video-link" href="https://www.youtube.com/watch?v=p-BpYY052CU" data-youtube="p-BpYY052CU" target="_blank" rel="noopener">
+            <img src="assets/img/projects/pong/demo-poster.jpg" alt="A monitor showing Pong with the score at 1 to 4 and the ball heading for the right paddle. The pink PYNQ-Z2 board is in front of it, held in one hand and connected by an HDMI cable." width="1280" height="720" loading="lazy">
+            <span class="play">Play video <span class="duration">2:48</span></span>
+          </a>
+          <figcaption>Games played on the board&rsquo;s buttons, with the score at the top of the screen.</figcaption>
+        </figure>
+
+        <table>
+          <tbody>
+            <tr><th scope="row">Video</th><td>640 &times; 480 at 60 Hz, or 800 &times; 525 pixel clocks per frame with blanking</td></tr>
+            <tr><th scope="row">Clocks</th><td>The 125 MHz board clock feeds an MMCM, which makes a 25.2 MHz pixel clock and a 126 MHz clock for the serializers</td></tr>
+            <tr><th scope="row">FPGA resources</th><td>457 LUTs (0.86%) and 214 flip-flops (0.20%), with no block RAM or DSP slices</td></tr>
+            <tr><th scope="row">Timing</th><td>All constraints met</td></tr>
+            <tr><th scope="row">Tests</th><td>Six self-checking testbenches in the Vivado simulator, all passing</td></tr>
+          </tbody>
+        </table>
+
+        <h3>How it works</h3>
+<pre><code>             sysclk 125 MHz --&gt; MMCM --&gt; clk_pix 25.2 MHz / clk_5x 126 MHz
+                                    |
+ buttons --&gt; debounce --&gt; pong_game --&gt; pong_renderer --&gt; hdmi_tx --&gt; HDMI OUT
+                              ^               ^
+                              +-- video_sync -+</code></pre>
+        <p class="code-note">The block diagram from the README.</p>
+        <ul>
+          <li><code>video_sync</code> scans the screen one pixel per clock and pulses
+              <code>frame_tick</code> once per frame, when the visible area ends.</li>
+          <li><code>pong_game</code> updates only on <code>frame_tick</code>, so speeds are in
+              pixels per frame (4 for the ball, 6 for the paddles) and nothing moves while a frame
+              is being drawn.</li>
+          <li><code>pong_renderer</code> has no frame buffer. For each pixel it tests whether
+              (x, y) is inside the ball, a paddle, the net or a lit cell of a score digit, and
+              registers the colour.</li>
+          <li><code>hdmi_tx</code> encodes each 8-bit colour as a 10-bit TMDS symbol, keeping the
+              running count of ones and zeros balanced, and serializes each lane with two chained
+              OSERDES blocks on both edges of the 126 MHz clock. Like DVI, it carries video only,
+              with no audio.</li>
+          <li>The buttons go through a two-flip-flop synchronizer and a 10 ms debounce.</li>
+        </ul>
+
+        <figure class="fig-medium">
+          <a href="assets/img/projects/pong/sim-frame.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/pong/sim-frame.png" alt="A Pong frame rendered in simulation: the score 3 to 7 in blocky digits, a grey dashed centre line, two white paddles and a small white ball on black" width="1280" height="960" loading="lazy">
+          </a>
+          <figcaption>A frame drawn by the renderer in simulation. Its testbench feeds it all
+          307,200 pixel positions and saves the colours as an image. The digits are a 3&times;5
+          font drawn 8 times larger.</figcaption>
+        </figure>
+
+        <h3>Ball physics</h3>
+        <p>
+          The ball bounces off the top and bottom edges and off the paddles. Where it strikes a
+          paddle sets its new vertical speed: the distance from the paddle&rsquo;s centre divided
+          by 8, from &minus;5 to +4 pixels per frame, so hits near the ends leave at a steeper
+          angle. A hit is detected when the ball crosses the paddle&rsquo;s face during a frame,
+          not from its position alone, so a fast ball can&rsquo;t pass through a paddle between
+          frames. A miss scores a point for the other player, and the next serve goes toward the
+          player who lost it.
+        </p>
+<pre><code>// Paddles: the ball crosses the paddle face this frame while overlapping
+// it. Checking the crossing (not just the position) means a fast ball can
+// never skip through a paddle.
+if (vx &lt; 0 &amp;&amp; bx &gt;= L_FACE &amp;&amp; nx &lt; L_FACE &amp;&amp; overlaps(ny, lp)) begin
+  nx = L_FACE;                 nvx = -vx; nvy = bounce_vy(ny, lp, vy);
+end else if (vx &gt; 0 &amp;&amp; bx + BALL_SIZE &lt;= R_FACE &amp;&amp; nx + BALL_SIZE &gt; R_FACE &amp;&amp; overlaps(ny, rp)) begin
+  nx = R_FACE - BALL_SIZE;     nvx = -vx; nvy = bounce_vy(ny, rp, vy);
+end else if (nx &lt; 0) begin
+  point_r = 1'b1;              // left player missed
+end else if (nx &gt; SCREEN_W - BALL_SIZE) begin
+  point_l = 1'b1;              // right player missed
+end</code></pre>
+        <p class="code-note">From <code>rtl/pong_game.sv</code>.</p>
+
+        <h3>Testing</h3>
+        <p>
+          Each part of the design has a self-checking testbench for the Vivado simulator, and the
+          last one runs the whole design. All six pass.
+        </p>
+        <table>
+          <thead><tr><th scope="col">Testbench</th><th scope="col">What it checks</th></tr></thead>
+          <tbody>
+            <tr><td><code>tb_video_sync</code></td><td>Every pixel of two frames: the position counters, the visible area, the sync pulses and <code>frame_tick</code></td></tr>
+            <tr><td><code>tb_debounce</code></td><td>Bounces and short glitches are ignored, and a steady press comes through</td></tr>
+            <tr><td><code>tb_tmds_encoder</code></td><td>Every data symbol decodes back to its byte, and the DC balance stays within &plusmn;10 (the largest seen was 8)</td></tr>
+            <tr><td><code>tb_pong_game</code></td><td>Paddle limits, serves, scoring, game over and restart, then a 4,000-frame rally between two computer players: 14 hits on each paddle, 38 off the walls and 8 different vertical speeds</td></tr>
+            <tr><td><code>tb_pong_renderer</code></td><td>The edges of the ball, paddles and net, every score digit, and the one-clock delay through the renderer</td></tr>
+            <tr><td><code>tb_pong_top</code></td><td>The whole design, with Xilinx&rsquo;s models of the clock manager and serializers. The bench works as an HDMI receiver: it decodes the serial pins and checks the line timing and every pixel of the first 48 lines, with none wrong.</td></tr>
+          </tbody>
+        </table>
+      </article>
 
       <!-- ── Conway ───────────────────────────────────────────────── -->
       <article class="detail" id="conway">
