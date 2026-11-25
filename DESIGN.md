@@ -75,8 +75,8 @@ the site.
 
 | Project | Source of the visuals |
 |---------|-----------------------|
-| RISC-V processor | Loop and poster from the repo's demo clip `demo_video.MOV` (four whole LED cycles, cropped square, re-encoded to MP4 without audio); the store/load waveform is Figure 1 of the project report and is also the thumbnail; numbers from the report, `cpu_tb.sv` and the code |
-| Pong | Poster and thumbnail from the demo video (the same video is on YouTube); `build/sim/frame.ppm` written by `tb_pong_renderer`, scaled up 2× with nearest-neighbour; FPGA resources and timing from the Vivado reports that `build.tcl` writes; test results from the simulation logs |
+| RISC-V processor | Loop and poster from the repo's demo clip `demo_video.MOV` (four whole LED cycles, cropped square, re-encoded to MP4 without audio); the seven figures in the repo's `media/` folder; the thumbnail is a crop of `waveform_alu_store_load.png`; numbers from those figures, the project report, `cpu_tb.sv` and the code |
+| Pong | Poster and thumbnail from the demo video (the same video is on YouTube); figures from the repo's `media/` folder, with `sim_frame.png` scaled up 2× with nearest-neighbour and `sim_gameplay.gif` re-encoded as a silent MP4 loop; FPGA resources and timing from the Vivado reports that `build.tcl` writes; test results from the simulation logs |
 | Conway's Game of Life | Poster and thumbnail from the repo's demo clip `IMG_7503.MOV` (the same clip is on YouTube); `test_results.png`, the GTKWave trace |
 | Archerfish | Build photos and CAD screenshots supplied by YongKang; poster from the YouTube demo |
 | IR scanner | Build photo, CAD and schematic supplied by YongKang; `python/calibration_fit.png` |

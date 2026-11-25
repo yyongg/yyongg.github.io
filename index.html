@@ -85,7 +85,7 @@ if ("HTMLDialogElement" in window) document.documentElement.className = "js";
              program that cycles the RGB LED.</p>
           <p class="row-meta">SystemVerilog, RISC-V assembly, iCE40 UP5K, Icarus Verilog &middot; Nov 2026</p>
         </div>
-        <img src="assets/img/projects/riscv/thumb.png" alt="Simulated waveform of a store and a load stepping through the processor's states" width="480" height="320" loading="lazy">
+        <img src="assets/img/projects/riscv/thumb.png" alt="Simulated waveform of the processor stepping through its IF, ID, EXEC and MEM states" width="480" height="320" loading="lazy">
       </a>
     </li>
     <li>
@@ -349,9 +349,9 @@ if ("HTMLDialogElement" in window) document.documentElement.className = "js";
           FPGA board with a 12 MHz clock. It implements the RV32I base integer instructions except
           <code>ecall</code>, <code>ebreak</code> and the CSR instructions, which the project left
           out. It is a multicycle design: it works on one instruction at a time, and each takes 4
-          clock cycles, or 5 for a load. A team project with Tan Vu and Lukas Littlejohn for
-          Olin&rsquo;s computer architecture course, after the <a href="#fpga">FPGA LED
-          mini-projects</a> and <a href="#conway">Conway&rsquo;s Game of Life</a>.
+          clock cycles, or 5 for a load. Built for Olin&rsquo;s computer architecture course,
+          after the <a href="#fpga">FPGA LED mini-projects</a> and
+          <a href="#conway">Conway&rsquo;s Game of Life</a>.
         </p>
 
         <figure class="fig-narrow">
@@ -365,10 +365,11 @@ if ("HTMLDialogElement" in window) document.documentElement.className = "js";
 
         <table>
           <tbody>
-            <tr><th scope="row">Clock</th><td>12 MHz on the board</td></tr>
-            <tr><th scope="row">Cycles per instruction</th><td>4, or 5 for a load</td></tr>
+            <tr><th scope="row">Clock</th><td>12 MHz on the board; place and route reports a maximum of 15.95 MHz</td></tr>
+            <tr><th scope="row">Cycles per instruction</th><td>4, or 5 for a load; 4.10 on average over the test program</td></tr>
+            <tr><th scope="row">FPGA resources</th><td>4,395 of 5,280 logic cells (83%) and 16 of 30 block RAMs</td></tr>
             <tr><th scope="row">Memory</th><td>4 kB of instructions from 0x1000 and 4 kB of data from 0x0000, with LED and timer registers at the top of the address space</td></tr>
-            <tr><th scope="row">Simulation</th><td>35 checks across every instruction class, all passing</td></tr>
+            <tr><th scope="row">Simulation</th><td>35 of 35 checks pass, across every instruction class</td></tr>
             <tr><th scope="row">On the board</th><td>An assembly program that cycles the RGB LED, timed by a memory-mapped millisecond counter</td></tr>
           </tbody>
         </table>
@@ -391,13 +392,21 @@ if ("HTMLDialogElement" in window) document.documentElement.className = "js";
         </table>
 
         <figure>
-          <a href="assets/img/projects/riscv/store-load-waveform.png" target="_blank" rel="noopener">
-            <img src="assets/img/projects/riscv/store-load-waveform.png" alt="Simulated waveform with rows for clk, state, pc, instr, alu_out, dmem_wren, rf_we and rd_data. The store at 1060 takes four states, FETCH to MEM, with dmem_wren high in MEM. The load at 1064 takes five, adding WB, where rf_we goes high and 12345000 is written." width="1640" height="880" loading="lazy">
+          <a href="assets/img/projects/riscv/waveform-alu-store-load.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/riscv/waveform-alu-store-load.png" alt="Simulated waveform over clock cycles 79 to 103, with rows for clk, state, pc, instr, alu_out, dmem_wren, mem_read, rf_we, rd and rd_data. An and instruction and four stores each pass through IF, ID, EXEC and MEM; the and raises rf_we in MEM and each store raises dmem_wren in MEM. The final lw adds a WB state, where rf_we goes high." width="2600" height="1480" loading="lazy">
           </a>
-          <figcaption>A store and then a load in simulation: <code>sb x4, 0x107(x0)</code>, then
-          <code>lw x22, 0x100(x0)</code>. The store writes data memory in MEM
-          (<code>dmem_wren</code>). The load computes its address (0x100) in EXECUTE, reads memory
-          in MEM and writes 0x12345000 to x22 in WB (<code>rf_we</code>).</figcaption>
+          <figcaption>An ALU instruction, four stores and a load in simulation. Each takes 4 cycles
+          except the load, which adds WB. The <code>and</code> writes its register in MEM
+          (<code>rf_we</code>), each store writes data memory in MEM (<code>dmem_wren</code>), and
+          the load writes x22 in WB.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/img/projects/riscv/instruction-mix-cpi.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/riscv/instruction-mix-cpi.png" alt="Two bar charts for the test program. Instructions executed by class: I-type ALU 15, R-type ALU 10, branch 10, load 5, store 5, LUI or AUIPC 2, JAL 2 and JALR 1. Clock cycles per instruction: 4 for every class except load, which takes 5." width="2400" height="960" loading="lazy">
+          </a>
+          <figcaption>The test program runs 50 instructions in 205 cycles, an average of 4.10 cycles
+          per instruction. Only the five loads take 5.</figcaption>
         </figure>
 
         <h3>Datapath</h3>
@@ -413,6 +422,18 @@ if ("HTMLDialogElement" in window) document.documentElement.className = "js";
           <li>For a branch the ALU subtracts rs2 from rs1, and a small branch unit decides all six
               branch types from the ALU&rsquo;s flags.</li>
         </ul>
+
+        <figure>
+          <a href="assets/img/projects/riscv/waveform-branch-jump.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/riscv/waveform-branch-jump.png" alt="Simulated waveform over clock cycles 160 to 195, with rows for clk, state, pc, instr, alu_out, take_br, rf_we, rd and rd_data. The pc steps through 10b4, 10b8 and 10bc, returns to 10b8 twice, then moves on to 10c0 and 10c8." width="2600" height="1370" loading="lazy">
+          </a>
+          <figcaption>A backward loop, <code>jal</code> and <code>jalr</code> in simulation. The
+          branch decision (<code>take_br</code>) is stored in EXEC and the program counter changes
+          at the end of MEM. The <code>bne</code> jumps back to 0x10b8 twice and falls through the
+          third time; <code>jal</code> jumps to 0x10c8, and both jumps write their return
+          addresses.</figcaption>
+        </figure>
+
 <pre><code>// BEQ=zero, BNE=~zero, BLT=n^v, BGE=~(n^v), BLTU=carry, BGEU=~carry
 // funct3[2:1] picks the condition, funct3[0] inverts it
 always_comb begin
@@ -435,19 +456,37 @@ assign take_branch = cond ^ funct3[0];</code></pre>
           branch and jump should skip an instruction that adds 1 to x31, so x31 = 0 at the end
           shows that each one landed on the right target.
         </p>
-        <table>
-          <thead><tr><th scope="col">Class</th><th scope="col">Checks</th><th scope="col">Example</th></tr></thead>
-          <tbody>
-            <tr><td>U-type</td><td>2</td><td><code>lui x1, 0x12345</code> gives 0x12345000</td></tr>
-            <tr><td>I-type arithmetic</td><td>9</td><td><code>srai x11, x4, 1</code> with x4 = &minus;7 gives 0xFFFFFFFC</td></tr>
-            <tr><td>R-type</td><td>10</td><td><code>sltu x16, x4, x3</code> gives 0 where <code>slt</code> gives 1</td></tr>
-            <tr><td>Stores</td><td>3</td><td>A half-word and two bytes build 0xF964FFF9 in one word</td></tr>
-            <tr><td>Loads</td><td>5</td><td><code>lb</code> of 0xF9 gives 0xFFFFFFF9, and <code>lbu</code> gives 0x000000F9</td></tr>
-            <tr><td>Branches</td><td>3</td><td>x31 = 0, a not-taken <code>bne</code> falls through, and a backward loop counts down from 3</td></tr>
-            <tr><td>Jumps</td><td>3</td><td><code>jalr x30, 13(x29)</code> lands on 0x10D0, with the low bit cleared</td></tr>
-          </tbody>
-        </table>
-        <p>All 35 checks pass with <code>make test</code> in Icarus Verilog.</p>
+        <figure>
+          <a href="assets/img/projects/riscv/test-results.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/riscv/test-results.png" alt="Testbench results: all 35 register, memory and program-counter checks pass, grouped as U-type 2 of 2, I-type ALU 9 of 9, R-type 10 of 10, S-type stores 3 of 3, I-type loads 5 of 5, B-type 3 of 3, and J-type and jalr 3 of 3, ending with ALL TESTS PASSED (0 failures)." width="2400" height="1520" loading="lazy">
+          </a>
+          <figcaption>All 35 checks pass with <code>make test</code> in Icarus Verilog.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/img/projects/riscv/pc-trace.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/riscv/pc-trace.png" alt="Step plot of the program counter, from 0x1000 to the halt at 0x10d4, against clock cycles 0 to 205. It rises through bands labelled U-type, I-type ALU, R-type, stores, loads, branches, JAL and JALR, and LED store and halt. Orange dots mark taken branches and jumps, and the loop body runs 3 times." width="2400" height="1120" loading="lazy">
+          </a>
+          <figcaption>The program counter through the whole test program. Each flat step is one
+          instruction&rsquo;s 4 or 5 cycles, and the orange dots are taken branches and jumps,
+          including the loop that runs 3 times.</figcaption>
+        </figure>
+
+        <h3>FPGA implementation</h3>
+        <p>
+          The finished design uses 83% of the iCE40&rsquo;s logic cells, and place and route
+          reports a maximum clock of 15.95 MHz, 33% above the board&rsquo;s 12 MHz. The 16 block
+          RAMs hold the 4 kB instruction and data memories. The register file takes the most
+          logic: its two read ports are combinational, which iCE40 block RAM can&rsquo;t provide,
+          so it is built from logic cells instead.
+        </p>
+        <figure>
+          <a href="assets/img/projects/riscv/fpga-utilization.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/riscv/fpga-utilization.png" alt="Two bar charts. Device utilization: logic cells 83% (4,395 of 5,280), block RAM 53% (16 of 30), global buffers 38% (3 of 8) and I/O pins 15% (6 of 39). LUT4s by module: regfile 1,855, alu 604, memory and MMIO 483, cpu 301, immgen 64, control_unit 26, top 21 and branch_unit 4." width="2400" height="960" loading="lazy">
+          </a>
+          <figcaption>Device use after yosys and nextpnr, and LUTs per module from a hierarchical
+          synthesis run.</figcaption>
+        </figure>
 
         <h3>From simulation to the board</h3>
         <p>
@@ -469,6 +508,15 @@ assign take_branch = cond ^ funct3[0];</code></pre>
 102c:        li   t1, 0x00FF0000   # back to red
 1030:        j    loop</code></pre>
         <p class="code-note">The LED program (<code>program/prog.hex</code>), as listed in the project report.</p>
+
+        <figure>
+          <a href="assets/img/projects/riscv/led-demo-timeline.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/riscv/led-demo-timeline.png" alt="Timeline of the value written to the LED register over 3,200 ms of simulated time: red 0x00ff0000, green 0x0000ff00 and blue 0x000000ff, repeating, with each colour lasting 500 ms." width="2400" height="780" loading="lazy">
+          </a>
+          <figcaption>The LED program in simulation: the colour changes on every 500 ms boundary of
+          the millisecond timer. For a shorter run, the simulation tells the memory module the
+          clock is 2 MHz, so a millisecond takes 2,000 cycles instead of 12,000.</figcaption>
+        </figure>
 
         <p>
           The processor passed simulation well before it ran this program. Three more problems
@@ -556,42 +604,60 @@ assign cpu_reset = ~por_count[15];</code></pre>
  buttons --&gt; debounce --&gt; pong_game --&gt; pong_renderer --&gt; hdmi_tx --&gt; HDMI OUT
                               ^               ^
                               +-- video_sync -+</code></pre>
-        <p class="code-note">The block diagram from the README.</p>
-        <ul>
-          <li><code>video_sync</code> scans the screen one pixel per clock and pulses
-              <code>frame_tick</code> once per frame, when the visible area ends.</li>
-          <li><code>pong_game</code> updates only on <code>frame_tick</code>, so speeds are in
-              pixels per frame (4 for the ball, 6 for the paddles) and nothing moves while a frame
-              is being drawn.</li>
-          <li><code>pong_renderer</code> has no frame buffer. For each pixel it tests whether
-              (x, y) is inside the ball, a paddle, the net or a lit cell of a score digit, and
-              registers the colour.</li>
-          <li><code>hdmi_tx</code> encodes each 8-bit colour as a 10-bit TMDS symbol, keeping the
-              running count of ones and zeros balanced, and serializes each lane with two chained
-              OSERDES blocks on both edges of the 126 MHz clock. Like DVI, it carries video only,
-              with no audio.</li>
-          <li>The buttons go through a two-flip-flop synchronizer and a 10 ms debounce.</li>
-        </ul>
+        <p class="code-note">The block diagram from the README. Everything runs on the 25.2 MHz
+        pixel clock except the serializers in <code>hdmi_tx</code>.</p>
 
+        <h3>Video timing</h3>
+        <p>
+          <code>video_sync</code> counts 800 pixel clocks per line and 525 lines per frame: the
+          640&times;480 picture plus blanking and sync pulses. Once per frame, at the start of
+          vertical blanking, it pulses <code>frame_tick</code>. The game state only changes then,
+          so nothing moves while a frame is being drawn.
+        </p>
+        <figure>
+          <a href="assets/img/projects/pong/video-timing.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/pong/video-timing.png" alt="Two timing diagrams from tb_video_sync. One line of 800 pixels, 31.8 microseconds: de is high for 640 visible pixels, followed by a 16-pixel front porch, a 96-pixel hsync pulse and a 48-pixel back porch. One frame of 525 lines, 16.7 ms: 480 visible lines and 45 lines of blanking, with a 2-line vsync pulse and frame_tick at y = 480." width="1083" height="568" loading="lazy">
+          </a>
+          <figcaption>One line and one frame from <code>tb_video_sync</code>.</figcaption>
+        </figure>
+
+        <h3>Drawing each pixel</h3>
+        <p>
+          <code>pong_renderer</code> has no frame buffer. For each pixel it tests whether (x, y) is
+          inside the ball, a paddle, the net or a lit cell of a score digit, and registers the
+          colour.
+        </p>
         <figure class="fig-medium">
           <a href="assets/img/projects/pong/sim-frame.png" target="_blank" rel="noopener">
             <img src="assets/img/projects/pong/sim-frame.png" alt="A Pong frame rendered in simulation: the score 3 to 7 in blocky digits, a grey dashed centre line, two white paddles and a small white ball on black" width="1280" height="960" loading="lazy">
           </a>
-          <figcaption>A frame drawn by the renderer in simulation. Its testbench feeds it all
-          307,200 pixel positions and saves the colours as an image. The digits are a 3&times;5
-          font drawn 8 times larger.</figcaption>
+          <figcaption>The renderer&rsquo;s output for every pixel of one frame, from
+          <code>tb_pong_renderer</code>. The digits are a 3&times;5 font drawn 8 times
+          larger.</figcaption>
         </figure>
 
-        <h3>Ball physics</h3>
+        <h3>Game logic</h3>
         <p>
-          The ball bounces off the top and bottom edges and off the paddles. Where it strikes a
-          paddle sets its new vertical speed: the distance from the paddle&rsquo;s centre divided
-          by 8, from &minus;5 to +4 pixels per frame, so hits near the ends leave at a steeper
-          angle. A hit is detected when the ball crosses the paddle&rsquo;s face during a frame,
-          not from its position alone, so a fast ball can&rsquo;t pass through a paddle between
-          frames. A miss scores a point for the other player, and the next serve goes toward the
-          player who lost it.
+          <code>pong_game</code> moves the ball 4 pixels and the paddles 6 pixels per frame. The
+          ball bounces off the top and bottom edges and off the paddles. Where it strikes a paddle
+          sets its new vertical speed: the distance from the paddle&rsquo;s centre divided by 8,
+          from &minus;5 to +4 pixels per frame, so hits near the ends leave at a steeper angle. A
+          hit is detected when the ball crosses the paddle&rsquo;s face during a frame, not from
+          its position alone, so a fast ball can&rsquo;t pass through a paddle between frames. A
+          miss scores a point for the other player, and the next serve goes toward the player who
+          lost it.
         </p>
+        <figure class="fig-medium">
+          <video controls muted loop playsinline preload="none" width="1280" height="960"
+                 poster="assets/img/projects/pong/gameplay-poster.png">
+            <source src="assets/img/projects/pong/gameplay.mp4" type="video/mp4">
+          </video>
+          <figcaption>Part of the 4,000-frame rally between two computer players in
+          <code>tb_pong_game</code>, ending with a point the left player misses on purpose. The
+          positions and scores come from the RTL simulation; a Python script draws them with the
+          renderer&rsquo;s shapes and checks that its drawing matches the RTL frame above, pixel
+          for pixel.</figcaption>
+        </figure>
 <pre><code>// Paddles: the ball crosses the paddle face this frame while overlapping
 // it. Checking the crossing (not just the position) means a fast ball can
 // never skip through a paddle.
@@ -605,6 +671,49 @@ end else if (nx &gt; SCREEN_W - BALL_SIZE) begin
   point_l = 1'b1;              // right player missed
 end</code></pre>
         <p class="code-note">From <code>rtl/pong_game.sv</code>.</p>
+
+        <h3>HDMI output</h3>
+        <p>
+          <code>hdmi_tx</code> encodes each 8-bit colour as a 10-bit TMDS symbol. Two chained
+          OSERDES blocks per lane shift the symbols out on both edges of the 126 MHz clock, so each
+          pixel&rsquo;s 10 bits leave within one pixel clock, at 3.97 ns per bit. A fourth lane
+          carries the pixel clock. Like DVI, the output is video only, with no audio.
+        </p>
+        <figure>
+          <a href="assets/img/projects/pong/hdmi-tmds.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/pong/hdmi-tmds.png" alt="Top: line 24 decoded from the HDMI pins, showing hsync, the porches and 640 pixels, with pulses where the score digits and the net are. Bottom: the serial clock, red, green and blue bits for pixels x = 252 to 259, black for the first four and white for the last four, 10 bits per pixel at 3.97 ns per bit." width="1033" height="566" loading="lazy">
+          </a>
+          <figcaption>The HDMI pins in <code>tb_pong_top</code>, which runs the whole design with
+          Xilinx&rsquo;s models of the clock manager and serializers, decoded back into pixels.
+          Top: line 24, with its blanking, the score digits and the net. Bottom: the serial bits on
+          each lane where the left score digit starts, at x = 256.</figcaption>
+        </figure>
+        <p>
+          The encoding also keeps each lane DC-balanced. The encoder tracks the running count of
+          ones minus zeros and inverts a symbol&rsquo;s data bits when that pulls the count back
+          toward zero.
+        </p>
+        <figure>
+          <a href="assets/img/projects/pong/tmds-dc-balance.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/pong/tmds-dc-balance.png" alt="Two plots of the count of ones minus zeros over 4,000 data symbols. Sent as plain bytes, it drifts down to about minus 4,000. With TMDS encoding it stays between minus 8 and plus 8." width="1044" height="465" loading="lazy">
+          </a>
+          <figcaption>From <code>tb_tmds_encoder</code>. Sent as plain bytes, the count drifts
+          without limit; the encoder keeps it within &plusmn;8.</figcaption>
+        </figure>
+
+        <h3>Buttons</h3>
+        <p>
+          Each button passes through a two-flip-flop synchronizer, then a counter that only lets a
+          new level through once it has held for 250,000 clocks, or 10 ms.
+        </p>
+        <figure>
+          <a href="assets/img/projects/pong/debounce.png" target="_blank" rel="noopener">
+            <img src="assets/img/projects/pong/debounce.png" alt="Debounce waveform: the input bounces rapidly, then stays high, dips briefly and goes low. The output ignores the bouncing and the dip, rises 18 cycles after the steady press and falls 18 cycles after the release." width="1032" height="295" loading="lazy">
+          </a>
+          <figcaption><code>tb_debounce</code>, with the count cut to 16 cycles. Bouncing and a
+          short dropout are ignored, and a steady press or release comes through 18 cycles later:
+          16 stable cycles plus 2 in the synchronizer.</figcaption>
+        </figure>
 
         <h3>Testing</h3>
         <p>
